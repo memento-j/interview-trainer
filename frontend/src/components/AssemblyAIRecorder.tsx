@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-// reduce sample rate to 16kHz since that is what assembly ai can offer 
+// reduce sample rate to 16kHz since that is what assembly ai's api requires as input 
 function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, outputSampleRate: number = 16000 ): Int16Array {
   if (outputSampleRate === inputSampleRate) {
     const converted = new Int16Array(buffer.length);
