@@ -15,7 +15,7 @@ export default function AuthPage() {
   // otherwise, user sees auth componenet where they can signin or out
   return (
     //supabase auth component
-    <div className="min-h-screen flex items-center justify-center bg-zinc-900 text-zinc-50">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-300 dark:bg-zinc-900 text-zinc-50">
         <div className="w-xl p-8 bg-zinc-800 rounded-2xl shadow-lg mb-20">
             <Auth
                 supabaseClient={supabase}
@@ -33,6 +33,7 @@ export default function AuthPage() {
                         inputBackground: '#27272a',
                         inputBorder: '#52525b',
                         messageText: '#f4f4f5',
+                        inputLabelText: '#ffffff'
                         }
                     },
                     },

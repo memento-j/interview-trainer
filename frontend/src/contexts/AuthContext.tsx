@@ -19,7 +19,6 @@ type AuthContextType = {
   user: User | null
   session: Session | null
   supabase: SupabaseClient
-  loading: boolean
   profile: Profile | null
   signOut: () => Promise<void>
 }
@@ -29,7 +28,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null)
   const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
@@ -39,14 +37,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // ? = optional chaining (if session exists, return the user, if not, return undefined in a way that doesn't crash the app)
       // ?? = nullish coaleescing opperator (if null or undefinted, return null)
       setUser(session?.user ?? null)
-      setLoading(false)
     })
 
     //listens for changes to the auth state in real time (triggers when user logs in, signs up, signs out, or refreshes their seession)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
-      setLoading(false)
     })
 
     //cleanup subscription object (unsubscribes from the auth state listener to avoid memory leaks)
@@ -75,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, supabase, loading, profile, signOut }}>
+    <AuthContext.Provider value={{ user, session, profile, supabase, signOut }}>
       {children}
     </AuthContext.Provider>
   )

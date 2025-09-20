@@ -1,96 +1,130 @@
-import NavBar from "@/components/NavBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card"
+import axios from "axios";
 
 export default function AccountPage() {
-  const { user, profile, signOut } = useAuth();
-  const navigate = useNavigate();
+    const { user, profile, signOut } = useAuth();
+    const navigate = useNavigate();
 
-  function handleProfileChange() {
+    //update profile information in the DB
+    async function handleProfileChange(event: React.FormEvent<HTMLFormElement>) {
+        //prevent page refresh
+        event.preventDefault();
+        //retrieve profile attributes from form
+        const form = event.target as HTMLFormElement;
+        const username = (form.elements.namedItem("username") as HTMLInputElement).value;
+        const firstName = (form.elements.namedItem("first-name") as HTMLInputElement).value;
+        const lastName = (form.elements.namedItem("last-name") as HTMLInputElement).value;
 
-  }
+        try {
+            const response = await axios.patch(`http://localhost:8080/profiles/${user?.id}`, {
+                username: username,
+                fname: firstName,
+                lname: lastName
+            });
+            if (response.status == 204) {
+                console.log("updated profile (:");
+                //put some toast here to let the user know their profile updated
+                //refreshes page so the user can see their new account info
+                location.reload();
+            }
+            //add an error message for if the username currently exists since they are unique
+          } catch (err) {
+            console.error(err);
+          }
+    }
 
-  return (
+    return (
     <div className="min-h-screen bg-zinc-300 dark:bg-zinc-800">
-        <NavBar />
         {user && (
             <div className="flex flex-col items-center gap-5">
+                {/* Welcome section */}
                 <div className="flex w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
-                    <div className="flex flex-col ml-3">
-                        <p className="text-3xl font-[500] mb-1.5">Hello {profile?.username} :)</p>
-                        <p className="text-zinc-600 dark:text-zinc-400">View and manage your account info here.</p>
+                    <div className="flex items-center gap-3 ml-3">
+                        <div className="flex items-center justify-center w-18 h-18 rounded-full bg-zinc-700 text-white font-semibold text-2xl">
+                            {profile?.username?.charAt(0)}
+                        </div>
+                        <div className="flex flex-col ml-2">
+                            <p className="text-3xl font-[500] mb-1.5">Hello {profile?.username}</p>
+                            <p className="text-zinc-600 dark:text-zinc-400">
+                                View and manage your account info here.
+                            </p>
+                        </div>
                     </div>
-                    <Button className="hover:cursor-pointer mr-2" variant={"destructive"}
+                    <Button
+                        className="hover:cursor-pointer mr-2"
+                        variant="outline"
                         onClick={() => {
-                            signOut();
-                            navigate("/");
+                        signOut();
+                        navigate("/");
                         }}
                     >
                         Signout
                     </Button>
                 </div>
+                {/* Form for users to update profile information*/}
                 <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                     <CardHeader>
                         <CardTitle className="text-2xl mt-3">Profile Details</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                    <form>
-                        <div className="grid grid-cols-2 gap-2 sm:gap-6.5">
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                <Label htmlFor="password">Username</Label>
+                    <form onSubmit={handleProfileChange}>
+                        <CardContent>
+                            <div className="grid grid-cols-2 gap-2 sm:gap-6.5">
+                                <div className="grid gap-2">
+                                    <div className="flex items-center">
+                                    <Label htmlFor="password">Username</Label>
+                                    </div>
+                                    <Input id="username" type="text" defaultValue={profile?.username} className="text-sm sm:text-md"/>
                                 </div>
-                                <Input id="username" type="text" defaultValue={profile?.username} className="text-sm sm:text-md"/>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input
+                                    id="email"
+                                    type="email"
+                                    defaultValue={user.email}
+                                    disabled
+                                    className="text-sm sm:text-md"
+                                    />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">First name</Label>
+                                    <Input
+                                    id="first-name"
+                                    type="text"
+                                    defaultValue={profile?.first_name}
+                                    className="text-sm sm:text-md"
+                                    />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">Last name</Label>
+                                    <Input
+                                    id="last-name"
+                                    type="text"
+                                    defaultValue={profile?.last_name}
+                                    className="text-sm sm:text-md"
+                                    />
+                                </div>
                             </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                id="email"
-                                type="email"
-                                defaultValue={user.email}
-                                disabled
-                                className="text-sm sm:text-md"
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">First name</Label>
-                                <Input
-                                id="first-name"
-                                type="text"
-                                defaultValue={profile?.first_name}
-                                className="text-sm sm:text-md"
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Last name</Label>
-                                <Input
-                                id="last-name"
-                                type="text"
-                                defaultValue={profile?.last_name}
-                                className="text-sm sm:text-md"
-                                />
-                            </div>
-                        </div>
+                        </CardContent>
+                        <CardFooter className="flex justify-end gap-2 mt-5">
+                            <Button type="submit" className="hover:cursor-pointer">
+                                Save Changes
+                            </Button>
+                        </CardFooter>
                     </form>
-                    </CardContent>
-                    <CardFooter className="flex justify-end gap-2">
-                        <Button type="submit" className="hover:cursor-pointer">
-                            Save Changes
-                        </Button>
-                    </CardFooter>
                 </Card>
             </div>
         )}
     </div>
-  );
+    );
 }

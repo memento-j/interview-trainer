@@ -24,13 +24,11 @@ export default function NavBar() {
         <p className="font-[500] text-lg ml-3 md:ml-15"><Link to="/">PrepMate AI</Link></p>
         
         {/* Mobile nav bar */}
-        <div className="md:hidden ml-auto">
+        <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
                   <Menu className="h-6 w-6" />
-                </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-zinc-300 dark:bg-zinc-800">
                 <div className="mt-10">
@@ -119,7 +117,11 @@ export default function NavBar() {
                       </Link>
                     ) : (
                       <div>
-                        <NavigationMenuTrigger className="font-[500] bg-zinc-300 dark:hover:bg-zinc-900 dark:bg-zinc-800">Account</NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
+                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 rounded-full bg-zinc-700 text-white font-semibold text-xl">
+                              {profile?.username?.charAt(0)}
+                          </div>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <ul className="grid gap-2 md:w-[200px] lg:w-[250px] xl:w-[300px]">
                             <li className="p-2 font-[700] text-xl">Welcome, {profile?.username}</li>
