@@ -118,7 +118,7 @@ export default function NavBar() {
                     ) : (
                       <div>
                         <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
-                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 rounded-full bg-zinc-700 text-white font-semibold text-xl">
+                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 rounded-full bg-teal-700 text-white font-semibold text-xl">
                               {profile?.username?.charAt(0)}
                           </div>
                         </NavigationMenuTrigger>

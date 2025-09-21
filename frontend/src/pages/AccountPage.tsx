@@ -81,7 +81,7 @@ export default function AccountPage() {
                 {/* Welcome section */}
                 <div className="flex w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
                     <div className="flex items-center gap-3 ml-3">
-                        <div className="flex items-center justify-center w-18 h-18 rounded-full bg-zinc-700 text-white font-semibold text-2xl">
+                        <div className="flex items-center justify-center w-18 h-18 rounded-full bg-teal-700 text-white font-semibold text-2xl">
                             {profile?.username?.charAt(0)}
                         </div>
                         <div className="flex flex-col ml-2">

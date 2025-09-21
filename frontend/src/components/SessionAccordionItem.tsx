@@ -4,8 +4,6 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 
-
-
 interface SessionAccordionItemProps {
     name: string;
     sessionData: {
