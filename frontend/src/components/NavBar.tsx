@@ -17,7 +17,6 @@ import {
 export default function NavBar() {
   const { user, profile, signOut } = useAuth();
 
-
   return (
     <div>
       <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-300 dark:bg-zinc-800 gap-5 py-5 border-b-1 border-[#bebec2] dark:border-[#3c3c3f]">

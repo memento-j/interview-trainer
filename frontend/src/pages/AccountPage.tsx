@@ -112,7 +112,7 @@ export default function AccountPage() {
                             <div className="grid grid-cols-2 gap-2 sm:gap-6.5">
                                 <div className="grid gap-2">
                                     <div className="flex items-center">
-                                    <Label htmlFor="password">Username</Label>
+                                    <Label htmlFor="username">Username</Label>
                                     </div>
                                     <Input id="username" type="text" defaultValue={profile?.username} className="text-sm sm:text-md"/>
                                 </div>

@@ -19,9 +19,8 @@ export default function Hero() {
                 </div>
             </div>
   
-  
             {/* How it works */}
-            <div className="py-32 bg-zinc-100 dark:bg-zinc-800">
+            <div className="py-24 bg-zinc-100 dark:bg-zinc-800">
                 <div className="max-w-6xl mx-auto px-6 sm:px-12 flex flex-col lg:flex-row items-center gap-16">
                     {/* Left: Illustration / Mockup */}
                     <div className="flex-1 flex justify-center">
