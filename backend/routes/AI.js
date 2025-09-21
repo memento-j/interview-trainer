@@ -10,7 +10,7 @@ const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
-//getting interview
+//getting interview questions
 router.post("/interview-questions", async (req, res) => {
     try {
         const { questionCount, role } = req.body;

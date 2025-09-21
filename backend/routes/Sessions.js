@@ -19,6 +19,16 @@ interview sessions data is stored in json:
         "feedback": ["...", "..."]
     }
 */
+async function requireAuth(req, res, next) {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ error: "No token provided" });
+  
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (error || !user) return res.status(401).json({ error: "Invalid token" });
+  
+    req.user = user;
+    next();
+  }
 
 //creates interview session only using the questions 
 router.post("/", async (req,res) => {
@@ -28,7 +38,7 @@ router.post("/", async (req,res) => {
     if (!questions || !userID) {
         return res.status(400).json({ error: "Missing questions or userID" });
     }
-
+    //add session to sessions table
     const { data, error } = await supabase
         .from("interview_sessions")
         .insert({ 
@@ -39,7 +49,8 @@ router.post("/", async (req,res) => {
                 feedback: []
             }
          })
-        .select()        
+        .select()   
+    //add session to user's interview sessions      
 
     if (error) {
         console.error(error);
@@ -68,13 +79,13 @@ router.get("/:id", async (req,res) => {
 });
 
 //get all sessions created by a user
-router.get("/user/:userID", async (req,res) => {
-    const { userID } = req.params;
+router.get("/user/:userID", requireAuth, async (req,res) => {
+    //const { userID } = req.params;
     
     const { data, error } = await supabase  
         .from("interview_sessions")  
         .select()
-        .eq("user_id", userID)
+        .eq("user_id", req.user.id)
         .order('created_at', { ascending: false })
 
     if (error) {
