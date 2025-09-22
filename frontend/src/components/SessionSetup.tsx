@@ -3,17 +3,107 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { useState } from "react";
+import { useAuth } from '@/contexts/AuthContext';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
+import { useState } from "react";
+import axios from 'axios';
 
 export default function SessionSetup() {
+    const { user, session } = useAuth()
     const [role, setRole] = useState<string>("");
     const [selectedOption, setSelectedOption] = useState<string>("role-specific");
     const [questionSource, setQuestionSource] = useState<string>("ai-generated");
     const [providedQuestions, setProvidedQuestions] = useState<string[]>([]);
-    const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
+    const [aiQuestionCount, setAiQuestionCount] = useState<string>("3");
     const [setupCompleted, setSetupCompleted] = useState<boolean>(false);
+    const [createdSessionID, setCreatedSessionID] = useState<string>("");
 
+    //
+    //
+    //need to move handlesetupcompleted function somewhere else, push the seetupcompleteed and seession id state up, and need to figure out how to validate inputs with the stepper
+    //
+    //
+
+    //creates interview session in DB (using the provided information) when the setup is completed
+    async function handleSetupCompleted() {
+        //if there is a user, store in db 
+        if (user) {
+            //if the user wants their questions to be AI generated, then generate the questions and store session in db
+            if (questionSource === "ai-generated") {
+                //generate questions
+                const aiResponse = await axios.post('http://localhost:8080/ai/interview-questions', {
+                    questionCount : aiQuestionCount,
+                    role: selectedOption == "general" ? "general" : role,
+                });
+                const generatedQuestions = aiResponse.data.questions;
+                //create interview sesson in  db using the generated questions and role
+                const dbResponse = await axios.post('http://localhost:8080/interview-sessions', 
+                    {
+                        questions: generatedQuestions,
+                        role: selectedOption == "general" ? "general" : role,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.access_token}`,
+                        },
+                    }
+                );
+                //store the created interview session's session ID 
+                setCreatedSessionID(dbResponse.data);
+                setSetupCompleted(true);
+            } 
+            //simply store the session in db
+            else {
+                //create interview sesson in  db using the generated questions and role
+                const dbResponse = await axios.post('http://localhost:8080/interview-sessions', 
+                    {
+                        questions: providedQuestions,
+                        role: selectedOption == "general" ? "general" : role,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.access_token}`,
+                        },
+                    }
+                );
+                //store the created interview session's session ID 
+                setCreatedSessionID(dbResponse.data);
+                setSetupCompleted(true);
+            }
+        }
+        //if not, store in local storage?
+        else {
+            //generate questions and store the questions and role in local storage
+            if (questionSource === "ai-generated") {
+                //generate questions
+                const aiResponse = await axios.post('http://localhost:8080/ai/interview-questions', {
+                    questionCount : aiQuestionCount,
+                    role: selectedOption == "general" ? "general" : role,
+                });
+                const generatedQuestions = aiResponse.data.questions;
+                //now store in local storage
+                const interviewSession = {
+                    role: selectedOption == "general" ? "general" : role,
+                    questions: generatedQuestions,
+                    answers: [],
+                    feedback: []
+                }
+                localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+                setSetupCompleted(true);
+            } 
+            //simply store the questions and role in local storage
+            else {
+                const interviewSession = {
+                    role: selectedOption == "general" ? "general" : role,
+                    questions: providedQuestions,
+                    answers: [],
+                    feedback: []
+                }
+                localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+                setSetupCompleted(true);
+            }
+        }
+    }
 
     //Below are helper functions for when a user decides to input their own questions
 
@@ -41,8 +131,7 @@ export default function SessionSetup() {
         <div>
             <Stepper
                 initialStep={1}
-                //when final step is completed also, create the session in the db using the questions
-                onFinalStepCompleted={() => setSetupCompleted(true)}
+                onFinalStepCompleted={() => handleSetupCompleted()}
                 backButtonText="Previous"
                 nextButtonText="Next"
             >
@@ -79,7 +168,6 @@ export default function SessionSetup() {
                         </div>
                     </RadioGroup>
                 </Step>
-                
                 {/* Promot user to provide the questions they would like to practice */}
                 { questionSource === "provided" &&
                     <Step>

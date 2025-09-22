@@ -36,8 +36,6 @@ export default function AccountPage() {
                     Authorization: `Bearer ${session?.access_token}`,
                   },
                 });
-            
-                console.log("User sessions:", res.data[0].session_data.answers);
                 setUserSessions(res.data);
               } catch (err) {
                 console.error("Error fetching sessions:", err);
@@ -172,11 +170,11 @@ export default function AccountPage() {
                             {userSessions && userSessions.length > 0 && (
                             <div className="flex flex-col gap-2 sm:gap-6.5">
                                 {userSessions.slice(0, 3).map((session:any, index:number) => (
-                                <SessionAccordionItem
-                                    key={index}
-                                    name={session.name}
-                                    sessionData={session.session_data}
-                                />
+                                    <SessionAccordionItem
+                                        key={index}
+                                        name={!session.name ? session.created_at : session.name}
+                                        sessionData={session.session_data}
+                                    />
                                 ))}
                             </div>
                             )}

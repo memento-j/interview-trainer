@@ -56,7 +56,6 @@ router.post("/interview-questions", async (req, res) => {
         const content = response.choices[0].message.content;
         const data = JSON.parse(content);                  
         const questions = data.questions;
-        console.log(questions);
         res.status(200).json({ questions });
 
     } catch (err) {

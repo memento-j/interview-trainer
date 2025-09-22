@@ -28,21 +28,22 @@ async function requireAuth(req, res, next) {
   
     req.user = user;
     next();
-  }
+}
 
 //creates interview session only using the questions 
-router.post("/", async (req,res) => {
+router.post("/", requireAuth,async (req,res) => {
     //questions is string array "questions": ["...", "..."]
-    const { questions, userID } = req.body;
+    const { questions, role } = req.body;
 
-    if (!questions || !userID) {
-        return res.status(400).json({ error: "Missing questions or userID" });
+    if (!questions || !req.user.id || !role ) {
+        return res.status(400).json({ error: "Missing role, questions, or userID" });
     }
     //add session to sessions table
     const { data, error } = await supabase
         .from("interview_sessions")
         .insert({ 
-            user_id: userID,
+            user_id: req.user.id,
+            role: role,
             session_data: {
                 questions: questions,
                 answers: [],
@@ -80,8 +81,6 @@ router.get("/:id", async (req,res) => {
 
 //get all sessions created by a user
 router.get("/user/:userID", requireAuth, async (req,res) => {
-    //const { userID } = req.params;
-    
     const { data, error } = await supabase  
         .from("interview_sessions")  
         .select()

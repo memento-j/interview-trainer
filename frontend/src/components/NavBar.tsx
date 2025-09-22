@@ -19,17 +19,17 @@ export default function NavBar() {
 
   return (
     <div>
-      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-300 dark:bg-zinc-800 gap-5 py-5 border-b-1 border-[#bebec2] dark:border-[#3c3c3f]">
+      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-200 dark:bg-zinc-800 gap-5 py-5 border-b-1 border-[#bebec2] dark:border-[#3c3c3f] z-20">
         <p className="font-[500] text-lg ml-3 md:ml-15"><Link to="/">PrepMate AI</Link></p>
         
-        {/* Mobile nav bar */}
+        {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}
         <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />
             <Sheet>
               <SheetTrigger asChild>
                   <Menu className="h-6 w-6" />
               </SheetTrigger>
-              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-zinc-300 dark:bg-zinc-800">
+              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-zinc-200 dark:bg-zinc-800">
                 <div className="mt-10">
                   <div className="flex flex-col gap-1 p-3">
                     <Link to="/" className="font-[700] text-lg underline">Home</Link>
@@ -60,7 +60,7 @@ export default function NavBar() {
           {/* Desktop nav bar */}
           <NavigationMenuList className="hidden md:flex gap-3 mr-10">
             <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-300 dark:bg-zinc-800">Home</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-200 dark:bg-zinc-800">Home</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[150px] gap-4">
                     <li>
@@ -84,7 +84,7 @@ export default function NavBar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-[500] bg-zinc-300 dark:hover:bg-zinc-900 dark:bg-zinc-800">Interview Trainer</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="font-[500] bg-zinc-200 dark:hover:bg-zinc-900 dark:bg-zinc-800">Interview Trainer</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[300px] gap-4">
                       <li>
@@ -112,7 +112,7 @@ export default function NavBar() {
                   { !user ? 
                     ( 
                       <Link to="/auth">
-                        <Button className="bg-zinc-300 dark:bg-zinc-800 text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Sign in</Button>
+                        <Button className="bg-zinc-200 dark:bg-zinc-800 text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Signin / Signup</Button>
                       </Link>
                     ) : (
                       <div>

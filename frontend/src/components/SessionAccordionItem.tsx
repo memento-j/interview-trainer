@@ -15,7 +15,7 @@ interface SessionAccordionItemProps {
 
 //displays session data
 export default function SessionAccordionItem({ name, sessionData }: SessionAccordionItemProps) {
-    const { questions, answers, feedback } = sessionData;
+    const { questions, answers, feedback } = sessionData;    
     return (
       <AccordionItem value={name}>
         <AccordionTrigger className="text-lg font-semibold">{name}</AccordionTrigger>
