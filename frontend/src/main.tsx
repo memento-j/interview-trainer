@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage.tsx'
 import AuthPage from './pages/AuthPage.tsx'
 import InterviewPractice from './pages/InterviewPractice.tsx'
 import AccountPage from './pages/AccountPage.tsx'
+import InterviewSessionPage from './pages/InterviewSessionsPage.tsx'
 import NavBar from './components/NavBar.tsx'
 
 createRoot(document.getElementById('root')!).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/auth" element={<AuthPage/>}/>
         <Route path="/practice" element={<InterviewPractice/>}/>
         <Route path="/account" element={<AccountPage/>}/>
+        <Route path="/account/practice-sessions" element={<InterviewSessionPage/>}/>
       </Routes>
     </BrowserRouter>
   </AuthProvider>

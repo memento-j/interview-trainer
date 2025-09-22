@@ -127,7 +127,7 @@ export default function NavBar() {
                             <ListItem href="/account" title="Manage Account">
                               View and update your account info here.
                             </ListItem>
-                            <ListItem href="/#" title="View Practice Sessions">
+                            <ListItem href="/account/practice-sessions" title="View Practice Sessions">
                               Reivew and update past practice interview sessions.
                             </ListItem>
                             <ListItem href="/#"  title="Sign out" onClick={() => signOut()}>

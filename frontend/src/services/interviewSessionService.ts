@@ -1,6 +1,5 @@
 import axios from "axios";
 
-//creates interview session in DB (using the provided information) when the setup is completed
 export async function createInterviewSession({
     user,
     session,

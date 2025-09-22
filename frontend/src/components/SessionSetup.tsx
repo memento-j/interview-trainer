@@ -24,7 +24,7 @@ export default function SessionSetup() {
     //
     //
 
-    //creates interview session in DB (using the provided information) when the setup is completed
+    //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
         const result = await createInterviewSession({
           user,

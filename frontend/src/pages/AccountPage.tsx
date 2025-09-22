@@ -24,7 +24,7 @@ export default function AccountPage() {
             navigate("/auth");
         }
 
-         // Prevent double fetch from session
+        // Prevent double fetch from session
         if (fetchedRef.current) return;
         fetchedRef.current = true;
 
@@ -157,7 +157,7 @@ export default function AccountPage() {
                         <div className="flex justify-between">
                             <CardTitle className="text-2xl mt-3">Practice Interview Sessions</CardTitle>
                             <Button className="hover:cursor-pointer mt-3">
-                                View All Sessions
+                                Manage All Sessions
                             </Button>
                         </div>
                     </CardHeader>
