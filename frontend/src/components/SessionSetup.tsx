@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useAuth } from '@/contexts/AuthContext';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { useState } from "react";
-import axios from 'axios';
+import { createInterviewSession } from "@/services/interviewSessionService";
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
@@ -20,90 +20,28 @@ export default function SessionSetup() {
 
     //
     //
-    //need to move handlesetupcompleted function somewhere else, push the seetupcompleteed and seession id state up, and need to figure out how to validate inputs with the stepper
+    //push the seetupcompleteed and seession id state up, and need to figure out how to validate inputs with the stepper
     //
     //
 
     //creates interview session in DB (using the provided information) when the setup is completed
     async function handleSetupCompleted() {
-        //if there is a user, store in db 
-        if (user) {
-            //if the user wants their questions to be AI generated, then generate the questions and store session in db
-            if (questionSource === "ai-generated") {
-                //generate questions
-                const aiResponse = await axios.post('http://localhost:8080/ai/interview-questions', {
-                    questionCount : aiQuestionCount,
-                    role: selectedOption == "general" ? "general" : role,
-                });
-                const generatedQuestions = aiResponse.data.questions;
-                //create interview sesson in  db using the generated questions and role
-                const dbResponse = await axios.post('http://localhost:8080/interview-sessions', 
-                    {
-                        questions: generatedQuestions,
-                        role: selectedOption == "general" ? "general" : role,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${session?.access_token}`,
-                        },
-                    }
-                );
-                //store the created interview session's session ID 
-                setCreatedSessionID(dbResponse.data);
-                setSetupCompleted(true);
-            } 
-            //simply store the session in db
-            else {
-                //create interview sesson in  db using the generated questions and role
-                const dbResponse = await axios.post('http://localhost:8080/interview-sessions', 
-                    {
-                        questions: providedQuestions,
-                        role: selectedOption == "general" ? "general" : role,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${session?.access_token}`,
-                        },
-                    }
-                );
-                //store the created interview session's session ID 
-                setCreatedSessionID(dbResponse.data);
-                setSetupCompleted(true);
-            }
+        const result = await createInterviewSession({
+          user,
+          session,
+          role,
+          selectedOption,
+          questionSource,
+          aiQuestionCount,
+          providedQuestions,
+        });
+
+        if (result.sessionId) {
+          setCreatedSessionID(result.sessionId);
         }
-        //if not, store in local storage?
-        else {
-            //generate questions and store the questions and role in local storage
-            if (questionSource === "ai-generated") {
-                //generate questions
-                const aiResponse = await axios.post('http://localhost:8080/ai/interview-questions', {
-                    questionCount : aiQuestionCount,
-                    role: selectedOption == "general" ? "general" : role,
-                });
-                const generatedQuestions = aiResponse.data.questions;
-                //now store in local storage
-                const interviewSession = {
-                    role: selectedOption == "general" ? "general" : role,
-                    questions: generatedQuestions,
-                    answers: [],
-                    feedback: []
-                }
-                localStorage.setItem("interview_session", JSON.stringify(interviewSession));
-                setSetupCompleted(true);
-            } 
-            //simply store the questions and role in local storage
-            else {
-                const interviewSession = {
-                    role: selectedOption == "general" ? "general" : role,
-                    questions: providedQuestions,
-                    answers: [],
-                    feedback: []
-                }
-                localStorage.setItem("interview_session", JSON.stringify(interviewSession));
-                setSetupCompleted(true);
-            }
-        }
-    }
+        setSetupCompleted(true);
+      }
+
 
     //Below are helper functions for when a user decides to input their own questions
 
