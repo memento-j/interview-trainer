@@ -1,22 +1,15 @@
 import axios from "axios";
 
-export async function createInterviewSession({
-    user,
-    session,
-    role,
-    selectedOption,
-    questionSource,
-    aiQuestionCount,
-    providedQuestions,
-}: {
-    user: any;
-    session: any;
-    role: string;
-    selectedOption: string;
-    questionSource: string;
-    aiQuestionCount: string;
-    providedQuestions: string[];
-}) {
+export async function createInterviewSession(
+    user: any,
+    session: any,
+    role: string,
+    selectedOption: string,
+    questionSource: string,
+    aiQuestionCount: string,
+    providedQuestions: string[],
+    sessionName: string
+) {
     //if there is a user, store in db 
     if (user) {
         //if the user wants their questions to be AI generated, then generate the questions and store session in db
@@ -31,6 +24,7 @@ export async function createInterviewSession({
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
                     questions: generatedQuestions,
+                    name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
                 },
                 {
@@ -38,7 +32,7 @@ export async function createInterviewSession({
                 }
             );
             //return the created interview session's session ID 
-            return { sessionId: dbResponse.data };
+            return dbResponse.data;
         } 
         //simply store the session in db
         else {
@@ -46,6 +40,7 @@ export async function createInterviewSession({
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
                     questions: providedQuestions,
+                    name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
                 },
                 {
@@ -53,7 +48,7 @@ export async function createInterviewSession({
                 }
             );
             //return the created interview session's session ID 
-            return { sessionId: dbResponse.data };
+            return dbResponse.data;
         }
     } 
     //if no user, store the interview session in local storage instead
@@ -74,7 +69,7 @@ export async function createInterviewSession({
                 feedback: [],
             };
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
-            return { sessionId: "" };
+            return "";
         } 
         //simply store the provided questions and role in local storage
         else {
@@ -85,7 +80,7 @@ export async function createInterviewSession({
                 feedback: [],
             };
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
-            return { sessionId: ""};
+            return "";
         }
     }
 }

@@ -8,40 +8,38 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useState } from "react";
 import { createInterviewSession } from "@/services/interviewSessionService";
 
-export default function SessionSetup() {
+interface SessionSetupProps {
+    setSetupCompleted: (status: boolean) => void;
+    setCreatedSessionID: (id: string) => void;
+}
+
+export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: SessionSetupProps) {
     const { user, session } = useAuth()
     const [role, setRole] = useState<string>("");
     const [selectedOption, setSelectedOption] = useState<string>("role-specific");
     const [questionSource, setQuestionSource] = useState<string>("ai-generated");
     const [providedQuestions, setProvidedQuestions] = useState<string[]>([""]);
-    const [validQuestions, setValidQuestions] = useState<boolean>(false);
     const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
-    const [setupCompleted, setSetupCompleted] = useState<boolean>(false);
-    const [createdSessionID, setCreatedSessionID] = useState<string>("");
-
-    //
-    //
-    //push the setupcompleteed and seession id state up, and need to figure out how to validate inputs with the stepper, also add session name step if there is a user
-    //
-    //
+    const [sessionName, setSessionName] = useState<string>("");
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
-        const result = await createInterviewSession({
-          user,
-          session,
-          role,
-          selectedOption,
-          questionSource,
-          aiQuestionCount,
-          providedQuestions,
-        });
-
-        if (result.sessionId) {
-          setCreatedSessionID(result.sessionId);
+        const result = await createInterviewSession(
+            user,
+            session,
+            role,
+            selectedOption,
+            questionSource,
+            aiQuestionCount,
+            providedQuestions,
+            sessionName
+        );
+        
+        if (result.sessionID) {
+            setCreatedSessionID(result.sessionID);
         }
         setSetupCompleted(true);
-      }
+    }
 
     // Below are helper functions for when a user decides to input their own questions
     // Update a specific question as it's input changes
@@ -162,6 +160,13 @@ export default function SessionSetup() {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+                    </Step>
+                }
+                {/* prompt the user to enter a name for the session */}
+                { user &&
+                    <Step canContinue={sessionName ? true : false}>
+                        <p className='mb-5 font-semibold'>Enter a name for this practice interview session</p>
+                        <Input value={sessionName} onChange={(e) => setSessionName(e.target.value)} placeholder="ex: My First Practice Session" className='max-w-md mb-5'/>
                     </Step>
                 }
             </Stepper> 

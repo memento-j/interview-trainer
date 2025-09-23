@@ -33,7 +33,7 @@ async function requireAuth(req, res, next) {
 //creates interview session only using the questions 
 router.post("/", requireAuth,async (req,res) => {
     //questions is string array "questions": ["...", "..."]
-    const { questions, role } = req.body;
+    const { questions, role, name } = req.body;
 
     if (!questions || !req.user.id || !role ) {
         return res.status(400).json({ error: "Missing role, questions, or userID" });
@@ -43,6 +43,7 @@ router.post("/", requireAuth,async (req,res) => {
         .from("interview_sessions")
         .insert({ 
             user_id: req.user.id,
+            name: name,
             role: role,
             session_data: {
                 questions: questions,
