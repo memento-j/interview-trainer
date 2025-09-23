@@ -151,7 +151,7 @@ export default function AccountPage() {
                         </CardFooter>
                     </form>
                 </Card>
-                {/* Interviewe sessions seciton*/}
+                {/* Interview sessions seciton*/}
                 <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                     <CardHeader>
                         <div className="flex justify-between">
@@ -168,15 +168,15 @@ export default function AccountPage() {
                                 className="w-full"
                             >
                             {userSessions && userSessions.length > 0 && (
-                            <div className="flex flex-col gap-2 sm:gap-6.5">
-                                {userSessions.slice(0, 3).map((session:any, index:number) => (
-                                    <SessionAccordionItem
-                                        key={index}
-                                        name={!session.name ? session.created_at : session.name}
-                                        sessionData={session.session_data}
-                                    />
-                                ))}
-                            </div>
+                                <div className="flex flex-col gap-2 sm:gap-6.5">
+                                    {userSessions.slice(0, 3).map((session:any, index:number) => (
+                                        <SessionAccordionItem
+                                            key={index}
+                                            name={!session.name ? session.created_at : session.name}
+                                            sessionData={session.session_data}
+                                        />
+                                    ))}
+                                </div>
                             )}
                             </Accordion>
                         </CardContent>

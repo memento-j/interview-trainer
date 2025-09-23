@@ -8,7 +8,7 @@ import { Accordion } from "@/components/ui/accordion";
 import SessionAccordionItem from "@/components/SessionAccordionItem";
 
 export default function InterviewSessionPage() {
-    const { user, profile, session, loading, signOut } = useAuth();
+    const { user, profile, session, loading } = useAuth();
     const navigate = useNavigate();
     const [userSessions, setUserSessions] = useState<any>();
     const fetchedRef = useRef(false);

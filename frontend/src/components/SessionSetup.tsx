@@ -13,14 +13,15 @@ export default function SessionSetup() {
     const [role, setRole] = useState<string>("");
     const [selectedOption, setSelectedOption] = useState<string>("role-specific");
     const [questionSource, setQuestionSource] = useState<string>("ai-generated");
-    const [providedQuestions, setProvidedQuestions] = useState<string[]>([]);
-    const [aiQuestionCount, setAiQuestionCount] = useState<string>("3");
+    const [providedQuestions, setProvidedQuestions] = useState<string[]>([""]);
+    const [validQuestions, setValidQuestions] = useState<boolean>(false);
+    const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
     const [setupCompleted, setSetupCompleted] = useState<boolean>(false);
     const [createdSessionID, setCreatedSessionID] = useState<string>("");
 
     //
     //
-    //push the seetupcompleteed and seession id state up, and need to figure out how to validate inputs with the stepper
+    //push the setupcompleteed and seession id state up, and need to figure out how to validate inputs with the stepper, also add session name step if there is a user
     //
     //
 
@@ -42,9 +43,7 @@ export default function SessionSetup() {
         setSetupCompleted(true);
       }
 
-
-    //Below are helper functions for when a user decides to input their own questions
-
+    // Below are helper functions for when a user decides to input their own questions
     // Update a specific question as it's input changes
     function handleQuestionChange (index: number, value: string) {
         const updated = [...providedQuestions];
@@ -54,7 +53,7 @@ export default function SessionSetup() {
 
     // Add new question
     function addQuestion() {
-        if (providedQuestions[providedQuestions.length - 1] == "") {
+        if (providedQuestions.length != 0 && providedQuestions[providedQuestions.length - 1].trim() == "") {
             return;
         }
         setProvidedQuestions([...providedQuestions, ""]);
@@ -73,7 +72,7 @@ export default function SessionSetup() {
                 backButtonText="Previous"
                 nextButtonText="Next"
             >
-                <Step>
+                <Step canContinue={selectedOption ? true : false}>
                     <p className="font-semibold mb-5">Select what type of interview questions you would like</p>
                     <RadioGroup value={selectedOption} onValueChange={setSelectedOption} >
                         <div className="flex items-center space-x-2">
@@ -88,12 +87,12 @@ export default function SessionSetup() {
                 </Step>
                 {/* Promot user for role if they chose role-specific */}
                 { selectedOption === "role-specific" &&
-                    <Step>
+                    <Step canContinue={role.trim() ? true : false}>
                         <p className='mb-5 font-semibold'>Enter the role you are practicing for</p>
                         <Input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role" className='max-w-md mb-5'/>
                     </Step>
                 }
-                <Step>
+                <Step canContinue={questionSource ? true : false}>
                     <p className='font-semibold mb-5'>Would you like the AI to generate questions for you?</p>
                     <RadioGroup value={questionSource} onValueChange={setQuestionSource} >
                         <div className="flex items-center space-x-2">
@@ -108,7 +107,8 @@ export default function SessionSetup() {
                 </Step>
                 {/* Promot user to provide the questions they would like to practice */}
                 { questionSource === "provided" &&
-                    <Step>
+                    //checks if every question is emepty or not
+                    <Step canContinue={providedQuestions.every(question => question.trim() !== "")}>
                         <p className='mb-5 font-semibold'>Enter your questions below</p>
                         {/* list that allows users to enter another questions or remove if needed*/}
                         <div className="flex flex-col gap-3">
@@ -116,10 +116,10 @@ export default function SessionSetup() {
                                 <div key={index} className="flex items-center gap-2">
                                     {/* input section for inputting question*/}
                                     <Input
-                                    type="text"
-                                    placeholder={`Question ${index + 1}`}
-                                    value={q}
-                                    onChange={(e) => handleQuestionChange(index, e.target.value)}
+                                        type="text"
+                                        placeholder={`Question ${index + 1}`}
+                                        value={q}
+                                        onChange={(e) => handleQuestionChange(index, e.target.value)}
                                     />
                                     {/* remove question button */}
                                     {providedQuestions.length > 1 && (
@@ -141,7 +141,7 @@ export default function SessionSetup() {
                 }
                 {/* Prompt user to provide the number of questions they would like the AI to generate*/}
                 { questionSource === "ai-generated" &&
-                    <Step>
+                    <Step canContinue={aiQuestionCount ? true : false}>
                         <p className="font-semibold">Select the number of questions you would like the AI to generate for you (between 3 and 10)</p>
                         {/* number selector between 3 and 10*/}
                         <Select value={aiQuestionCount.toString()} onValueChange={setAiQuestionCount}>

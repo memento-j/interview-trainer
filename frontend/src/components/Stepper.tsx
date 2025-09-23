@@ -41,7 +41,8 @@ export default function Stepper({
 }: StepperProps) {
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
   const [direction, setDirection] = useState<number>(0);
-  const stepsArray = Children.toArray(children);
+  //type assersion since all of these elements will have step props
+  const stepsArray = Children.toArray(children) as React.ReactElement<StepProps>[];
   const totalSteps = stepsArray.length;
   const isCompleted = currentStep > totalSteps;
   const isLastStep = currentStep === totalSteps;
@@ -130,7 +131,7 @@ export default function Stepper({
               {currentStep !== 1 && (
                 <button
                   onClick={handleBack}
-                  className={`duration-350 rounded px-2 py-1 transition ${
+                  className={`duration-350 rounded px-2 py-1 transition hover:cursor-pointer ${
                     currentStep === 1
                       ? 'pointer-events-none opacity-50 text-neutral-400'
                       : 'text-neutral-400 hover:text-neutral-700'
@@ -141,8 +142,10 @@ export default function Stepper({
                 </button>
               )}
               <button
+                //checks if the current step can continue or not (based on the input provided by the user), if not, then disable the button
+                disabled={stepsArray[currentStep-1].props.canContinue == false}
                 onClick={isLastStep ? handleComplete : handleNext}
-                className="duration-350 flex items-center justify-center rounded-full bg-teal-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-teal-600 active:bg-teal-700"
+                className="duration-350 flex items-center justify-center rounded-full bg-teal-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-teal-600 active:bg-teal-700 hover:cursor-pointer disabled:bg-teal-900 disabled:hover:cursor-default"
                 {...nextButtonProps}
               >
                 {isLastStep ? 'Complete' : nextButtonText}
@@ -238,6 +241,7 @@ const stepVariants: Variants = {
 
 interface StepProps {
   children: ReactNode;
+  canContinue: boolean;
 }
 
 export function Step({ children }: StepProps) {
