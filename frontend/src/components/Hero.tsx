@@ -3,7 +3,7 @@ export default function Hero() {
         <section className="relative bg-gradient-to-b from-zinc-100 to-white dark:from-zinc-900 dark:to-black">
             {/* Background glow */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal-400/15 dark:bg-teal-500/7 rounded-full blur-[120px]" />
+                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal-400/10 dark:bg-teal-500/7 rounded-full blur-[120px]" />
             </div>
             {/* Intro sections */}
             <div className="relative flex flex-col items-center text-center px-6 sm:px-12 lg:px-24 pt-32 pb-24">

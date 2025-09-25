@@ -1,5 +1,8 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "./ui/textarea";
+import { useAuth } from "@/contexts/AuthContext";
+import { handleAnswerSubmit } from "@/services/interviewSessionService";
 
 // reduce sample rate to 16kHz since that is what assembly ai's api requires as input 
 function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, outputSampleRate: number = 16000 ): Int16Array {
@@ -33,17 +36,38 @@ function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, output
   return result;
 }
 
-export default function AssemblyAIRecorder() {
+interface AssemblyAIRecorderProps {
+  sessionID: string;
+  question: string;
+  questionsSubmitted: boolean[];
+  setQuestionsSubmitted: React.Dispatch<React.SetStateAction<boolean[]>>;
+  questionIndex: number;
+}
+
+export default function AssemblyAIRecorder( {sessionID, question, questionsSubmitted, setQuestionsSubmitted, questionIndex} : AssemblyAIRecorderProps) {
   const ws = useRef<WebSocket | null>(null);
   const audioContext = useRef<AudioContext | null>(null);
   const mediaStream = useRef<MediaStream | null>(null);
   const scriptProcessor = useRef<ScriptProcessorNode | null>(null);
+  const [answer, setAnswer] = useState<string>("");
+  const { user } = useAuth();
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const [isRecording, setIsRecording] = useState(false);
   const [transcripts, setTranscripts] = useState<Record<number, string>>({});
 
   const API_KEY = import.meta.env.VITE_ASSEMBLYAI_KEY;
-  
+
+  // Combine transcript for display
+  const orderedTranscript = Object.keys(transcripts)
+  .sort((a, b) => Number(a) - Number(b))
+  .map((k) => transcripts[Number(k)])
+  .join(" ");
+
+  //sets the answer to the transcribed text when it changes
+  useEffect(() => {
+    setAnswer(orderedTranscript);
+  }, [orderedTranscript]);
 
   const startRecording = async () => {
     // Get microphone
@@ -117,36 +141,62 @@ export default function AssemblyAIRecorder() {
       ws.current.close();
       ws.current = null;
     }
-  };
-
-  // Combine transcript for display
-  const orderedTranscript = Object.keys(transcripts)
-    .sort((a, b) => Number(a) - Number(b))
-    .map((k) => transcripts[Number(k)])
-    .join(" ");
+  };  
 
   return (
     <div>
-      <header>
-        <h1>Real-Time Transcription (v3)</h1>
-        <p>
-          Powered by AssemblyAI's latest real-time model
-        </p>
-      </header>
-      <div>
-        <p>Click start to begin recording!</p>
-        {isRecording ? (
-          <Button onClick={stopRecording}>
-            Stop recording
-          </Button>
-        ) : (
-          <Button onClick={startRecording}>
-            Record
-          </Button>
-        )}
-      </div>
-      <div>
-        <p><strong>Transcript:</strong> {orderedTranscript}</p>
+      <div className="mt-3">
+        {/* No answer submitted, so allow user to answer the question*/}
+        {questionsSubmitted[questionIndex] == false ?
+          <div>
+            <div className="mb-2">
+              {isRecording ? (
+                <div>
+                  <p>Click to stop recording!</p>
+                  <Button onClick={stopRecording}>
+                    Stop recording
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <p>Click to start recording!</p>
+                  <Button onClick={startRecording}>
+                    Record
+                  </Button>
+                </div>
+              )}
+            </div>
+            <Textarea value={answer} onChange={(e) => setAnswer(e.target.value)}/>
+            <p className="text-muted-foreground text-sm mt-1">
+              Sometimes the transcription AI makes mistakes, so you can manually edit your answer if needed.
+            </p>
+            <Button className="mt-5" onClick={() => {
+              if (answer == "") {
+                return;
+              }
+              //set this specific question to being submitted(true)
+              setQuestionsSubmitted(prev => 
+                prev.map((submittedStatus, i) => 
+                  i == questionIndex ? !submittedStatus : submittedStatus
+                )
+              );
+              handleAnswerSubmit(user, sessionID, answer, question)
+            }}>
+              Submit Answer
+            </Button>
+            <p className="text-muted-foreground text-sm mt-1">
+              * Once submitted, you will be unable change your answer
+            </p>
+          </div>
+       : 
+          <div>
+            {/* Answer has been submitted, so do not allow the user to make more changes*/}
+            <Textarea defaultValue={answer} disabled/>
+            <p className="text-muted-foreground text-sm mt-1">
+              Answer submitted!
+            </p>
+          </div>
+       }
       </div>
     </div>
   );

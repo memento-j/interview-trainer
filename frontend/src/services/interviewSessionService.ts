@@ -84,3 +84,41 @@ export async function createInterviewSession(
         }
     }
 }
+
+//get answer analysis, and pushes the answer and feedback to the database or localstorage
+export async function handleAnswerSubmit(
+    user: any,
+    sessionID: string,
+    answer: string,
+    question: string,
+) {
+    //analyze answer
+    //test answer: On a past project, a teammate and I disagreed about how detailed a filter feature should be. I preferred a simple design, while they wanted more granular options. I suggested we both make quick mockups and get feedback from our product manager and a few test users. The feedback supported a blended solution — a simple default view with an ‘advanced options’ dropdown. We shipped on time, the feature was well-received, and the process actually strengthened my collaboration with that teammate.
+    const aiResponse = await axios.post("http://localhost:8080/ai/answer-analysis", {
+       question: question,
+       answer: answer
+    });
+    const feedback = aiResponse.data;
+    
+    //update session in db with the answer and feedback
+    if (user) {
+        const updateDbResponse = await axios.patch(`http://localhost:8080/interview-sessions/${sessionID}/progress`, {
+            answer: answer,
+            feedback: feedback
+        });
+        console.log(updateDbResponse.data);
+        console.log(updateDbResponse.status);
+    }
+    //update session in local storagee
+    else {
+        const oldSession = JSON.parse(localStorage.getItem("interview_session") || "");
+        //appends new answer and feedback
+        const updatedSession = {
+            ...oldSession,
+            answers: [...oldSession.answers, answer],
+            feedback: [...oldSession.feedback, feedback]
+        }
+        localStorage.setItem("interview_session", JSON.stringify(updatedSession))
+    }
+
+}

@@ -14,9 +14,22 @@ interview sessions data is stored in json:
 
 "session_data" : 
     {
-        "questions": ["...", "..."]
-        "responses": ["...", "..."]
-        "feedback": ["...", "..."]
+        questions: string[];
+        answers: string[];
+        feedback: {
+            analysis: {
+            tone: string[],
+            scores: {
+                clarity: number
+                relevance: number
+                confidence: number
+            },
+            summary: string[],
+            strengths: string[],
+            weaknesses: string[],
+            suggestions: string[]
+            }
+        }[];
     }
 */
 async function requireAuth(req, res, next) {

@@ -21,9 +21,11 @@ export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: 
     const [providedQuestions, setProvidedQuestions] = useState<string[]>([""]);
     const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
     const [sessionName, setSessionName] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
+        setLoading(true);
         const result = await createInterviewSession(
             user,
             session,
@@ -64,112 +66,116 @@ export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: 
     
     return(
         <div>
-            <Stepper
+            {loading ? 
+                <p className='text-center pt-20 font-semibold text-2xl'>Creating Session...</p>
+            :
+                <Stepper
                 initialStep={1}
                 onFinalStepCompleted={() => handleSetupCompleted()}
                 backButtonText="Previous"
                 nextButtonText="Next"
-            >
-                <Step canContinue={selectedOption ? true : false}>
-                    <p className="font-semibold mb-5">Select what type of interview questions you would like</p>
-                    <RadioGroup value={selectedOption} onValueChange={setSelectedOption} >
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="role-specific" id="role-specific" />
-                            <Label htmlFor="role-specific">Role-specific questions</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="general" id="general" />
-                            <Label htmlFor="general">General questions (behavioral/situational)</Label>
-                        </div>
-                    </RadioGroup>
-                </Step>
-                {/* Promot user for role if they chose role-specific */}
-                { selectedOption === "role-specific" &&
-                    <Step canContinue={role.trim() ? true : false}>
-                        <p className='mb-5 font-semibold'>Enter the role you are practicing for</p>
-                        <Input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role" className='max-w-md mb-5'/>
+                >
+                    <Step canContinue={selectedOption ? true : false}>
+                        <p className="font-semibold mb-5">Select what type of interview questions you would like</p>
+                        <RadioGroup value={selectedOption} onValueChange={setSelectedOption} >
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="role-specific" id="role-specific" />
+                                <Label htmlFor="role-specific">Role-specific questions</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="general" id="general" />
+                                <Label htmlFor="general">General questions (behavioral/situational)</Label>
+                            </div>
+                        </RadioGroup>
                     </Step>
-                }
-                <Step canContinue={questionSource ? true : false}>
-                    <p className='font-semibold mb-5'>Would you like the AI to generate questions for you?</p>
-                    <RadioGroup value={questionSource} onValueChange={setQuestionSource} >
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="ai-generated" id="ai-generated" />
-                            <Label htmlFor="ai-generated">Yes, have the AI generate the questions for me</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="provided" id="provided" />
-                            <Label htmlFor="provided">No, I would like to provide the questions myself</Label>
-                        </div>
-                    </RadioGroup>
-                </Step>
-                {/* Promot user to provide the questions they would like to practice */}
-                { questionSource === "provided" &&
-                    //checks if every question is emepty or not
-                    <Step canContinue={providedQuestions.every(question => question.trim() !== "")}>
-                        <p className='mb-5 font-semibold'>Enter your questions below</p>
-                        {/* list that allows users to enter another questions or remove if needed*/}
-                        <div className="flex flex-col gap-3">
-                            {providedQuestions.map((q:string, index:number) => (
-                                <div key={index} className="flex items-center gap-2">
-                                    {/* input section for inputting question*/}
-                                    <Input
-                                        type="text"
-                                        placeholder={`Question ${index + 1}`}
-                                        value={q}
-                                        onChange={(e) => handleQuestionChange(index, e.target.value)}
-                                    />
-                                    {/* remove question button */}
-                                    {providedQuestions.length > 1 && (
-                                        <Button
-                                            variant="destructive"
-                                            size="icon"
-                                            onClick={() => removeQuestion(index)}
-                                        >
-                                            ✕
-                                        </Button>
-                                    )}
-                                </div>
-                            ))}
-                            <Button variant="outline" className='w-[120px]' onClick={addQuestion}>
-                                + Add Question
-                            </Button>
-                        </div>
+                    {/* Promot user for role if they chose role-specific */}
+                    { selectedOption === "role-specific" &&
+                        <Step canContinue={role.trim() ? true : false}>
+                            <p className='mb-5 font-semibold'>Enter the role you are practicing for</p>
+                            <Input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role" className='max-w-md mb-5'/>
+                        </Step>
+                    }
+                    <Step canContinue={questionSource ? true : false}>
+                        <p className='font-semibold mb-5'>Would you like the AI to generate questions for you?</p>
+                        <RadioGroup value={questionSource} onValueChange={setQuestionSource} >
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="ai-generated" id="ai-generated" />
+                                <Label htmlFor="ai-generated">Yes, have the AI generate the questions for me</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="provided" id="provided" />
+                                <Label htmlFor="provided">No, I would like to provide the questions myself</Label>
+                            </div>
+                        </RadioGroup>
                     </Step>
-                }
-                {/* Prompt user to provide the number of questions they would like the AI to generate*/}
-                { questionSource === "ai-generated" &&
-                    <Step canContinue={aiQuestionCount ? true : false}>
-                        <p className="font-semibold">Select the number of questions you would like the AI to generate for you (between 3 and 10)</p>
-                        {/* number selector between 3 and 10*/}
-                        <Select value={aiQuestionCount.toString()} onValueChange={setAiQuestionCount}>
-                            <SelectTrigger className="w-auto mt-5">
-                                <SelectValue placeholder="Select number of questions" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Question Count</SelectLabel>
-                                        {[...Array(8)].map((_, i) => {
-                                            const value = i + 3;
-                                            return (
-                                                <SelectItem key={value} value={value.toString()}>
-                                                    {value}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </Step>
-                }
-                {/* prompt the user to enter a name for the session */}
-                { user &&
-                    <Step canContinue={sessionName ? true : false}>
-                        <p className='mb-5 font-semibold'>Enter a name for this practice interview session</p>
-                        <Input value={sessionName} onChange={(e) => setSessionName(e.target.value)} placeholder="ex: My First Practice Session" className='max-w-md mb-5'/>
-                    </Step>
-                }
-            </Stepper> 
+                    {/* Promot user to provide the questions they would like to practice */}
+                    { questionSource === "provided" &&
+                        //checks if every question is emepty or not
+                        <Step canContinue={providedQuestions.every(question => question.trim() !== "")}>
+                            <p className='mb-5 font-semibold'>Enter your questions below</p>
+                            {/* list that allows users to enter another questions or remove if needed*/}
+                            <div className="flex flex-col gap-3">
+                                {providedQuestions.map((q:string, index:number) => (
+                                    <div key={index} className="flex items-center gap-2">
+                                        {/* input section for inputting question*/}
+                                        <Input
+                                            type="text"
+                                            placeholder={`Question ${index + 1}`}
+                                            value={q}
+                                            onChange={(e) => handleQuestionChange(index, e.target.value)}
+                                        />
+                                        {/* remove question button */}
+                                        {providedQuestions.length > 1 && (
+                                            <Button
+                                                variant="destructive"
+                                                size="icon"
+                                                onClick={() => removeQuestion(index)}
+                                            >
+                                                ✕
+                                            </Button>
+                                        )}
+                                    </div>
+                                ))}
+                                <Button variant="outline" className='w-[120px]' onClick={addQuestion}>
+                                    + Add Question
+                                </Button>
+                            </div>
+                        </Step>
+                    }
+                    {/* Prompt user to provide the number of questions they would like the AI to generate*/}
+                    { questionSource === "ai-generated" &&
+                        <Step canContinue={aiQuestionCount ? true : false}>
+                            <p className="font-semibold">Select the number of questions you would like the AI to generate for you (between 3 and 10)</p>
+                            {/* number selector between 3 and 10*/}
+                            <Select value={aiQuestionCount.toString()} onValueChange={setAiQuestionCount}>
+                                <SelectTrigger className="w-auto mt-5">
+                                    <SelectValue placeholder="Select number of questions" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Question Count</SelectLabel>
+                                            {[...Array(8)].map((_, i) => {
+                                                const value = i + 3;
+                                                return (
+                                                    <SelectItem key={value} value={value.toString()}>
+                                                        {value}
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </Step>
+                    }
+                    {/* Prompt the user to enter a name for the session */}
+                    { user &&
+                        <Step canContinue={sessionName ? true : false}>
+                            <p className='mb-5 font-semibold'>Enter a name for this practice interview session</p>
+                            <Input value={sessionName} onChange={(e) => setSessionName(e.target.value)} placeholder="ex: My First Practice Session" className='max-w-md mb-5'/>
+                        </Step>
+                    }
+                </Stepper>
+            } 
         </div>
     );
 }
