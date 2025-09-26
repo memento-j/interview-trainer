@@ -51,8 +51,6 @@ export default function AssemblyAIRecorder( {sessionID, question, questionsSubmi
   const scriptProcessor = useRef<ScriptProcessorNode | null>(null);
   const [answer, setAnswer] = useState<string>("");
   const { user } = useAuth();
-  const [submitted, setSubmitted] = useState<boolean>(false);
-
   const [isRecording, setIsRecording] = useState(false);
   const [transcripts, setTranscripts] = useState<Record<number, string>>({});
 
@@ -82,7 +80,6 @@ export default function AssemblyAIRecorder( {sessionID, question, questionsSubmi
     // Open WebSocket
     const wsUrl = `wss://streaming.assemblyai.com/v3/ws?sample_rate=16000&formatted_finals=true&token=${API_KEY}`;
     ws.current = new WebSocket(wsUrl);
-
     const turns: Record<number, string> = {};
 
     ws.current.onopen = () => {

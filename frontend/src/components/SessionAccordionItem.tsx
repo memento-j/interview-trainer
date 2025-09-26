@@ -3,6 +3,9 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "./ui/separator";
+import { Badge } from "./ui/badge";
 
 interface SessionAccordionItemProps {
     name: string;
@@ -33,26 +36,97 @@ export default function SessionAccordionItem({ name, sessionData }: SessionAccor
       <AccordionItem value={name}>
         <AccordionTrigger className="text-lg font-semibold">{name}</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4">
-          {questions.map((question, index) => (
-            <div key={index} className="border-b border-zinc-300 dark:border-zinc-700 pb-3 mb-3 last:border-b-0 last:mb-0">
-              <p className="font-medium text-zinc-800 dark:text-zinc-200 mb-1">{`Q${index + 1}: ${question}`}</p>
-              {answers[index] && (
-                <p className="text-zinc-600 dark:text-zinc-400 my-3">{`Your Answer: ${answers[index]}`}</p> 
-              )}
-              {feedback[index] && (
-                <div>
-                  <p className="text-[16px] text-zinc-900 dark:text-zinc-100">Feedback:</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 my-1.5">{`Strengths: ${feedback[index].analysis.strengths}`}</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 my-1.5">{`Weaknesses: ${feedback[index].analysis.weaknesses}`}</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 my-1.5">{`Suggesstions: ${feedback[index].analysis.suggestions}`}</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 my-1.5">{`Summary: ${feedback[index].analysis.summary}`}</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 mt-1.5 mb-0.5">{`Clarity: ${feedback[index].analysis.scores.clarity}`}</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 my-0.5">{`Relevence: ${feedback[index].analysis.scores.relevance}`}</p>
-                  <p className="text-sm italic text-zinc-800 dark:text-zinc-200 my-0.5">{`Confidence: ${feedback[index].analysis.scores.confidence}`}</p>
-                </div>
-              )}
-            </div>
-          ))}
+          {questions.map((question, index) => {
+            const userAnswer = answers[index];
+            const analysis = feedback[index]?.analysis;
+            return(
+                    <Card key={index} className="shadow-lg rounded-2xl">
+                    <CardContent className="space-y-4">
+                    {/* Question */}
+                    <div>
+                        <p className="font-semibold">Question {index+1}:</p>
+                        <p className="text-muted-foreground">{question}</p>
+                    </div>
+
+                    {/* Answer */}
+                    <div>
+                        <p className="font-semibold">Your Answer:</p>
+                        <p className="text-muted-foreground">{userAnswer}</p>
+                    </div>
+
+                    <Separator />
+
+                    {/* Feedback */}
+                    {analysis ? (
+                        <div className="space-y-3">
+                        {/* Tone */}
+                        <div>
+                            <p className="font-semibold">Tone:</p>
+                            <div className="flex flex-wrap gap-2 mt-1">
+                            {analysis.tone.map((t: string, i: number) => (
+                                <Badge key={i} variant="secondary">{t}</Badge>
+                            ))}
+                            </div>
+                        </div>
+
+                        {/* Scores */}
+                        <div>
+                            <p className="font-semibold mb-1">Scores:</p>
+                            <ul className="list-disc ml-6 text-muted-foreground">
+                            <li>Clarity: {analysis.scores.clarity}/10</li>
+                            <li>Relevance: {analysis.scores.relevance}/10</li>
+                            <li>Confidence: {analysis.scores.confidence}/10</li>
+                            </ul>
+                        </div>
+
+                        {/* Summary */}
+                        <div>
+                            <p className="font-semibold">Summary:</p>
+                            <ul className="list-disc ml-6 text-muted-foreground">
+                            {analysis.summary.map((line: string, i: number) => (
+                                <li key={i}>{line}</li>
+                            ))}
+                            </ul>
+                        </div>
+
+                        {/* Strengths */}
+                        <div>
+                            <p className="font-semibold">Strengths:</p>
+                            <ul className="list-disc ml-6 text-muted-foreground">
+                            {analysis.strengths.map((s: string, i: number) => (
+                                <li key={i}>{s}</li>
+                            ))}
+                            </ul>
+                        </div>
+
+                        {/* Weaknesses */}
+                        <div>
+                            <p className="font-semibold">Weaknesses:</p>
+                            <ul className="list-disc ml-6 text-muted-foreground">
+                            {analysis.weaknesses.map((w: string, i: number) => (
+                                <li key={i}>{w}</li>
+                            ))}
+                            </ul>
+                        </div>
+
+                        {/* Suggestions */}
+                        <div>
+                            <p className="font-semibold">Suggestions:</p>
+                            <ul className="list-disc ml-6 text-muted-foreground">
+                            {analysis.suggestions.map((s: string, i: number) => (
+                                <li key={i}>{s}</li>
+                            ))}
+                            </ul>
+                        </div>
+                        </div>
+                    ) : (
+                        <p className="text-sm text-muted-foreground">
+                        Feedback not available yet.
+                        </p>
+                    )}
+                    </CardContent>
+                </Card>
+          )})}
         </AccordionContent>
       </AccordionItem>
     );

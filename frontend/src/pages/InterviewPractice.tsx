@@ -4,24 +4,25 @@ import { useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
 import Stepper, { Step } from '../components/Stepper';
 import AssemblyAIRecorder from "@/components/AssemblyAIRecorder";
+import SessionOverview from "@/components/SessionOverview";
+import { Button } from "@/components/ui/button";
 
 export default function InterviewPractice() {
     const { user } = useAuth();
-    const [setupCompleted, setSetupCompleted] = useState<boolean>(false); //change to false
+    const [setupCompleted, setSetupCompleted] = useState<boolean>(false); 
     const [createdSessionID, setCreatedSessionID] = useState<string>("");
-    const [interviewSession, setInterviewSession] = useState<any>();
     const [questions, setQuestions] = useState<string[]>();
     const [questionsSubmitted, setQuestionsSubmitted] = useState<boolean[]>([]);
-    
+    const [sessionCompleted, setSessionCompleted] = useState<boolean>(false);    
+    const [feedbackGiven, setFeedbackGiven] = useState<boolean>(false)
 
     //fetches interview session info
     useEffect(() => {
         async function fetchInterviewSession() {
             try {                
-                const res = await axios.get(`http://localhost:8080/interview-sessions/${createdSessionID}`); //change to createdsessionid
+                const res = await axios.get(`http://localhost:8080/interview-sessions/${createdSessionID}`);
                 const falseArary = new Array(res.data.session_data.questions.length).fill(false);
                 setQuestionsSubmitted(falseArary);
-                setInterviewSession(res.data);
                 setQuestions(res.data.session_data.questions)
             } catch (err) {
                 console.error("Error fetching sessions:", err);
@@ -40,24 +41,27 @@ export default function InterviewPractice() {
                 //for forcing user to submit question beofre continuing
                 const falseArary = new Array(createdSessionJSON.questions.length).fill(false);
                 setQuestionsSubmitted(falseArary);
-                setInterviewSession(createdSessionJSON);
                 setQuestions(createdSessionJSON.questions);
             }
         }
-        //change dependency array to include setupcompleted
     }, [setupCompleted])
+
+    //reset stateful variables to start a new session
+    function startNewSession() {
+
+    }
 
     return (
         <div className="min-h-screen bg-zinc-300 dark:bg-zinc-800"> 
             {/* Setup the practice interview session */}        
-            {!setupCompleted && (
+            {!setupCompleted && !sessionCompleted && (
                 <SessionSetup 
                     setSetupCompleted={setSetupCompleted}
                     setCreatedSessionID={setCreatedSessionID}
                 />    
             )}
-            {/* Start the interview session oncee the questions are available */}  
-            {setupCompleted && questions &&
+            {/* Start the interview session once the questions are available */}  
+            {setupCompleted && questions && !sessionCompleted && (
                 <Stepper
                     initialStep={1}
                     onStepChange={(step) => {
@@ -66,7 +70,7 @@ export default function InterviewPractice() {
                     //TODO: DISPLAY ALL FEEDBACK ON FINAL STEP COMPLETED (USE SETTIMEOUT EVERY 5 SECONDS?)
                     // ADD BUTTON TO START NEW SESSION  OR VIEW THE SESSION ON THE SESSIONS PAGE
                     // 
-                    onFinalStepCompleted={() => console.log("Need to display all results")}
+                    onFinalStepCompleted={() => setSessionCompleted(true)}
                     backButtonText="Review Previous Answer"
                     nextButtonText="Next Question"
                 >
@@ -79,7 +83,16 @@ export default function InterviewPractice() {
                         </Step>
                     ))}            
                 </Stepper>
-            }
+            )}
+            {/* Session is completed, so show overview of the session along with button to start a new one*/}
+            {sessionCompleted && (
+                <div>
+                    <SessionOverview sessionID={createdSessionID} setFeedbackGiven={setFeedbackGiven}/>
+                    {feedbackGiven && (
+                        <Button onClick={startNewSession}>Start new session</Button>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
