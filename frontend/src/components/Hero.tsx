@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function Hero() {
     return(
         <section className="relative bg-gradient-to-b from-zinc-100 to-white dark:from-zinc-900 dark:to-black">
@@ -16,18 +18,18 @@ export default function Hero() {
                 </p>
 
                 <div className="flex gap-4 flex-wrap justify-center">
-                <a
-                    href="#get-started"
+                <Link
+                    to="/practice"
                     className="px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-transform"
                 >
                     Get Started
-                </a>
-                <a
-                    href="#features"
+                </Link>
+                <Link
+                    to="/about"
                     className="px-6 py-3 rounded-xl border border-teal-600 text-teal-600 dark:text-teal-400 font-semibold hover:bg-teal-50 dark:hover:bg-zinc-800 hover:scale-105 active:scale-95 transition-transform"
                 >
                     Learn More
-                </a>
+                </Link>
                 </div>
             </div>
             {/* Overview Section */}
@@ -88,12 +90,12 @@ export default function Hero() {
 
                     {/* CTA */}
                     <div className="text-center mt-16">
-                    <a
-                        href="#get-started"
-                        className="inline-block px-8 py-4 bg-teal-600 text-white text-lg font-semibold rounded-xl shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-transform"
-                    >
-                        Start Practicing
-                    </a>
+                        <Link
+                            to="/practice"
+                            className="inline-block px-8 py-4 bg-teal-600 text-white text-lg font-semibold rounded-xl shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-transform"
+                        >
+                            Start Practicing
+                        </Link>
                     </div>
                 </div>
             </div>

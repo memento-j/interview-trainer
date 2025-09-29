@@ -19,7 +19,7 @@ export default function NavBar() {
 
   return (
     <div>
-      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-200 dark:bg-zinc-800 gap-5 py-5 border-b-1 border-[#bebec2] dark:border-[#3c3c3f] z-20">
+      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-200 dark:bg-zinc-800 gap-5 py-5 border-b-1 border-[#DBDBDF] dark:border-[#3c3c3f] z-20">
         <p className="font-[500] text-lg ml-3 md:ml-15"><Link to="/">PrepMate AI</Link></p>
         
         {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}

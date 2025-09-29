@@ -179,7 +179,6 @@ router.patch("/:id/progress", async (req,res) => {
 //delete interview session
 router.delete("/:id", async (req,res) => {
     const { id } = req.params;
-
     const { error } = await supabase
         .from("interview_sessions")
         .delete()

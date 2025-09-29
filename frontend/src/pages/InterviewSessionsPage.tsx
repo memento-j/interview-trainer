@@ -2,7 +2,6 @@ import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion } from "@/components/ui/accordion";
 import SessionAccordionItem from "@/components/SessionAccordionItem";
@@ -50,30 +49,26 @@ export default function InterviewSessionPage() {
                     <CardHeader>
                         <div className="flex justify-between">
                             <CardTitle className="text-2xl mt-3">All interview practice sessions from {profile?.first_name}</CardTitle>
-                            <Button className="hover:cursor-pointer mt-3">
-                                View All Sessions
-                            </Button>
                         </div>
                     </CardHeader>
-                        <CardContent>
-                            <Accordion
-                                type="single"
-                                collapsible
-                                className="w-full"
+                    <CardContent>
+                        <Accordion
+                            type="single"
+                            collapsible
+                            className="w-full flex flex-col gap-2 sm:gap-6.5"
                             >
-                            {userSessions && userSessions.length > 0 && (
-                            <div className="flex flex-col gap-2 sm:gap-6.5">
-                                {userSessions.map((session:any, index:number) => (
+                            {userSessions && userSessions.length > 0 &&
+                                userSessions.map((session: any, index: number) => (
                                     <SessionAccordionItem
                                         key={index}
                                         name={!session.name ? session.created_at : session.name}
+                                        sessionId={session.id}
                                         sessionData={session.session_data}
                                     />
-                                ))}
-                            </div>
-                            )}
-                            </Accordion>
-                        </CardContent>
+                                ))
+                            }
+                        </Accordion>
+                    </CardContent>
                 </Card>
             </div>
         </div>

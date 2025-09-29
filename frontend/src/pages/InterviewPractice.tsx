@@ -48,11 +48,19 @@ export default function InterviewPractice() {
 
     //reset stateful variables to start a new session
     function startNewSession() {
-
+        setSetupCompleted(false);
+        setSessionCompleted(false);
+        setQuestions([]);
+        setCreatedSessionID("");
+        setFeedbackGiven(false);
+        //reset the local storage 
+        // if (!user) {
+        //     localStorage.removeItem("interview_session")
+        // }
     }
 
     return (
-        <div className="min-h-screen bg-zinc-300 dark:bg-zinc-800"> 
+        <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800"> 
             {/* Setup the practice interview session */}        
             {!setupCompleted && !sessionCompleted && (
                 <SessionSetup 
@@ -67,14 +75,11 @@ export default function InterviewPractice() {
                     onStepChange={(step) => {
                         console.log(step);
                     }}
-                    //TODO: DISPLAY ALL FEEDBACK ON FINAL STEP COMPLETED (USE SETTIMEOUT EVERY 5 SECONDS?)
-                    // ADD BUTTON TO START NEW SESSION  OR VIEW THE SESSION ON THE SESSIONS PAGE
-                    // 
                     onFinalStepCompleted={() => setSessionCompleted(true)}
                     backButtonText="Review Previous Answer"
                     nextButtonText="Next Question"
                 >
-                    {questions?.map((question: string ,index: number) => (
+                    {questions?.map((question: string, index: number) => (
                         //questionsSubmitted checks to ensure that the current question has an answer
                         <Step key={index} canContinue={questionsSubmitted[index]}>
                             <p className='font-semibold mb-10'>{question}</p>

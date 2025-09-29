@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -83,7 +83,7 @@ export default function AccountPage() {
                             {profile?.username?.charAt(0)}
                         </div>
                         <div className="flex flex-col ml-2">
-                            <p className="text-3xl font-[500] mb-1.5">Hello {profile?.username}</p>
+                            <p className="text-3xl font-[500] mb-1.5">Hello {profile?.first_name}</p>
                             <p className="text-zinc-600 dark:text-zinc-400">
                                 View and manage your account info here.
                             </p>
@@ -156,9 +156,11 @@ export default function AccountPage() {
                     <CardHeader>
                         <div className="flex justify-between">
                             <CardTitle className="text-2xl mt-3">Practice Interview Sessions</CardTitle>
-                            <Button className="hover:cursor-pointer mt-3">
-                                Manage All Sessions
-                            </Button>
+                            <Link to="/account/practice-sessions">
+                                <Button className="hover:cursor-pointer mt-3">
+                                    Manage All Sessions
+                                </Button>
+                            </Link>
                         </div>
                     </CardHeader>
                         <CardContent>
@@ -173,6 +175,7 @@ export default function AccountPage() {
                                         <SessionAccordionItem
                                             key={index}
                                             name={!session.name ? session.created_at : session.name}
+                                            sessionId={session.id}
                                             sessionData={session.session_data}
                                         />
                                     ))}

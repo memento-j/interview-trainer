@@ -18,33 +18,35 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
         let interval: number;
 
         async function fetchInterviewSession() {
-          try {
-            const res = await axios.get(`http://localhost:8080/interview-sessions/${sessionID}`);
-            if (res.data.session_data.questions.length === res.data.session_data.feedback.length) {
-              setInterviewSession(res.data);
-              setFeedbackGiven(true);
-              // stop interval once all feedback is in the db
-              clearInterval(interval);
+            //if user is signed in, fetch from db
+            if (user) {
+                try {
+                    const res = await axios.get(`http://localhost:8080/interview-sessions/${sessionID}`);
+                    if (res.data.session_data.questions.length === res.data.session_data.feedback.length) {
+                      setInterviewSession(res.data);
+                      setFeedbackGiven(true);
+                      // stop interval once all feedback is in the db
+                      clearInterval(interval);
+                    }
+                  } catch (err) {
+                    console.error("Error fetching sessions:", err);
+                  }
             }
-          } catch (err) {
-            console.error("Error fetching sessions:", err);
-          }
+            else {
+                const completedSession = localStorage.getItem("interview_session") || "";
+                const completedSessionJSON = JSON.parse(completedSession);
+                if (completedSessionJSON.questions.length === completedSessionJSON.feedback.length) {
+                    setInterviewSession(completedSessionJSON);
+                    setFeedbackGiven(true);
+                    // stop interval once all feedback is in local storaage
+                    clearInterval(interval);
+                }
+            }
         }
       
         interval = window.setInterval(fetchInterviewSession, 3000);
-      
-        //if user is signed in, fetch from db
-        if (user) {
-            fetchInterviewSession();
-        } 
-        //otherwise, just fetch from  local storage
-        else {
-            //set timeout here too
-            //const completedSession = localStorage.getItem("interview_session") || "";
-            //const completedSessionJSON = JSON.parse(createdSession);
-            //setQuestions(createdSessionJSON.questions);
-        }
-
+        fetchInterviewSession();
+    
         return () => clearInterval(interval);
     }, [])
     
