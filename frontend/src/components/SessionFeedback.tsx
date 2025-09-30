@@ -21,7 +21,7 @@ export default function SessionFeedback({ interviewSession }: SessionFeedbackPro
 
     return (
         <div className="max-w-6xl mx-auto space-y-8 p-6">
-            <h1 className="text-3xl font-bold">Session Overview</h1>
+            <h1 className="text-3xl font-bold">Session Overview & Feedback</h1>
             <Accordion
                     type="multiple"
                     className="w-full"

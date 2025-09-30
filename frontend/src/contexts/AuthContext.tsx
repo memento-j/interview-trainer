@@ -12,7 +12,6 @@ type Profile = {
   first_name: string;
   last_name: string;
   created_at: Date;
-  interview_sessions: Object;
 }
 
 type AuthContextType = {

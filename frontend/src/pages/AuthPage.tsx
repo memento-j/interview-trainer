@@ -15,7 +15,7 @@ export default function AuthPage() {
   // otherwise, user sees auth componenet where they can signin or out
   return (
     //supabase auth component
-    <div className="min-h-screen flex items-center justify-center bg-zinc-300 dark:bg-zinc-900 text-zinc-50">
+    <div className="min-h-screen flex items-center justify-center pb-50 bg-zinc-300 dark:bg-zinc-900 text-zinc-50">
         <div className="w-xl p-8 bg-zinc-800 rounded-2xl shadow-lg mb-20">
             <Auth
                 supabaseClient={supabase}
@@ -56,7 +56,7 @@ export default function AuthPage() {
                 theme='dark'
             />
         </div>
-        <p className='text-[#f4f4f5]'>insert img here so this doesn't look completely garbage : )</p>
+
     </div>
   )
 }

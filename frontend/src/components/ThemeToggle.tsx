@@ -6,11 +6,11 @@ export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme} className={theme === "dark" ? "" : "bg-zinc-200 border-zinc-300"}>
+    <Button variant="outline" size="icon" onClick={toggleTheme} className={theme === "dark" ? "hover:cursor-pointer" : "bg-zinc-200 border-zinc-300 hover:cursor-pointer"}>
       {theme === "dark" ? (
-        <Sun className="h-[1.2rem] w-[1.2rem]" />
+        <Sun className="h-[18px] w-[18px]"/>
       ) : (
-        <Moon className="h-[1.2rem] w-[1.2rem]" />
+        <Moon className="h-[18px] w-[18px]"/>
       )}
     </Button>
   )

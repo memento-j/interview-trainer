@@ -73,13 +73,13 @@ export default function AccountPage() {
     }
 
     return (
-    <div className="min-h-screen bg-zinc-300 dark:bg-zinc-800">
+    <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800">
         {user && (
-            <div className="flex flex-col items-center gap-5">
+            <div className="flex flex-col items-center gap-10">
                 {/* Welcome section */}
                 <div className="flex w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
                     <div className="flex items-center gap-3 ml-3">
-                        <div className="flex items-center justify-center w-18 h-18 rounded-full bg-teal-700 text-white font-semibold text-2xl">
+                        <div className="flex items-center justify-center w-18 h-18 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-2xl">
                             {profile?.username?.charAt(0)}
                         </div>
                         <div className="flex flex-col ml-2">
@@ -91,10 +91,10 @@ export default function AccountPage() {
                     </div>
                     <Button
                         className="hover:cursor-pointer mr-2"
-                        variant="outline"
+                        variant="default"
                         onClick={() => {
-                        signOut();
-                        navigate("/");
+                            signOut();
+                            navigate("/");
                         }}
                     >
                         Signout

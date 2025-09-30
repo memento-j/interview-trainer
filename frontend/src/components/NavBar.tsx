@@ -36,8 +36,7 @@ export default function NavBar() {
                   </div>
                   <div className="flex flex-col gap-1 p-3">
                     <p className="font-[700] text-lg">Interview Trainer</p>
-                    <Link to="/practice" className="font-medium underline">Role-specific Questions</Link>
-                    <Link to="#" className="font-medium underline">General Questions</Link>
+                    <Link to="/practice" className="font-medium underline">Interview Practice</Link>
                   </div>
                   {!user ? (
                     <Link to="/auth">
@@ -65,17 +64,17 @@ export default function NavBar() {
                   <ul className="grid w-[150px] gap-4">
                     <li>
                       <NavigationMenuLink asChild>
-                        <Link to="#">
+                        <Link to="/">
                           <div className="font-medium">Home</div>
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
-                        <Link to="#">
+                        <Link to="/about">
                           <div className="font-medium">About</div>
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
-                        <Link to="#">
+                        <Link to="/faq">
                           <div className="font-medium">FAQ</div>
                         </Link>
                       </NavigationMenuLink>
@@ -84,29 +83,9 @@ export default function NavBar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-[500] bg-zinc-200 dark:hover:bg-zinc-900 dark:bg-zinc-800">Interview Trainer</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-4">
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link to="/practice">
-                            <div className="font-medium">Role-specific Questions</div>
-                            <div className="text-muted-foreground">
-                              Practice questions for a specific role.
-                            </div>
-                          </Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link to="#">
-                            <div className="font-medium">General Questions</div>
-                            <div className="text-muted-foreground">
-                              General behavioral interview questions.
-                            </div>
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
+                <Link to="/practice">
+                    <Button className="bg-zinc-200 dark:bg-zinc-800 text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Interview Practice</Button>
+                </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                   { !user ? 
@@ -117,7 +96,7 @@ export default function NavBar() {
                     ) : (
                       <div>
                         <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
-                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 rounded-full bg-teal-700 text-white font-semibold text-xl">
+                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-xl">
                               {profile?.username?.charAt(0)}
                           </div>
                         </NavigationMenuTrigger>

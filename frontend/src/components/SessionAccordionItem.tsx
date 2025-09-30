@@ -138,7 +138,7 @@ export default function SessionAccordionItem({ name, sessionId, sessionData }: S
             <div className="flex justify-end">
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive">Delete {name}</Button>
+                        <Button variant="destructive" className="hover:cursor-pointer">Delete {name}</Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>

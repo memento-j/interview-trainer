@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
 import SessionFeedback from "./SessionFeedback";
+import { Skeleton } from "./ui/skeleton";
 
 
 interface SessionOverviewProps{
@@ -53,8 +54,9 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
     return(
         <div>
             {!interviewSession ?
-                <div>
-                    AI is analyzing your answers...
+                <div className="flex flex-col pt-40 items-center">
+                    <p>AI is analyzing your answers...</p>
+                    <Skeleton className="h-50 max-w-6xl bg-zinc-600"/>
                 </div>
             :
                 <div>

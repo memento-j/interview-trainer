@@ -91,10 +91,12 @@ export default function InterviewPractice() {
             )}
             {/* Session is completed, so show overview of the session along with button to start a new one*/}
             {sessionCompleted && (
-                <div>
+                <div className="pt-12">
                     <SessionOverview sessionID={createdSessionID} setFeedbackGiven={setFeedbackGiven}/>
                     {feedbackGiven && (
-                        <Button onClick={startNewSession}>Start new session</Button>
+                        <div className="flex justify-center py-20">
+                            <Button onClick={startNewSession} className="hover:cursor-pointer">Start new session</Button>
+                        </div>
                     )}
                 </div>
             )}

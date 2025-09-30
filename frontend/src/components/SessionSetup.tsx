@@ -67,7 +67,9 @@ export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: 
     return(
         <div>
             {loading ? 
-                <p className='text-center pt-20 font-semibold text-2xl'>Creating Session...</p>
+                <div className='flex flex-col items-center'>
+                    <p className='pt-40 font-semibold text-2xl'>Creating Your Session...</p>
+                </div>
             :
                 <Stepper
                 initialStep={1}
