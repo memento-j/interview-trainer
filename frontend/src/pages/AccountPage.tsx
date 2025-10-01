@@ -83,7 +83,7 @@ export default function AccountPage() {
                             {profile?.username?.charAt(0)}
                         </div>
                         <div className="flex flex-col ml-2">
-                            <p className="text-3xl font-[500] mb-1.5">Hello {profile?.first_name}</p>
+                            <p className="text-3xl font-[500] mb-1.5">Hello {profile?.firstName}</p>
                             <p className="text-zinc-600 dark:text-zinc-400">
                                 View and manage your account info here.
                             </p>
@@ -129,7 +129,7 @@ export default function AccountPage() {
                                     <Input
                                     id="first-name"
                                     type="text"
-                                    defaultValue={profile?.first_name}
+                                    defaultValue={profile?.firstName}
                                     className="text-sm sm:text-md"
                                     />
                                 </div>
@@ -138,7 +138,7 @@ export default function AccountPage() {
                                     <Input
                                     id="last-name"
                                     type="text"
-                                    defaultValue={profile?.last_name}
+                                    defaultValue={profile?.lastName}
                                     className="text-sm sm:text-md"
                                     />
                                 </div>

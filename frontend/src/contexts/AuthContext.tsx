@@ -9,9 +9,9 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 type Profile = {
   id: string;
   username: string;
-  first_name: string;
-  last_name: string;
-  created_at: Date;
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
 }
 
 type AuthContextType = {

@@ -67,15 +67,6 @@ export default function SessionFeedback({ interviewSession }: SessionFeedbackPro
                                             <li>Confidence: {analysis.scores.confidence}/10</li>
                                             </ul>
                                         </div>
-                                        {/* Summary */}
-                                        <div>
-                                            <p className="font-semibold">Summary:</p>
-                                            <ul className="list-disc ml-6 text-muted-foreground">
-                                            {analysis.summary.map((line: string, i: number) => (
-                                                <li key={i}>{line}</li>
-                                            ))}
-                                            </ul>
-                                        </div>
                                         {/* Strengths */}
                                         <div>
                                             <p className="font-semibold">Strengths:</p>

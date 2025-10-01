@@ -1,52 +1,12 @@
-import express from "express";
-import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
 
 dotenv.config();
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_SR_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
-const router = express.Router();
 
-/* 
-interview sessions data is stored in json:
-* will be ordered by index (ex: index 0 has first question, reponse, and feedback)
-
-"session_data" : 
-    {
-        questions: string[];
-        answers: string[];
-        feedback: {
-            analysis: {
-            tone: string[],
-            scores: {
-                clarity: number
-                relevance: number
-                confidence: number
-            },
-            summary: string[],
-            strengths: string[],
-            weaknesses: string[],
-            suggestions: string[]
-            }
-        }[];
-    }
-*/
-async function requireAuth(req, res, next) {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
-        return res.status(401).json({ error: "No token provided" });
-    }
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) {
-        return res.status(401).json({ error: "Invalid token" });
-    }
-    req.user = user;
-    next();
-}
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_KEY);
 
 //creates interview session only using the questions 
-router.post("/", requireAuth,async (req,res) => {
+export async function createSession(req,res) {
     //questions is string array "questions": ["...", "..."]
     const { questions, role, name } = req.body;
 
@@ -55,7 +15,7 @@ router.post("/", requireAuth,async (req,res) => {
     }
     //add session to sessions table
     const { data, error } = await supabase
-        .from("interview_sessions")
+        .from("interviewSessions")
         .insert({ 
             user_id: req.user.id,
             name: name,
@@ -75,14 +35,14 @@ router.post("/", requireAuth,async (req,res) => {
     }
 
     return res.status(201).json({ sessionID: data[0].id });
-});
+}
 
 //get an indivdual session
-router.get("/:id", async (req,res) => {
+export async function getSession(req,res) {
     const { id } = req.params;
 
     const { data, error } = await supabase  
-        .from("interview_sessions")  
+        .from("interviewSessions")  
         .select()
         .eq("id", id)
         .single()
@@ -93,49 +53,26 @@ router.get("/:id", async (req,res) => {
     }
     
     return res.status(200).json(data);
-});
+}
 
 //get all sessions created by a user
-router.get("/user/:userID", requireAuth, async (req,res) => {
+export async function getUserSessions(req,res) {
     const { data, error } = await supabase  
-        .from("interview_sessions")  
+        .from("interviewSessions")  
         .select()
-        .eq("user_id", req.user.id)
+        .eq("userId", req.user.id)
         .order('created_at', { ascending: false })
 
     if (error) {
         console.error(error);
         return res.status(500).json({ error: error.message });
     }
-    
-    return res.status(200).json(data);
-});
 
-//for allowing the user to update the name of their interview session
-router.patch("/:id/name", async (req,res) => {
-    const { id } = req.params;
-    const { name } = req.body;
-  
-    if (!name) {
-        return res.status(400).json({ error: "Missing name" });
-    }
-  
-    const { data, error } = await supabase
-        .from("interview_sessions")
-        .update({ name: name })
-        .eq("id", id)
-        .select();
-  
-    if (error) {
-        console.error(error);
-        return res.status(500).json({ error: error.message });
-    }
-  
-    return res.status(200).json(data[0]);
-  });
+    return res.status(200).json(data);
+}
 
 //for appending information session_data (answers and feedback)
-router.patch("/:id/progress", async (req,res) => {
+export async function updateSession(req,res) {
     const { id } = req.params;
     const { answer, feedback } = req.body;
 
@@ -146,7 +83,7 @@ router.patch("/:id/progress", async (req,res) => {
 
     //get the current session data
     const { data, error } = await supabase
-        .from("interview_sessions")
+        .from("interviewSessions")
         .select("session_data")
         .eq("id", id)
         .single();
@@ -165,7 +102,7 @@ router.patch("/:id/progress", async (req,res) => {
     
     //update the interview session data in the DB
     const { data: updatedData, error: updateError } = await supabase
-        .from("interview_sessions")
+        .from("interviewSessions")
         .update({ session_data: updatedSession })
         .eq("id", id)
         .select();
@@ -176,13 +113,13 @@ router.patch("/:id/progress", async (req,res) => {
 
     return res.status(200).json(updatedData[0]);
 
-});
+}
 
 //delete interview session
-router.delete("/:id", async (req,res) => {
+export async function deleteSession(req,res) {
     const { id } = req.params;
     const { error } = await supabase
-        .from("interview_sessions")
+        .from("interviewSessions")
         .delete()
         .eq("id", id)
   
@@ -192,6 +129,4 @@ router.delete("/:id", async (req,res) => {
     }
 
     return res.status(204).end()
-});
-
-export default router;
+}
