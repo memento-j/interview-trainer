@@ -1,19 +1,17 @@
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion } from "@/components/ui/accordion";
 import SessionAccordionItem from "@/components/SessionAccordionItem";
+import ProfileUpdateForm from "@/components/ProfileUpdateForm";
 
 export default function AccountPage() {
     const { user, profile, session, loading, signOut } = useAuth();
     const navigate = useNavigate();
     const [userSessions, setUserSessions] = useState<any>();
-    const fetchedRef = useRef(false);
 
     //if no user signed in, redirect to auth page
     useEffect(() => {
@@ -24,12 +22,8 @@ export default function AccountPage() {
             navigate("/auth");
         }
 
-        // Prevent double fetch from session
-        if (fetchedRef.current) return;
-        fetchedRef.current = true;
-
         //get user's interview sessions
-        async function getSessions() {
+        async function getSessions() {            
             try {
                 const res = await axios.get(`http://localhost:8080/interview-sessions/user/${user?.id}`, {
                   headers: {
@@ -43,34 +37,6 @@ export default function AccountPage() {
         }
         getSessions();
     }, [user]);
-
-    //update profile information in the DB
-    async function handleProfileChange(event: React.FormEvent<HTMLFormElement>) {
-        //prevent page refresh
-        event.preventDefault();
-        //retrieve profile attributes from form
-        const form = event.target as HTMLFormElement;
-        const username = (form.elements.namedItem("username") as HTMLInputElement).value;
-        const firstName = (form.elements.namedItem("first-name") as HTMLInputElement).value;
-        const lastName = (form.elements.namedItem("last-name") as HTMLInputElement).value;
-
-        try {
-            const response = await axios.patch(`http://localhost:8080/profiles/${user?.id}`, {
-                username: username,
-                fname: firstName,
-                lname: lastName
-            });
-            if (response.status == 204) {
-                console.log("updated profile (:");
-                //put some toast here to let the user know their profile updated
-                //refreshes page so the user can see their new account info
-                location.reload();
-            }
-        //add an error message for if the username currently exists since they are unique
-        } catch (err) {
-            console.error(err);
-        }
-    }
 
     return (
     <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800">
@@ -101,56 +67,7 @@ export default function AccountPage() {
                     </Button>
                 </div>
                 {/* Form for users to update profile information*/}
-                <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
-                    <CardHeader>
-                        <CardTitle className="text-2xl mt-3">Profile Details</CardTitle>
-                    </CardHeader>
-                    <form onSubmit={handleProfileChange}>
-                        <CardContent>
-                            <div className="grid grid-cols-2 gap-2 sm:gap-6.5">
-                                <div className="grid gap-2">
-                                    <div className="flex items-center">
-                                    <Label htmlFor="username">Username</Label>
-                                    </div>
-                                    <Input id="username" type="text" defaultValue={profile?.username} className="text-sm sm:text-md"/>
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input
-                                    id="email"
-                                    type="email"
-                                    defaultValue={user.email}
-                                    disabled
-                                    className="text-sm sm:text-md"
-                                    />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="email">First name</Label>
-                                    <Input
-                                    id="first-name"
-                                    type="text"
-                                    defaultValue={profile?.firstName}
-                                    className="text-sm sm:text-md"
-                                    />
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="email">Last name</Label>
-                                    <Input
-                                    id="last-name"
-                                    type="text"
-                                    defaultValue={profile?.lastName}
-                                    className="text-sm sm:text-md"
-                                    />
-                                </div>
-                            </div>
-                        </CardContent>
-                        <CardFooter className="flex justify-end gap-2 mt-5">
-                            <Button type="submit" className="hover:cursor-pointer">
-                                Save Changes
-                            </Button>
-                        </CardFooter>
-                    </form>
-                </Card>
+                <ProfileUpdateForm/>
                 {/* Interview sessions seciton*/}
                 <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                     <CardHeader>

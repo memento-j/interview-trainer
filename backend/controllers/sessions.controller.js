@@ -117,11 +117,11 @@ export async function updateSession(req,res) {
 
 //delete interview session
 export async function deleteSession(req,res) {
-    const { id } = req.params;
+    const { sessionId } = req.params;
     const { error } = await supabase
         .from("interviewSessions")
         .delete()
-        .eq("id", id)
+        .eq("id", sessionId)
   
     if (error) {
         console.error(error);

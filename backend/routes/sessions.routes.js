@@ -7,7 +7,7 @@ dotenv.config();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_KEY);
 const router = express.Router();
 
-export async function requireAuth(req, res, next) {
+async function requireAuthorization(req, res, next) {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
         return res.status(401).json({ error: "No token provided" });
@@ -20,10 +20,20 @@ export async function requireAuth(req, res, next) {
     next();
 }
 
-router.post("/", requireAuth, createSession);
-router.get("/:id", getSession);
-router.get("/user/:userID", requireAuth, getUserSessions);
-router.patch("/:id/progress", updateSession);
-router.delete("/:id", deleteSession)
+//finish authentication for session routes (maybe pass userid in the body?)
+function requireAuthentication(req, res, next) {    
+    const {id} = req.params
+    if  (req.user.id !== id) {
+        return res.status(403).json({ error: "Forbidden, not authenticateed" });
+    }
+    next();
+}
+
+router.use(requireAuthorization);
+router.post("/", createSession);
+router.get("/:sessionId", getSession);
+router.get("/user/:userID", getUserSessions);
+router.patch("/:sessionId/progress", updateSession);
+router.delete("/:sessionId", deleteSession);
 
 export default router;

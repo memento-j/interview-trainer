@@ -57,7 +57,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   
     async function fetchProfile() {
       try {
-        const response = await axios.get(`http://localhost:8080/profiles/${user.id}`);
+        const response = await axios.get(`http://localhost:8080/profiles/${user?.id}`, {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        });
         setProfile(response.data ?? null);
       } catch (err) {
         console.error(err);

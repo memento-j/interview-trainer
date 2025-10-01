@@ -5,6 +5,7 @@ import { Badge } from "./ui/badge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter,  AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface SessionAccordionItemProps {
     name: string;
@@ -32,11 +33,16 @@ interface SessionAccordionItemProps {
 //displays session data
 export default function SessionAccordionItem({ name, sessionId, sessionData }: SessionAccordionItemProps) {
     const { questions, answers, feedback } = sessionData;    
+    const {session, user} = useAuth();
 
     //deletes session from db
     async function handleDeleteSession() {
         try {
-            const deleteRes = await axios.delete(`http://localhost:8080/interview-sessions/${sessionId}`)
+            const deleteRes = await axios.delete(`http://localhost:8080/interview-sessions/${sessionId}`, {
+                headers: {
+                  Authorization: `Bearer ${session?.access_token}`,
+                },
+              })
             if (deleteRes.status == 204) {
                 console.log("Deleted Successfully");
                 //refresh page

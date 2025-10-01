@@ -6,9 +6,9 @@ dotenv.config();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_KEY);
 
 // GET profile by ID
-export async function getProfile(req, res) {
+export async function getProfile(req, res) {  
   const { id } = req.params;
-
+  
   const { data, error } = await supabase
     .from("profiles")
     .select()
