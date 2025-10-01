@@ -2,6 +2,7 @@ import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { Navigate } from 'react-router'
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from 'sonner';
 
 export default function AuthPage() {
   //current session and supabase client from context
@@ -9,6 +10,7 @@ export default function AuthPage() {
 
   //when there is a current session, navigate to homepage
   if (session) {
+    toast.success("You are signed in");
     return (<Navigate to="/"/>)
   }
 
@@ -23,7 +25,7 @@ export default function AuthPage() {
                 appearance={{
                     theme: ThemeSupa,
                     style: {
-                        anchor: {color:"white"}
+                        anchor: {color:"teal"}
                     },
                     variables: {
                     default: {

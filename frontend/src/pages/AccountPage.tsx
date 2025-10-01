@@ -7,9 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion } from "@/components/ui/accordion";
 import SessionAccordionItem from "@/components/SessionAccordionItem";
 import ProfileUpdateForm from "@/components/ProfileUpdateForm";
+import { useProfile } from "@/hooks/useProfile";
 
 export default function AccountPage() {
-    const { user, profile, session, loading, signOut } = useAuth();
+    const { user, session, loading, signOut } = useAuth();
+      const { data: profile } = useProfile(user?.id, session?.access_token);
     const navigate = useNavigate();
     const [userSessions, setUserSessions] = useState<any>();
 

@@ -5,21 +5,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,} from "@/components/ui/navigation-menu"
+import { useProfile } from "@/hooks/useProfile";
 
 export default function NavBar() {
-  const { user, profile, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
+  const { data: profile } = useProfile(user?.id, session?.access_token);
 
   return (
     <div>
-      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-200 dark:bg-zinc-800 gap-5 py-5 border-b-1 border-[#DBDBDF] dark:border-[#3c3c3f] z-20">
+      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-200 dark:bg-zinc-800 gap-5 py-8 border-b-1 border-[#DBDBDF] dark:border-[#3c3c3f] z-20">
         <p className="font-[500] text-lg ml-3 md:ml-15"><Link to="/">PrepMate AI</Link></p>
         
         {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}

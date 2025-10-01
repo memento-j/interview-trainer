@@ -6,6 +6,9 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
 import { useForm } from "react-hook-form";
+import { useProfile } from "@/hooks/useProfile";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 type ProfileFormInputs = {
     username?: string;
@@ -15,50 +18,48 @@ type ProfileFormInputs = {
 
 //Form for users to update their profile information
 export default function ProfileUpdateForm() {
-    const { user, profile, session } = useAuth();
-    const { register, handleSubmit, reset ,formState: { errors, isSubmitting } } = useForm({
-        defaultValues: {
-          firstName: profile?.firstName,
-          lastName: profile?.lastName,
-          username: profile?.username,
-        }
+    const { user, session } = useAuth();
+    const { data: profile } = useProfile(user?.id, session?.access_token);
+    const queryClient = useQueryClient();
+    const { register, handleSubmit, reset ,formState: { errors, isSubmitting } } = useForm({ defaultValues: profile });
+
+    //resets form after profile data changes
+    useEffect(() =>  {
+        if (profile) {
+            reset(profile)
+        } 
+    }, [profile])
+
+    // React query mutation for updating the profile
+    const updateProfile = useMutation({
+        mutationFn: async (data: ProfileFormInputs) => {
+            return axios.patch(`http://localhost:8080/profiles/${user?.id}`,
+                {
+                    username: data.username,
+                    fname: data.firstName,
+                    lname: data.lastName,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${session?.access_token}`,
+                    },
+                }
+            );
+        },
+        // refetch profile on successful update
+        onSuccess: () => {
+            toast.success("Profile updated successfully!");
+            queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
+        },
+        onError: (err) => {
+            toast.error("Failed to update profile.")
+            console.error("Update failed:", err);
+        },
     });
 
-    useEffect(() =>  {
-        //resets form after profile loads
-        if (profile) {
-            reset({
-              username: profile.username,
-              firstName: profile.firstName,
-              lastName: profile.lastName,
-            });
-        } 
-    }, [user, profile])
-
-    async function onSubmit( data : ProfileFormInputs ) {
-        try {
-            const response = await axios.patch( `http://localhost:8080/profiles/${user?.id}`,
-              {
-                username: data.username,
-                fname: data.firstName,
-                lname: data.lastName,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${session?.access_token}`,
-                },
-              }
-            );
-      
-            if (response.status === 204) {
-            //put some toast here to let the user know their profile updated 
-            //refreshes page so the user can see their new account info
-              location.reload();
-            }
-          } catch (err: any) {
-            //add an error message for if the username currently exists since they are unique
-            console.error(err);
-          }
+    
+    async function onSubmit(data: ProfileFormInputs) {
+        await updateProfile.mutateAsync(data);
     }
 
     return(
@@ -85,7 +86,7 @@ export default function ProfileUpdateForm() {
                         }
                         )}/>
                         {errors.username && (
-                            <p className="text-red-500 text-sm">{errors.username.message}</p>
+                            <p className="text-red-500 text-sm">{String(errors.username.message)}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
@@ -107,7 +108,7 @@ export default function ProfileUpdateForm() {
                             {...register("firstName", { required: "First name is required" })}
                         />
                         {errors.firstName && (
-                            <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+                            <p className="text-red-500 text-sm">{String(errors.firstName.message)}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
@@ -119,9 +120,8 @@ export default function ProfileUpdateForm() {
                             {...register("lastName", { required: "Last name is required" })}
                         />
                         {errors.lastName && (
-                            <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+                            <p className="text-red-500 text-sm">{String(errors.lastName.message)}</p>
                         )}
-
                     </div>
                 </div>
             </CardContent>

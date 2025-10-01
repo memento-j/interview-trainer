@@ -1,24 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { createClient, SupabaseClient, type User, type Session } from "@supabase/supabase-js"
-import axios from "axios"
+import { toast } from "sonner";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL!
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY!
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-type Profile = {
-  id: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  createdAt: Date;
-}
-
 type AuthContextType = {
   user: User | null
   session: Session | null
   supabase: SupabaseClient
-  profile: Profile | null
   loading: boolean
   signOut: () => Promise<void>
 }
@@ -29,7 +20,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null)
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     // Get current session on first render
@@ -52,33 +42,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  useEffect(() => {
-    if (!user) return; // Stop if no user
-  
-    async function fetchProfile() {
-      try {
-        const response = await axios.get(`http://localhost:8080/profiles/${user?.id}`, {
-          headers: {
-            Authorization: `Bearer ${session?.access_token}`,
-          },
-        });
-        setProfile(response.data ?? null);
-      } catch (err) {
-        console.error(err);
-        setProfile(null);
-      }
-    }
-  
-    fetchProfile()
-  }, [user])
-  
-
   const signOut = async () => {
-    await supabase.auth.signOut()
+    await supabase.auth.signOut();
+    toast.success("You have successfully signed out.");
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, profile, supabase, loading, signOut }}>
+    <AuthContext.Provider value={{ user, session, supabase, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   )
