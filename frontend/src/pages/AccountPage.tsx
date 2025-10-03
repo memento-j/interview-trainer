@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion } from "@/components/ui/accordion";
@@ -14,7 +13,7 @@ import { useUserSessions } from "@/hooks/useUserSessions";
 export default function AccountPage() {
     const { user, session, loading, signOut } = useAuth();
     const { data: profile } = useProfile(user?.id, session?.access_token);
-    const {data: userSessions } = useUserSessions(user?.id, session?.access_token);
+    const { data: userSessions } = useUserSessions(user?.id, session?.access_token);
     const navigate = useNavigate();
 
     //if no user signed in, redirect to auth page

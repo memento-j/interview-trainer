@@ -93,7 +93,6 @@ export async function handleAnswerSubmit(
     question: string,
 ) {
     //analyze answer
-    //test answer: On a past project, a teammate and I disagreed about how detailed a filter feature should be. I preferred a simple design, while they wanted more granular options. I suggested we both make quick mockups and get feedback from our product manager and a few test users. The feedback supported a blended solution — a simple default view with an ‘advanced options’ dropdown. We shipped on time, the feature was well-received, and the process actually strengthened my collaboration with that teammate.
     const aiResponse = await axios.post("http://localhost:8080/ai/answer-analysis", {
        question: question,
        answer: answer

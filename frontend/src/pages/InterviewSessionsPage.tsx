@@ -25,13 +25,13 @@ export default function InterviewSessionPage() {
     }, [user]);
 
     return(
-        <div className="min-h-screen bg-zinc-300 dark:bg-zinc-800">
+        <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800">
             {!profile || !userSessions ? (
                 <div className="flex justify-center pt-40">
                     <Spinner variant="ellipsis" size={64}/>
                 </div>
             ) :
-                <div className="flex justify-center pt-40">
+                <div className="flex justify-center pt-40 pb-20">
                     {/* Interview sessions seciton*/}
                     <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                         <CardHeader>

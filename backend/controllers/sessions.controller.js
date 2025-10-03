@@ -6,7 +6,7 @@ dotenv.config();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_KEY);
 
 //creates interview session only using the questions 
-export async function createSession(req,res) {
+export async function createSession(req,res) {    
     //questions is string array "questions": ["...", "..."]
     const { questions, role, name } = req.body;
 
@@ -29,6 +29,7 @@ export async function createSession(req,res) {
     }
 
     const sessionId = sessionData[0].id;
+    
     let questionIds = [];
     //add questions to questions table
     for (const question of questions) {
@@ -59,7 +60,7 @@ export async function getSessionData(req,res) {
     const { data: sessionData, error: sessionError } = await supabase  
         .from("interview_sessions")  
         .select()
-        .eq("sessionId", sessionId)
+        .eq("id", sessionId)
 
     if (sessionError) {
         console.error(sessionError);

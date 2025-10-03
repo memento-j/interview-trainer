@@ -51,7 +51,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                     <Card key={index} className="shadow-lg rounded-2xl">
                         <CardHeader>
                             <CardTitle className="text-lg font-semibold">
-                                Question: <span className="font-normal">{questionData.question}</span>
+                                Question {index + 1} : <span className="font-normal">{questionData.question}</span>
                             </CardTitle>
                         </CardHeader>
 
@@ -132,7 +132,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
             <div className="flex justify-end">
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive" className="hover:cursor-pointer">Delete {sessionData.name}</Button>
+                        <Button variant="destructive" className="hover:cursor-pointer mt-5">Delete {sessionData.name}</Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
