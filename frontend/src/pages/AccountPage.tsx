@@ -8,12 +8,14 @@ import { Accordion } from "@/components/ui/accordion";
 import SessionAccordionItem from "@/components/SessionAccordionItem";
 import ProfileUpdateForm from "@/components/ProfileUpdateForm";
 import { useProfile } from "@/hooks/useProfile";
+import { Spinner } from "@/components/Spinner";
+import { useUserSessions } from "@/hooks/useUserSessions";
 
 export default function AccountPage() {
     const { user, session, loading, signOut } = useAuth();
-      const { data: profile } = useProfile(user?.id, session?.access_token);
+    const { data: profile } = useProfile(user?.id, session?.access_token);
+    const {data: userSessions } = useUserSessions(user?.id, session?.access_token);
     const navigate = useNavigate();
-    const [userSessions, setUserSessions] = useState<any>();
 
     //if no user signed in, redirect to auth page
     useEffect(() => {
@@ -23,26 +25,17 @@ export default function AccountPage() {
         if (!user) {
             navigate("/auth");
         }
-
-        //get user's interview sessions
-        async function getSessions() {            
-            try {
-                const res = await axios.get(`http://localhost:8080/interview-sessions/user/${user?.id}`, {
-                  headers: {
-                    Authorization: `Bearer ${session?.access_token}`,
-                  },
-                });
-                setUserSessions(res.data);
-              } catch (err) {
-                console.error("Error fetching sessions:", err);
-              }
-        }
-        getSessions();
     }, [user]);
 
     return (
+        
     <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800">
-        {user && (
+        {!profile && (
+            <div className="flex justify-center pt-40">
+                <Spinner variant="ellipsis" size={64}/>
+            </div>
+        )}
+        {user && profile && (
             <div className="flex flex-col items-center gap-10">
                 {/* Welcome section */}
                 <div className="flex w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
@@ -93,9 +86,7 @@ export default function AccountPage() {
                                     {userSessions.slice(0, 3).map((session:any, index:number) => (
                                         <SessionAccordionItem
                                             key={index}
-                                            name={!session.name ? session.created_at : session.name}
-                                            sessionId={session.id}
-                                            sessionData={session.session_data}
+                                            allSessionData={session}
                                         />
                                     ))}
                                 </div>

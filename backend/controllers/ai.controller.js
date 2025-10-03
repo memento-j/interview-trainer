@@ -15,7 +15,7 @@ const questionsSchema = z.object({
 });
 const feedbackSchema = z.object({
     strengths: z.array(z.string()),
-    weaknessess: z.array(z.string()),
+    weaknesses: z.array(z.string()),
     suggestions: z.array(z.string()),
     tone: z.array(z.string()),
     scores: z.object({

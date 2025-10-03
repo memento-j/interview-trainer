@@ -49,6 +49,7 @@ export default function ProfileUpdateForm() {
         // refetch profile on successful update
         onSuccess: () => {
             toast.success("Profile updated successfully!");
+            //invalidates the old query and triggers a refresh so the profile in the cache is up to date
             queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
         },
         onError: (err) => {

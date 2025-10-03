@@ -1,16 +1,18 @@
-import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion } from "@/components/ui/accordion";
 import SessionAccordionItem from "@/components/SessionAccordionItem";
+import { useProfile } from "@/hooks/useProfile";
+import { useUserSessions } from "@/hooks/useUserSessions";
+import { Spinner } from "@/components/Spinner";
 
 export default function InterviewSessionPage() {
-    const { user, profile, session, loading } = useAuth();
+    const { user, session, loading } = useAuth();
+    const { data: profile } = useProfile(user?.id, session?.access_token);
+    const {data: userSessions } = useUserSessions(user?.id, session?.access_token);
     const navigate = useNavigate();
-    const [userSessions, setUserSessions] = useState<any>();
-    const fetchedRef = useRef(false);
 
     //if no user signed in, redirect to auth page
     useEffect(() => {
@@ -20,57 +22,42 @@ export default function InterviewSessionPage() {
         if (!user) {
             navigate("/auth");
         }
-
-        // Prevent double fetch from session
-        if (fetchedRef.current) return;
-        fetchedRef.current = true;
-
-        //get user's interview sessions
-        async function getSessions() {
-            try {
-                const res = await axios.get(`http://localhost:8080/interview-sessions/user/${user?.id}`, {
-                  headers: {
-                    Authorization: `Bearer ${session?.access_token}`,
-                  },
-                });
-                setUserSessions(res.data);
-              } catch (err) {
-                console.error("Error fetching sessions:", err);
-              }
-        }
-        getSessions();
     }, [user]);
 
     return(
         <div className="min-h-screen bg-zinc-300 dark:bg-zinc-800">
-            <div className="flex justify-center pt-40">
-                {/* Interviewe sessions seciton*/}
-                <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
-                    <CardHeader>
-                        <div className="flex justify-between">
-                            <CardTitle className="text-2xl mt-3">All interview practice sessions from {profile?.firstName}</CardTitle>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <Accordion
-                            type="single"
-                            collapsible
-                            className="w-full flex flex-col gap-2 sm:gap-6.5"
-                            >
-                            {userSessions && userSessions.length > 0 &&
-                                userSessions.map((session: any, index: number) => (
-                                    <SessionAccordionItem
-                                        key={index}
-                                        name={!session.name ? session.created_at : session.name}
-                                        sessionId={session.id}
-                                        sessionData={session.session_data}
-                                    />
-                                ))
-                            }
-                        </Accordion>
-                    </CardContent>
-                </Card>
-            </div>
+            {!profile || !userSessions ? (
+                <div className="flex justify-center pt-40">
+                    <Spinner variant="ellipsis" size={64}/>
+                </div>
+            ) :
+                <div className="flex justify-center pt-40">
+                    {/* Interview sessions seciton*/}
+                    <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
+                        <CardHeader>
+                            <div className="flex justify-between">
+                                <CardTitle className="text-2xl mt-3">All interview practice sessions from {profile?.firstName}</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <Accordion
+                                type="single"
+                                collapsible
+                                className="w-full flex flex-col gap-2 sm:gap-6.5"
+                                >
+                                {userSessions && userSessions.length > 0 &&
+                                    userSessions.map((session: any, index: number) => (
+                                        <SessionAccordionItem
+                                            key={index}
+                                            allSessionData={session}
+                                        />
+                                    ))
+                                }
+                            </Accordion>
+                        </CardContent>
+                    </Card>
+                </div>
+            }
         </div>
     );
 }

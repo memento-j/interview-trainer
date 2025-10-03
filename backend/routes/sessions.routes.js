@@ -1,7 +1,7 @@
 import express from "express";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
-import { createSession, getSession, getUserSessions, updateSession, deleteSession} from "../controllers/sessions.controller.js";
+import { createSession, getSessionData, getUserSessionsData, updateSession, deleteSession} from "../controllers/sessions.controller.js";
 
 dotenv.config();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_KEY);
@@ -20,7 +20,7 @@ async function requireAuthorization(req, res, next) {
     next();
 }
 
-//finish authentication for session routes (maybe pass userid in the body?)
+//finish authentication for session routes
 function requireAuthentication(req, res, next) {    
     const {id} = req.params
     if  (req.user.id !== id) {
@@ -31,8 +31,8 @@ function requireAuthentication(req, res, next) {
 
 router.use(requireAuthorization);
 router.post("/", createSession);
-router.get("/:sessionId", getSession);
-router.get("/user/:userID", getUserSessions);
+router.get("/:sessionId", getSessionData);
+router.get("/user/:userID", getUserSessionsData);
 router.patch("/:sessionId/progress", updateSession);
 router.delete("/:sessionId", deleteSession);
 
