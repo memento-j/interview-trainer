@@ -19,9 +19,8 @@ export default function InterviewPractice() {
     useEffect(() => {
         //once the setup is completed, fetch the interview session info        
         if (setupCompleted && currentQuestions) {
-                console.log(currentQuestions);
-                const falseArary = new Array(currentQuestions.length).fill(false);
-                setQuestionsSubmitted(falseArary);
+            const falseArary = new Array(currentQuestions.length).fill(false);
+            setQuestionsSubmitted(falseArary);
         }
     }, [setupCompleted, currentQuestions])
 
@@ -58,11 +57,11 @@ export default function InterviewPractice() {
                     backButtonText="Review Previous Answer"
                     nextButtonText="Next Question"
                 >
-                    {currentQuestions?.map((question: string, index: number) => (
+                    {currentQuestions?.map((question: any, index: number) => (
                         //questionsSubmitted checks to ensure that the current question has an answer
                         <Step key={index} canContinue={questionsSubmitted[index]}>
-                            <p className='font-semibold mb-10'>{question}</p>
-                            <AssemblyAIRecorder sessionID={createdSessionID} question={question} questionsSubmitted={questionsSubmitted} setQuestionsSubmitted={setQuestionsSubmitted} questionIndex={index}/>
+                            <p className='font-semibold mb-10'>{user ? question.text : question}</p>
+                            <AssemblyAIRecorder sessionID={createdSessionID} questionText={user ? question.text : question} questionId={question.id} questionsSubmitted={questionsSubmitted} setQuestionsSubmitted={setQuestionsSubmitted} questionIndex={index}/>
                             <div className='mb-15'/>
                         </Step>
                     ))}            

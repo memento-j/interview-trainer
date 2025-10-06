@@ -67,7 +67,7 @@ export async function createQuestions(req,res) {
 export async function analyzeAnswer(req,res) {
     try {
         const { question, answer } = req.body;
-  
+
         if (!question || !answer) {
             return res.status(400).json({ error: "Missing question or answer" });
         }
@@ -75,7 +75,7 @@ export async function analyzeAnswer(req,res) {
         const prompt = `Analyze the following interview answer:
             Question: "${question}"
             Answer: "${answer}"
-            Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(feedbackSchema.shape)}
+            Please return the answer feedback as a JSON Object conforming to the following schema: ${JSON.stringify(feedbackSchema.shape)}
             Tone should only be single words in each array such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. But there can be multiple array items.
             Strengths, weaknesses, and suggestions arrays of length 3 and only include 1 sentence each.
             For each attribute in scores, a number between 1 and 10 should be chosen based on the answer to the question for clarity, relevence, and confidence.`
@@ -92,7 +92,6 @@ export async function analyzeAnswer(req,res) {
         const analysis = JSON.parse(content);  
         console.log(analysis);
         res.status(200).json({ analysis });
-
     } catch (err) {
         console.error("Interview Question Feedback API error:", err);
         res.status(500).json({ error: "Something went wrong" });        

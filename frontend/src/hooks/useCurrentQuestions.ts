@@ -12,9 +12,12 @@ export function useCurrentQuestions(setupCompleted?: boolean, sessionId?: string
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 let questionsData: QuestionsData[] = res.data.questionsData;
-                let questions: string[] = [];
+                let questions: {}[] = [];
                 for (const questionData of questionsData) {
-                    questions.push(questionData.question);
+                    questions.push( {
+                        "id": questionData.id,
+                        "text": questionData.question
+                    });
                 }
                 return questions;
             }

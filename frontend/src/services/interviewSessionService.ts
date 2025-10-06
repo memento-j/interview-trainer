@@ -88,23 +88,31 @@ export async function createInterviewSession(
 //get answer analysis, and pushes the answer and feedback to the database or localstorage
 export async function handleAnswerSubmit(
     user: any,
+    session: any,
     sessionID: string,
     answer: string,
-    question: string,
+    questionText: string,
+    questionId: string
 ) {
     //analyze answer
     const aiResponse = await axios.post("http://localhost:8080/ai/answer-analysis", {
-       question: question,
+       question: questionText,
        answer: answer
     });
     const feedback = aiResponse.data;
     
     //update session in db with the answer and feedback
     if (user) {
-        const updateDbResponse = await axios.patch(`http://localhost:8080/interview-sessions/${sessionID}/progress`, {
-            answer: answer,
-            feedback: feedback
-        });
+        const updateDbResponse = await axios.patch(`http://localhost:8080/interview-sessions/${sessionID}/progress`, 
+            {
+                answer,
+                feedback,
+                questionId
+            },
+            {
+                headers: { Authorization: `Bearer ${session?.access_token}` },
+            }
+        );
         console.log(updateDbResponse.data);
         console.log(updateDbResponse.status);
     }

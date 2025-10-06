@@ -2,22 +2,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { useAuth } from "@/contexts/AuthContext";
 
 interface SessionFeedbackProps {
-  interviewSession: any; // ideally you’d replace this with a proper type
+  interviewSession: any;
 }
 
-export default function SessionFeedback({ interviewSession }: SessionFeedbackProps) {
-    const { user } = useAuth();
-
-    if (!interviewSession) {
-        return <p className="text-center text-muted-foreground">Loading session data...</p>;
-    }
-
-    //data is structured differently depending on if it is coming from local storage or the db
-    const sessionData = user ? interviewSession.session_data : interviewSession;
-    const { questions, answers, feedback } = sessionData;
+export default function SessionFeedbackLS({ interviewSession }: SessionFeedbackProps) {
+    const { questions, answers, feedback } = interviewSession;
 
     return (
         <div className="max-w-6xl mx-auto space-y-8 p-6">

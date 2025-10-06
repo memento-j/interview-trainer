@@ -38,19 +38,20 @@ function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, output
 
 interface AssemblyAIRecorderProps {
   sessionID: string;
-  question: string;
+  questionText: string;
+  questionId: string;
   questionsSubmitted: boolean[];
   setQuestionsSubmitted: React.Dispatch<React.SetStateAction<boolean[]>>;
   questionIndex: number;
 }
 
-export default function AssemblyAIRecorder( {sessionID, question, questionsSubmitted, setQuestionsSubmitted, questionIndex} : AssemblyAIRecorderProps) {
+export default function AssemblyAIRecorder( {sessionID, questionText, questionId, questionsSubmitted, setQuestionsSubmitted, questionIndex} : AssemblyAIRecorderProps) {
   const ws = useRef<WebSocket | null>(null);
   const audioContext = useRef<AudioContext | null>(null);
   const mediaStream = useRef<MediaStream | null>(null);
   const scriptProcessor = useRef<ScriptProcessorNode | null>(null);
   const [answer, setAnswer] = useState<string>("");
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [isRecording, setIsRecording] = useState(false);
   const [transcripts, setTranscripts] = useState<Record<number, string>>({});
 
@@ -177,7 +178,7 @@ export default function AssemblyAIRecorder( {sessionID, question, questionsSubmi
                   i == questionIndex ? !submittedStatus : submittedStatus
                 )
               );
-              handleAnswerSubmit(user, sessionID, answer, question)
+              handleAnswerSubmit(user, session, sessionID, answer, questionText, questionId)
             }}>
               Submit Answer
             </Button>
