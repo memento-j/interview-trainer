@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "./ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { handleAnswerSubmit } from "@/services/interviewSessionService";
+import { useSessionStore } from "@/stores/useSessionStore";
 
 // reduce sample rate to 16kHz since that is what assembly ai's api requires as input 
 function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, outputSampleRate: number = 16000 ): Int16Array {
@@ -37,15 +38,12 @@ function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, output
 }
 
 interface AssemblyAIRecorderProps {
-  sessionID: string;
   questionText: string;
   questionId: string;
-  questionsSubmitted: boolean[];
-  setQuestionsSubmitted: React.Dispatch<React.SetStateAction<boolean[]>>;
   questionIndex: number;
 }
 
-export default function AssemblyAIRecorder( {sessionID, questionText, questionId, questionsSubmitted, setQuestionsSubmitted, questionIndex} : AssemblyAIRecorderProps) {
+export default function AssemblyAIRecorder( {questionText, questionId, questionIndex} : AssemblyAIRecorderProps) {
   const ws = useRef<WebSocket | null>(null);
   const audioContext = useRef<AudioContext | null>(null);
   const mediaStream = useRef<MediaStream | null>(null);
@@ -54,6 +52,7 @@ export default function AssemblyAIRecorder( {sessionID, questionText, questionId
   const { user, session } = useAuth();
   const [isRecording, setIsRecording] = useState(false);
   const [transcripts, setTranscripts] = useState<Record<number, string>>({});
+  const { createdSessionID, questionsSubmitted, updateQuestionSubmitted } = useSessionStore();
 
   const API_KEY = import.meta.env.VITE_ASSEMBLYAI_KEY;
 
@@ -169,18 +168,14 @@ export default function AssemblyAIRecorder( {sessionID, questionText, questionId
               Sometimes the transcription AI makes mistakes, so you can manually edit your answer if needed.
             </p>
             <Button className="mt-5" onClick={() => {
-              if (answer == "") {
-                return;
-              }
-              //set this specific question to being submitted(true)
-              setQuestionsSubmitted(prev => 
-                prev.map((submittedStatus, i) => 
-                  i == questionIndex ? !submittedStatus : submittedStatus
-                )
-              );
-              handleAnswerSubmit(user, session, sessionID, answer, questionText, questionId)
+                if (answer == "") {
+                    return;
+                }
+                //set this specific question to being submitted(true)
+                updateQuestionSubmitted(questionIndex, true);
+                handleAnswerSubmit(user, session, createdSessionID, answer, questionText, questionId)
             }}>
-              Submit Answer
+                Submit Answer
             </Button>
             <p className="text-muted-foreground text-sm mt-1">
               * Once submitted, you will be unable change your answer

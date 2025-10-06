@@ -7,13 +7,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { useState } from "react";
 import { createInterviewSession } from "@/services/interviewSessionService";
+import { Spinner } from "@/components/Spinner";
+import { useSessionStore } from '@/stores/useSessionStore';
 
-interface SessionSetupProps {
-    setSetupCompleted: (status: boolean) => void;
-    setCreatedSessionID: (id: string) => void;
-}
 
-export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: SessionSetupProps) {
+export default function SessionSetup() {
     const { user, session } = useAuth()
     const [role, setRole] = useState<string>("");
     const [selectedOption, setSelectedOption] = useState<string>("role-specific");
@@ -22,6 +20,7 @@ export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: 
     const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
     const [sessionName, setSessionName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const { setSetupCompleted, setCreatedSessionID } = useSessionStore();
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
@@ -66,10 +65,10 @@ export default function SessionSetup({ setSetupCompleted, setCreatedSessionID}: 
     
     return(
         <div>
-            {loading ? 
-                <div className='flex flex-col items-center'>
-                    <p className='pt-40 font-semibold text-2xl'>Creating Your Session...</p>
-                    
+            {loading ?       
+                <div className="flex flex-col items-center pt-50 gap-5">
+                    <p className='font-semibold text-2xl'>Creating Your Session</p>
+                    <Spinner variant="ellipsis" size={64}/>
                 </div>
             :
                 <Stepper

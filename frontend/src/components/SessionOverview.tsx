@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Skeleton } from "./ui/skeleton";
+import { Spinner } from "@/components/Spinner";
 import { useCurrentSession } from "@/hooks/useCurrentSession";
 import SessionFeedbackDB from "./SessionFeedbackDB";
 import SessionFeedbackLS from "./SessionFeedbackLS";
@@ -40,9 +40,9 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
     return(
         <div>
             {!interviewSession ? (
-                <div className="flex flex-col pt-40 items-center">
-                    <p>AI is analyzing your answers...</p>
-                    <Skeleton className="h-50 max-w-6xl bg-zinc-600"/>
+                <div className="flex flex-col items-center pt-50 gap-5">
+                    <p className='font-semibold text-2xl'>AI is analyzing your answers</p>
+                    <Spinner variant="ellipsis" size={64}/>
                 </div>
             ) : 
                 user ? (
