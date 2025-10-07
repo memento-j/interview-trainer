@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface SessionState {
-    //variable types
+    //attribute types
     createdSessionID: string;
     setupCompleted: boolean;
     questionsSubmitted: boolean[];

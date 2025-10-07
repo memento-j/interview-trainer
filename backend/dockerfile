@@ -1,0 +1,26 @@
+#Nodejs image for the base
+FROM node:18-alpine
+
+#Set working directory inside the container (can name it what i waant)
+WORKDIR /backend
+
+#Copy package.json and package-lock.json (all files  in directory that match the package*.json)
+COPY package*.json ./
+
+#Install dependencies (skips dev dependencies)
+RUN npm install --production
+
+#Copy all source code into container
+COPY . .
+
+#Port the backend runs on
+EXPOSE 8080
+
+#Command to start the app
+CMD ["npm", "start"]
+
+#creates img
+#docker build -t my-backend .
+
+#runs img with env file
+#docker run --env-file .env -p 8080:8080 my-backend 
