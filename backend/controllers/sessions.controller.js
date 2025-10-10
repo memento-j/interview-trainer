@@ -34,7 +34,7 @@ export async function createSession(req,res) {
     //add questions to questions table
     for (const question of questions) {
         const { data: questionData, error: questionError } = await supabase
-            .from("questions")
+            .from("session_questions")
             .insert({
                 userId: req.user.id, 
                 sessionId: sessionId,
@@ -69,7 +69,7 @@ export async function getSessionData(req,res) {
 
     //questions information
     const { data: questionsData, error: questionsError } = await supabase  
-        .from("questions")  
+        .from("session_questions")  
         .select()
         .eq("sessionId", sessionId)
         .order('createdat', { ascending: true })
@@ -114,7 +114,7 @@ export async function getUserSessionsData(req,res) {
     for (let i = 0; i < sessionData.length; i++) {
         //questions information
         const { data: questionsData, error: questionsError } = await supabase  
-            .from("questions")  
+            .from("session_questions")  
             .select()
             .eq("sessionId", sessionData[i].id)
             .order('createdat', { ascending: true })
@@ -160,7 +160,7 @@ export async function updateSession(req,res) {
 
     //get question text
     const { data: questionData, error: questionError } = await supabase
-        .from("questions")
+        .from("session_questions")
         .select()
         .eq("id", questionId)
     

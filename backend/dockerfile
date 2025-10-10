@@ -1,7 +1,11 @@
 #Nodejs image for the base
-FROM node:18-alpine
+FROM node:20-alpine
 
-#Set working directory inside the container (can name it what i waant)
+#Sets ennviornent varable to production, many packages check this to optimize for production
+ENV NODE_ENV=production
+
+#Set working directory inside the container (can name it what i want, backend in this case)
+RUN mkdir /backend
 WORKDIR /backend
 
 #Copy package.json and package-lock.json (all files  in directory that match the package*.json)
