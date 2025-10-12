@@ -25,7 +25,7 @@ export default function InterviewSessionPage() {
     }, [user]);
 
     return(
-        <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800">
+        <div className="min-h-screen bg-zinc-100 dark:bg-[#0F0F11]">
             {!profile || !userSessions ? (
                 <div className="flex justify-center pt-40">
                     <Spinner variant="ellipsis" size={64}/>

@@ -14,9 +14,8 @@ export default function NavBar() {
 
   return (
     <div>
-      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#141416] gap-5 py-8 border-b-1 border-[#DBDBDF] dark:border-[#202022] z-20">
+      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#0F0F11] gap-5 py-8 border-b-1 border-[#E4E4E7] dark:border-[#161618] z-20"> 
         <p className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent"><Link to="/">PractiMate</Link></p>
-        
         {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}
         <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />
@@ -24,7 +23,7 @@ export default function NavBar() {
               <SheetTrigger asChild>
                   <Menu className="h-6 w-6" />
               </SheetTrigger>
-              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-zinc-200 dark:bg-zinc-800">
+              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-zinc-200 dark:bg-[#0F0F11]">
                 <div className="mt-10">
                   <div className="flex flex-col gap-1 p-3">
                     <Link to="/" className="font-[700] text-lg underline">Home</Link>
@@ -54,7 +53,7 @@ export default function NavBar() {
           {/* Desktop nav bar */}
           <NavigationMenuList className="hidden md:flex gap-3 mr-10">
             <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#141416]">Home</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#0F0F11] xl:text-[16px]">Home</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[150px] gap-4">
                     <li>
@@ -79,14 +78,14 @@ export default function NavBar() {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link to="/practice">
-                    <Button className="bg-zinc-100 dark:bg-[#141416] text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Interview Practice</Button>
+                    <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none shadow-xl rounded-2xl">Interview Practice</Button>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                   { !user ? 
                     ( 
                       <Link to="/auth">
-                        <Button className="bg-zinc-100 dark:bg-[#141416] text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Signin / Signup</Button>
+                        <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none shadow-xl rounded-2xl">Signin/Signup</Button>
                       </Link>
                     ) : (
                       <div>
@@ -113,7 +112,7 @@ export default function NavBar() {
                     )
                   }
               </NavigationMenuItem>
-              <NavigationMenuItem className="md:ml-8 lg:ml-20 xl:ml-35 mr-5">
+              <NavigationMenuItem className="md:ml-4 lg:ml-12 xl:ml-18 mr-2">
                 <ThemeToggle/>
               </NavigationMenuItem>
           </NavigationMenuList>

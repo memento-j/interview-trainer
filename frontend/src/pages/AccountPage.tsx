@@ -27,7 +27,7 @@ export default function AccountPage() {
     }, [user]);
 
     return (
-        <div className="min-h-screen bg-zinc-200 dark:bg-[#0F0F11]">
+        <div className="min-h-screen bg-zinc-100 dark:bg-[#0F0F11]">
             {!profile && (
                 <div className="flex justify-center pt-40">
                     <Spinner variant="ellipsis" size={64}/>
