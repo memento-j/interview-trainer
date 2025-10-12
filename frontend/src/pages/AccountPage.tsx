@@ -27,7 +27,7 @@ export default function AccountPage() {
     }, [user]);
 
     return (
-        <div className="min-h-screen bg-zinc-200 dark:bg-zinc-800">
+        <div className="min-h-screen bg-zinc-200 dark:bg-[#0F0F11]">
             {!profile && (
                 <div className="flex justify-center pt-40">
                     <Spinner variant="ellipsis" size={64}/>
@@ -38,7 +38,7 @@ export default function AccountPage() {
                     {/* Welcome section */}
                     <div className="flex w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
                         <div className="flex items-center gap-3 ml-3">
-                            <div className="flex items-center justify-center w-18 h-18 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-2xl">
+                            <div className="flex items-center justify-center w-18 h-18 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-3xl">
                                 {profile?.username?.charAt(0)}
                             </div>
                             <div className="flex flex-col ml-2">

@@ -14,8 +14,8 @@ export default function NavBar() {
 
   return (
     <div>
-      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-200 dark:bg-zinc-800 gap-5 py-8 border-b-1 border-[#DBDBDF] dark:border-[#3c3c3f] z-20">
-        <p className="font-[500] text-lg ml-3 md:ml-15"><Link to="/">PrepMate AI</Link></p>
+      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#141416] gap-5 py-8 border-b-1 border-[#DBDBDF] dark:border-[#202022] z-20">
+        <p className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent"><Link to="/">PractiMate</Link></p>
         
         {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}
         <div className="flex items-center gap-2 md:hidden ml-auto">
@@ -54,7 +54,7 @@ export default function NavBar() {
           {/* Desktop nav bar */}
           <NavigationMenuList className="hidden md:flex gap-3 mr-10">
             <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-200 dark:bg-zinc-800">Home</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#141416]">Home</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[150px] gap-4">
                     <li>
@@ -79,19 +79,19 @@ export default function NavBar() {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link to="/practice">
-                    <Button className="bg-zinc-200 dark:bg-zinc-800 text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Interview Practice</Button>
+                    <Button className="bg-zinc-100 dark:bg-[#141416] text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Interview Practice</Button>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                   { !user ? 
                     ( 
                       <Link to="/auth">
-                        <Button className="bg-zinc-200 dark:bg-zinc-800 text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Signin / Signup</Button>
+                        <Button className="bg-zinc-100 dark:bg-[#141416] text-dark dark:text-white border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer">Signin / Signup</Button>
                       </Link>
                     ) : (
                       <div>
                         <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
-                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-xl">
+                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-xl">
                               {profile?.username?.charAt(0)}
                           </div>
                         </NavigationMenuTrigger>

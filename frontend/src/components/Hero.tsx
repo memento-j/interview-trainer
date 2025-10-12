@@ -2,42 +2,54 @@ import { Link } from "react-router";
 
 export default function Hero() {
     return(
-        <section className="relative bg-gradient-to-b from-zinc-100 to-white dark:from-zinc-900 dark:to-black">
-            {/* Background glow */}
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal-400/10 dark:bg-teal-500/7 rounded-full blur-[120px]" />
-            </div>
+        <section className="relative bg-gradient-to-br from-[#E9E9EB] to-white dark:from-zinc-800 dark:to-black">
             {/* Intro sections */}
-            <div className="relative flex flex-col items-center text-center px-6 sm:px-12 lg:px-24 pt-32 pb-24">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
-                Master Your Interviews with AI
+            <div className="relative flex min-h-screen xl:pb-0 gap-16 flex-col items-center text-center px-6 sm:px-12 lg:px-24 m-auto pt-32 lg:pt-40 xl:pt-48">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl max-w-[1600px] font-[500] text-zinc-700 dark:text-zinc-300">
+                    Your&nbsp;  
+                    <span className="underline tracking-tight mb-6 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
+                        AI Interview Trainer 
+                    </span> 
+                    &nbsp;to Land the Job You Deserve
                 </h1>
-                <p className="text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 mb-10 max-w-2xl leading-relaxed">
-                Practice role-specific questions, get instant feedback, and boost your confidence.  
-                PrepMate AI makes interview prep smarter and faster.
+                <p className="text-lg sm:text-2xl lg:text-2xl xl:text-3xl text-zinc-700 dark:text-zinc-300 mb-6 mt-2 max-w-6xl leading-relaxed">
+                    Practice role-specific questions, get instant feedback, and boost your confidence.  
+                    PractiMate AI makes interview prep smarter and faster.
                 </p>
 
-                <div className="flex gap-4 flex-wrap justify-center">
-                <Link
-                    to="/practice"
-                    className="px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-transform"
-                >
-                    Get Started
-                </Link>
-                <Link
-                    to="/about"
-                    className="px-6 py-3 rounded-xl border border-teal-600 text-teal-600 dark:text-teal-400 font-semibold hover:bg-teal-50 dark:hover:bg-zinc-800 hover:scale-105 active:scale-95 transition-transform"
-                >
-                    Learn More
-                </Link>
+                <div className="flex gap-4 md:gap-8 flex-wrap justify-center mt-4">
+                    <Link
+                        to="/practice"
+                        className="px-6 py-3 text-2xl sm:text-3xl md:text-4xl rounded-xl 
+                            bg-gradient-to-tr from-teal-600 to-teal-400 
+                            text-zinc-100 font-semibold shadow-lg 
+                            hover:from-teal-500 hover:to-teal-300
+                            hover:shadow-2xl hover:scale-105 active:scale-95 transition-all"
+                    >
+                        Get Started
+                    </Link>
+                    <Link
+                        to="/about"
+                        className="px-6 py-3 text-2xl sm:text-3xl md:text-4xl 
+                            rounded-xl border border-teal-600 text-teal-600 dark:text-teal-400 
+                            font-semibold hover:bg-teal-50 dark:hover:bg-zinc-800 shadow-lg  
+                            hover:shadow-2xl hover:scale-105 active:scale-95 transition-all"
+                    >
+                        Learn More
+                    </Link>
+                </div>
+                <div className="grid align-content grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mt-0 lg:mt-8 pb-18">
+                    <p className="text-zinc-800 dark:text-zinc-400  text-xl opacity-80 hover:opacity-100 hover:scale-102 duration-150">✔️ No signup required</p>
+                    <p className="text-zinc-800 dark:text-zinc-400 text-xl opacity-80 hover:opacity-100 hover:scale-102 duration-150">✔️ Completely free to use</p>
+                    <p className="text-zinc-800 dark:text-zinc-400 text-lg opacity-80 hover:opacity-100 hover:scale-102 duration-150">✔️ Practice from anywhere</p>
                 </div>
             </div>
             {/* Overview Section */}
-            <div id="features" className="relative py-34 bg-zinc-100 dark:bg-zinc-900">
+            <div id="features" className="relative py-34 bg-zinc-100 dark:bg-[#0F0F11]">
                 <div className="max-w-7xl mx-auto px-6 sm:px-12">
                     {/* Section heading */}
                     <div className="text-center max-w-4xl mx-auto mb-16">
-                    <h2 className="text-4xl sm:text-5xl font-extrabold text-zinc-900 dark:text-white mb-6">
+                    <h2 className="text-4xl sm:text-5xl font-[500] text-zinc-900 dark:text-white mb-6">
                         Practice, Get Feedback, and Improve
                     </h2>
                     <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">

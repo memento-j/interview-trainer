@@ -76,10 +76,10 @@ export default function SessionSetup() {
                 </div>
             :
                 <Stepper
-                initialStep={1}
-                onFinalStepCompleted={() => handleSetupCompleted()}
-                backButtonText="Previous"
-                nextButtonText="Next"
+                    initialStep={1}
+                    onFinalStepCompleted={() => handleSetupCompleted()}
+                    backButtonText="Previous"
+                    nextButtonText="Next"
                 >
                     <Step canContinue={questionSource ? true : false}>
                         <p className='font-semibold mb-5'>Where would you like your practice interview questions to come from?</p>
