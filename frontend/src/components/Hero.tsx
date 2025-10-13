@@ -7,10 +7,10 @@ export default function Hero() {
             <div className="relative flex min-h-screen xl:pb-0 gap-16 flex-col items-center text-center px-6 sm:px-12 lg:px-24 m-auto pt-32 lg:pt-40 xl:pt-48">
                 <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl max-w-[1600px] font-[500] text-zinc-700 dark:text-zinc-300">
                     Your&nbsp;  
-                    <span className="underline tracking-tight mb-6 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
+                    <span className="tracking-tight mb-6 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
                         AI Interview Trainer 
                     </span> 
-                    &nbsp;to Land the Job You Deserve
+                    &nbsp;to Help You Land the Job You Deserve.
                 </h1>
                 <p className="text-lg sm:text-2xl lg:text-2xl xl:text-3xl text-zinc-700 dark:text-zinc-300 mb-6 mt-2 max-w-6xl leading-relaxed">
                     Practice role-specific questions, get instant feedback, and boost your confidence.  
@@ -57,49 +57,52 @@ export default function Hero() {
                         receive instant feedback, and track your improvement over time.
                     </p>
                     </div>
-
                     {/* Features grid */}
                     <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
                         {/* Feature card */}
                         <div className="p-8 rounded-2xl bg-white dark:bg-zinc-800 shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-300 text-2xl shadow-md">
-                            🎯
+                            <div className="flex justify-center">
+                                <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-300 text-2xl shadow-md">
+                                🎯
+                                </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
+                            <h3 className="text-xl text-center font-semibold text-zinc-900 dark:text-white mb-3">
                             Targeted Practice
                             </h3>
-                            <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                            <p className="text-zinc-600 text-center dark:text-zinc-300 leading-relaxed">
                             Focus on questions specific to your role or industry to maximize your preparation.
                             </p>
                         </div>
-
                         {/* Feature card */}
                         <div className="p-8 rounded-2xl bg-white dark:bg-zinc-800 shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-white text-2xl shadow-md">
-                            💡
+                            <div className="flex justify-center">
+                                <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-white text-2xl shadow-md">
+                                💡
+                                </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
+                            <h3 className="text-xl text-center font-semibold text-zinc-900 dark:text-white mb-3">
                             Instant Feedback
                             </h3>
-                            <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                            <p className="text-zinc-600 text-center dark:text-zinc-300 leading-relaxed">
                             AI highlights strengths and weaknesses in your answers so you can improve quickly.
                             </p>
                         </div>
 
                         {/* Feature card */}
                         <div className="p-8 rounded-2xl bg-white dark:bg-zinc-800 shadow-lg hover:shadow-xl transition-shadow">
-                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-300 text-white text-2xl shadow-md">
-                            📊
+                            <div className="flex justify-center">
+                                <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-300 text-white text-2xl shadow-md">
+                                📊
+                                </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
+                            <h3 className="text-xl text-center font-semibold text-zinc-900 dark:text-white mb-3">
                             Track Progress
                             </h3>
-                            <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                            <p className="text-zinc-600 text-center dark:text-zinc-300 leading-relaxed">
                             Monitor your past sessions, compare performance, and stay motivated as you improve.
                             </p>
                         </div>
                     </div>
-
                     {/* CTA */}
                     <div className="text-center mt-16">
                         <Link

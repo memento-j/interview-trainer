@@ -78,23 +78,23 @@ export default function NavBar() {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link to="/practice">
-                    <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none shadow-xl rounded-2xl">Interview Practice</Button>
+                    <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">Interview Practice</Button>
                 </Link>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="xl:mr-12 lg:mr-6">
                   { !user ? 
                     ( 
                       <Link to="/auth">
-                        <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none shadow-xl rounded-2xl">Signin/Signup</Button>
+                        <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">Signin/Signup</Button>
                       </Link>
                     ) : (
                       <div>
                         <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
-                          <div className="flex items-center justify-center w-10 h-10 mt-0.5 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 text-white font-semibold text-xl">
+                          <div className="flex items-center justify-center w-11 h-11 mt-0.5 pb-1 rounded-full bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 font-semibold text-xl">
                               {profile?.username?.charAt(0)}
                           </div>
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent>
+                        <NavigationMenuContent className="right-0 left-auto">
                           <ul className="grid gap-2 md:w-[200px] lg:w-[250px] xl:w-[300px]">
                             <li className="p-2 font-[700] text-xl">Welcome, {profile?.username}</li>
                             <ListItem href="/account" title="Manage Account">
@@ -112,7 +112,7 @@ export default function NavBar() {
                     )
                   }
               </NavigationMenuItem>
-              <NavigationMenuItem className="md:ml-4 lg:ml-12 xl:ml-18 mr-2">
+              <NavigationMenuItem>
                 <ThemeToggle/>
               </NavigationMenuItem>
           </NavigationMenuList>

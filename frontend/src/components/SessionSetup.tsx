@@ -82,33 +82,33 @@ export default function SessionSetup() {
                     nextButtonText="Next"
                 >
                     <Step canContinue={questionSource ? true : false}>
-                        <p className='font-semibold mb-5'>Where would you like your practice interview questions to come from?</p>
+                        <p className='font-semibold mb-8 md:text-2xl lg:text-3xl'>Where would you like your practice interview questions to come from?</p>
                         <RadioGroup value={questionSource} onValueChange={setQuestionSource} >
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="ai-generated" id="ai-generated" />
-                                <Label htmlFor="ai-generated">Have the AI generate the questions for me</Label>
+                                <Label htmlFor="ai-generated" className='md:text-xl'>Have the AI generate the questions for me</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="preloaded" id="preloaded" />
-                                <Label htmlFor="preloaded">Select from a preloaded list of questions</Label>
+                                <Label htmlFor="preloaded" className='md:text-xl'>Select from a preloaded list of questions</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="provided" id="provided" />
-                                <Label htmlFor="provided">I would like to provide the questions myself</Label>
+                                <Label htmlFor="provided" className='md:text-xl'>I would like to provide the questions myself</Label>
                             </div>
                         </RadioGroup>
                     </Step>
                     { questionSource !== "preloaded" && questionSource !== "provided" &&
                         <Step canContinue={selectedOption ? true : false}>
-                            <p className="font-semibold mb-5">Select what type of interview questions you would like</p>
+                            <p className="font-semibold mb-8 md:text-2xl lg:text-3xl">Select what type of interview questions you would like</p>
                             <RadioGroup value={selectedOption} onValueChange={setSelectedOption} >
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="role-specific" id="role-specific" />
-                                    <Label htmlFor="role-specific">Role-specific questions</Label>
+                                    <Label htmlFor="role-specific" className='md:text-xl'>Role-specific questions</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="general" id="general" />
-                                    <Label htmlFor="general">General questions (behavioral/situational)</Label>
+                                    <Label htmlFor="general" className='md:text-xl'>General questions (behavioral/situational)</Label>
                                 </div>
                             </RadioGroup>
                         </Step>
@@ -117,7 +117,7 @@ export default function SessionSetup() {
                     { questionSource === "provided" &&
                         //checks if every question is emepty or not
                         <Step canContinue={providedQuestions.every(question => question.trim() !== "")}>
-                            <p className='mb-5 font-semibold'>Enter your questions below</p>
+                            <p className='mb-8 font-semibold md:text-2xl lg:text-3xl'>Enter your questions below</p>
                             {/* list that allows users to enter another questions or remove if needed*/}
                             <div className="flex flex-col gap-3">
                                 {providedQuestions.map((q:string, index:number) => (
@@ -150,11 +150,11 @@ export default function SessionSetup() {
                     {/* Prompt user to provide the number of questions they would like the AI to generate*/}
                     { questionSource === "ai-generated" &&
                         <Step canContinue={aiQuestionCount ? true : false}>
-                            <p className="font-semibold">Select the number of questions you would like the AI to generate for you (between 3 and 10)</p>
+                            <p className="font-semibold md:text-2xl lg:text-3xl mb-8">Select the number of questions you would like the AI to generate for you (between 3 and 10)</p>
                             {/* number selector between 3 and 10*/}
                             <Select value={aiQuestionCount.toString()} onValueChange={setAiQuestionCount}>
                                 <SelectTrigger className="w-auto mt-5">
-                                    <SelectValue placeholder="Select number of questions" />
+                                    <SelectValue placeholder="Select number of questions" className='text-xl'/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
@@ -180,15 +180,15 @@ export default function SessionSetup() {
                     {/* Promot user for role if they chose role-specific */}
                     { selectedOption === "role-specific" &&
                         <Step canContinue={role.trim() ? true : false}>
-                            <p className='mb-5 font-semibold'>Enter the role you are practicing for</p>
+                            <p className='mb-8 font-semibold md:text-2xl lg:text-3xl'>Enter the role you are practicing for</p>
                             <Input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role" className='max-w-md mb-5'/>
                         </Step>
                     }
                     {/* Prompt the user to enter a name for the session */}
                     { user &&
                         <Step canContinue={sessionName ? true : false}>
-                            <p className='mb-5 font-semibold'>Enter a name for this practice interview session</p>
-                            <Input value={sessionName} onChange={(e) => setSessionName(e.target.value)} placeholder="ex: My First Practice Session" className='max-w-md mb-5'/>
+                            <p className='mb-8 font-semibold text-3xl'>Enter a name for this practice interview session</p>
+                            <Input value={sessionName} onChange={(e) => setSessionName(e.target.value)} placeholder="ex: My First Practice Session" className='max-w-md mb-5 text-xl'/>
                         </Step>
                     }
                 </Stepper>

@@ -81,8 +81,8 @@ export default function Stepper({
       {...rest}
     >
       <div
-        className={`mx-auto w-full max-w-3xl mt-20 sm:mt-50 md:mt-70 lg:mt-90 xl:mt-0 mb-60 rounded-4xl shadow-lg ${stepCircleContainerClassName}`}
-        style={{ border: '1px solid #222' }}
+        className={`dark:border-cyan-500 mx-auto w-full max-w-5xl mt-20 sm:mt-50 md:mt-120 lg:mt-110 xl:mt-14 mb-60 rounded-4xl shadow-lg ${stepCircleContainerClassName}`}
+        style={{ border: `1px solid ${localStorage.getItem("theme") === "dark" ? "#161618" : "#E4E4E7" }` }}
       >
         <div className={`${stepContainerClassName} flex w-full items-center p-8`}>
           {stepsArray.map((_, index) => {
@@ -120,18 +120,18 @@ export default function Stepper({
           isCompleted={isCompleted}
           currentStep={currentStep}
           direction={direction}
-          className={`space-y-2 px-8 ${contentClassName}`}
+          className={`space-y-2 px-8 pb-56 ${contentClassName}`}
         >
           {stepsArray[currentStep - 1]}
         </StepContentWrapper>
 
         {!isCompleted && (
           <div className={`px-8 pb-8 ${footerClassName}`}>
-            <div className={`mt-10 flex ${currentStep !== 1 ? 'justify-between' : 'justify-end'}`}>
+            <div className={`mt-16 flex ${currentStep !== 1 ? 'justify-between' : 'justify-end'}`}>
               {currentStep !== 1 && (
                 <button
                   onClick={handleBack}
-                  className={`duration-350 rounded px-2 py-1 transition hover:cursor-pointer ${
+                  className={`duration-350 rounded px-2 py-1 transition hover:cursor-pointer md:text-xl ${
                     currentStep === 1
                       ? 'pointer-events-none opacity-50 text-neutral-400'
                       : 'text-neutral-400 hover:text-neutral-700'
@@ -145,7 +145,7 @@ export default function Stepper({
                 //checks if the current step can continue or not (based on the input provided by the user), if not, then disable the button
                 disabled={stepsArray[currentStep-1].props.canContinue == false}
                 onClick={isLastStep ? handleComplete : handleNext}
-                className="duration-350 flex items-center justify-center rounded-full bg-teal-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-teal-600 active:bg-teal-700 hover:cursor-pointer disabled:bg-teal-900 disabled:hover:cursor-default"
+                className="duration-350 flex items-center justify-center rounded-full bg-teal-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-teal-600 active:bg-teal-700 hover:cursor-pointer disabled:bg-teal-900 disabled:hover:cursor-default md:text-xl"
                 {...nextButtonProps}
               >
                 {isLastStep ? 'Complete' : nextButtonText}
@@ -255,19 +255,12 @@ interface StepIndicatorProps {
   disableStepIndicators?: boolean;
 }
 
-function StepIndicator({ step, currentStep, onClickStep, disableStepIndicators = false }: StepIndicatorProps) {
+function StepIndicator({ step, currentStep }: StepIndicatorProps) {
   const status = currentStep === step ? 'active' : currentStep < step ? 'inactive' : 'complete';
-
-  const handleClick = () => {
-    if (step !== currentStep && !disableStepIndicators) {
-      onClickStep(step);
-    }
-  };
 
   return (
     <motion.div
-      onClick={handleClick}
-      className="relative cursor-pointer outline-none focus:outline-none"
+      className="relative outline-none focus:outline-none"
       animate={status}
       initial={false}
     >
@@ -298,7 +291,7 @@ interface StepConnectorProps {
 
 function StepConnector({ isComplete }: StepConnectorProps) {
   const lineVariants: Variants = {
-    incomplete: { width: 0, backgroundColor: 'transparent' },
+    incomplete: { width: 0, backgroundColor: '#000000' },
     complete: { width: '100%', backgroundColor: '#1ec8c8' }
   };
 
