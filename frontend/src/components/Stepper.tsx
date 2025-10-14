@@ -204,7 +204,10 @@ function SlideTransition({ children, direction, onHeightReady }: SlideTransition
 
   useLayoutEffect(() => {
     if (containerRef.current) {
-      onHeightReady(containerRef.current.offsetHeight);
+      const timeout = setTimeout(() => {
+        onHeightReady(containerRef.current!.offsetHeight);
+      }, 200);
+      return () => clearTimeout(timeout);
     }
   }, [children, onHeightReady]);
 

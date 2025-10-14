@@ -1,25 +1,51 @@
 import { usePreloadedQuestions } from "@/hooks/usePreloadedQuestions";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-//import { useEffect, useState } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import AnimatedList from "./AnimatedList";
+import { useSessionStore } from "@/stores/useSessionStore";
 
 export default function DisplayPreloadedQuestions() {
     const { data: preloadedQuestions } = usePreloadedQuestions();    
-    //const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
-
-    // Group by category
-    console.log(preloadedQuestions);
+    const { selectedPremadeQuestions, toggleQuestion } = useSessionStore();
     
+    function handleQuestionSelect(question: string) {
+        if (selectedPremadeQuestions.length < 10 || selectedPremadeQuestions.includes(question)) {
+            toggleQuestion(question)
+        }
+        return;
+    }
+
     return (
-        <div className="min-h-screen">
+        <div>
             { preloadedQuestions &&
-                Object.entries(preloadedQuestions).map(([category, questions]) => (
-                <div key={category}>
-                    <h2>{category}</h2>
-                    {questions.map((q:any) => (
-                    <p key={q.id}>{q.question}</p>
+                <div >
+                    <p className="text-center text-2xl mb-3 font-[500]">Select Your Questions By Category</p>
+                    <Tabs defaultValue={Object.keys(preloadedQuestions)[0]}>
+                        <div className="flex justify-center my-3">
+                            <TabsList className="gap-2">
+                                {Object.keys(preloadedQuestions).map(role => (
+                                    <TabsTrigger key={role} value={role} className="text-xl">
+                                        {role}
+                                    </TabsTrigger>
+                                ))}
+                            </TabsList>
+                        </div>
+                        {Object.entries(preloadedQuestions).map(([role, questions]) => (
+                            <TabsContent key={role} value={role} className="text-lg">
+                                <AnimatedList
+                                    items={questions.map((q: any) => q.question)}
+                                    onItemSelect={(question) => handleQuestionSelect(question)}
+                                    enableArrowNavigation
+                                    displayScrollbar
+                                    showGradients={false}
+                                />
+                            </TabsContent>
+                        ))}
+                    </Tabs>
+                    <p className="text-center text-2xl my-3 font-[500]">Your Selected Questions</p>
+                    {selectedPremadeQuestions.map((question, index) => (
+                        <p className="text-center" key={index}>{index+1}.) {question}</p>
                     ))}
                 </div>
-                ))
             }
         </div>
     );

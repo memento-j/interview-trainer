@@ -8,6 +8,7 @@ export async function createInterviewSession(
     questionSource: string,
     aiQuestionCount: string,
     providedQuestions: string[],
+    SelectedPremadeQuestions: string[],
     sessionName: string
 ) {
     //if there is a user, store in db 
@@ -34,6 +35,21 @@ export async function createInterviewSession(
             //return the created interview session's session ID 
             return dbResponse.data;
         } 
+        else if (questionSource === "preloaded") {
+            //create interview sesson in db using the provided questions and role
+            const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
+                {
+                    questions: SelectedPremadeQuestions,
+                    name: sessionName,
+                    role: selectedOption === "general" ? "general" : role,
+                },
+                {
+                    headers: { Authorization: `Bearer ${session?.access_token}` },
+                }
+            );
+            //return the created interview session's session ID 
+            return dbResponse.data;
+        }
         //simply store the session in db
         else {
             //create interview sesson in db using the provided questions and role
@@ -71,6 +87,16 @@ export async function createInterviewSession(
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
             return "";
         } 
+        else if (questionSource === "preloaded") {
+            const interviewSession = {
+                role: selectedOption === "general" ? "general" : role,
+                questions: SelectedPremadeQuestions,
+                answers: [],
+                feedback: [],
+            };
+            localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+            return ""; 
+        }
         //simply store the provided questions and role in local storage
         else {
             const interviewSession = {

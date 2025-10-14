@@ -8,7 +8,7 @@ export function usePreloadedQuestions() {
             const res = await axios.get(`http://localhost:8080/preloaded-questions`);
             //group the questions by their roles
             const questionsByRoles = res.data?.reduce((acc:any, question:any) => {
-                const roleKey = question.role || "general";
+                const roleKey = question.role || "General";
                 //if the role is new, add new array in the object
                 if (!acc[roleKey]) {
                     acc[roleKey] = [];

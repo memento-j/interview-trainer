@@ -14,7 +14,7 @@ import DisplayPreloadedQuestions from './DisplayPreloadedQuestions';
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
-    const { setSetupCompleted, setCreatedSessionID } = useSessionStore();
+    const { setSetupCompleted, setCreatedSessionID, selectedPremadeQuestions } = useSessionStore();
     const [role, setRole] = useState<string>("");
     const [selectedOption, setSelectedOption] = useState<string>("role-specific");
     const [questionSource, setQuestionSource] = useState<string>("ai-generated");
@@ -25,9 +25,6 @@ export default function SessionSetup() {
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
-        //handle questions not being answeered fully sincee the user can cliuck on teh steps on the top to go next
-        ////////////
-        /////////////
         setLoading(true);
         const result = await createInterviewSession(
             user,
@@ -37,6 +34,7 @@ export default function SessionSetup() {
             questionSource,
             aiQuestionCount,
             providedQuestions,
+            selectedPremadeQuestions,
             sessionName
         );
         
@@ -68,7 +66,7 @@ export default function SessionSetup() {
     };
     
     return(
-        <div>
+        <div className='min-h-screen'>
             {loading ?       
                 <div className="flex flex-col items-center pt-50 gap-5">
                     <p className='font-semibold text-2xl'>Creating Your Session</p>
@@ -173,7 +171,7 @@ export default function SessionSetup() {
                         </Step>
                     }
                     { questionSource === "preloaded" &&
-                        <Step canContinue={true}>
+                        <Step canContinue={selectedPremadeQuestions.length > 0}>
                             <DisplayPreloadedQuestions/>
                         </Step>
                     }
