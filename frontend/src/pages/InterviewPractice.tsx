@@ -31,7 +31,7 @@ export default function InterviewPractice() {
     }
 
     return (
-        <div className="bg-zinc-100 dark:bg-[#0F0F11]"> 
+        <div className="bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950"> 
             {/* Setup the practice interview session */}        
             {!setupCompleted && !sessionCompleted && (
                 <SessionSetup/>    

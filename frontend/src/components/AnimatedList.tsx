@@ -20,7 +20,7 @@ const AnimatedItem: React.FC<AnimatedItemProps> = ({ children, delay = 0, index,
       onMouseEnter={onMouseEnter}
       onClick={onClick}
       initial={{ scale: 0.7, opacity: 0 }}
-      animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.7, opacity: 0 }}
+      animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.93, opacity: 0.15 }}
       transition={{ duration: 0.2, delay }}
       className="mb-4 cursor-pointer"
     >
@@ -155,8 +155,8 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
               }
             }}
           >
-            <div className={`p-4 hover:scale-102 duration-150 transition-transform rounded-lg ${selectedPremadeQuestions.includes(item) ? "bg-teal-400 dark:bg-teal-700" : "bg-zinc-300 dark:bg-zinc-800"} ${selectedIndex === index ? 'bg-[#222]' : ''} ${itemClassName}`}>
-              <p className="text-black dark:text-white m-0">{item}</p>
+            <div className={`p-4 hover:scale-102 dark:hover:bg-teal-900 hover:bg-teal-500 duration-150 transition-transform rounded-lg ${selectedPremadeQuestions.includes(item) ? "bg-teal-300 dark:bg-teal-700" : "bg-zinc-300 dark:bg-zinc-800"} ${selectedIndex === index ? 'bg-[#222]' : ''} ${itemClassName}`}>
+              <p className="text-black dark:text-white m-0 font-[500]">{item}</p>
             </div>
           </AnimatedItem>
         ))}

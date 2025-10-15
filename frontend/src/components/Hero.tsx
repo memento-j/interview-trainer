@@ -2,8 +2,8 @@ import { Link } from "react-router";
 
 export default function Hero() {
     return(
-        <section className="relative bg-gradient-to-br from-[#E9E9EB] to-white dark:from-zinc-800 dark:to-black">
-            {/* Intro sections */}
+        <section className="relative bg-gradient-to-br from-zinc-300 to-white dark:from-zinc-800 dark:to-black">
+            {/* Hero Section */}
             <div className="relative flex min-h-screen xl:pb-0 gap-16 flex-col items-center text-center px-6 sm:px-12 lg:px-24 m-auto pt-32 lg:pt-40 xl:pt-48">
                 <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl max-w-[1600px] font-[500] text-zinc-700 dark:text-zinc-300">
                     Your&nbsp;  
@@ -103,11 +103,11 @@ export default function Hero() {
                             </p>
                         </div>
                     </div>
-                    {/* CTA */}
+                    {/* Call to action */}
                     <div className="text-center mt-16">
                         <Link
                             to="/practice"
-                            className="inline-block px-8 py-4 bg-teal-600 text-white text-lg font-semibold rounded-xl shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-transform"
+                            className="inline-block px-8 py-4 bg-gradient-to-tr from-teal-600 to-teal-400 hover:from-teal-500 hover:to-teal-300 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-transform"
                         >
                             Start Practicing
                         </Link>

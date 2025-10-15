@@ -7,7 +7,7 @@ export default function Footer() {
           <div className="flex justify-between">
             {/* Copyright messaage */}
             <p className="text-sm text-zinc-400 mt-2 sm:mt-3">
-              © {new Date().getFullYear()} Prepmate AI. All rights reserved.
+              © {new Date().getFullYear()} Practimate. All rights reserved.
             </p>
             {/* Socials links */}
             <div className="flex flex-row gap-5">
