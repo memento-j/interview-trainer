@@ -63,9 +63,9 @@ export default function InterviewPractice() {
                     {currentQuestions?.map((question: any, index: number) => (
                         //questionsSubmitted checks to ensure that the current question has an answer
                         <Step key={index} canContinue={questionsSubmitted[index]}>
-                            <p className='font-semibold mb-10'>{user ? question.text : question}</p>
+                            <p className='font-semibold mb-5 text-2xl text-center'>{user ? question.text : question}</p>
                             <AssemblyAIRecorder questionText={user ? question.text : question} questionId={question.id} questionIndex={index}/>
-                            <div className='mb-15'/>
+                            <div className='m-auto'/>
                         </Step>
                     ))}            
                 </Stepper>

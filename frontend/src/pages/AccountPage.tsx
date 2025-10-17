@@ -16,9 +16,6 @@ export default function AccountPage() {
     const { data: userSessions } = useUserSessions(user?.id, session?.access_token);
     const navigate = useNavigate();
 
-    //////bugs ! going from repractice questions and back tabbing to this page
-    /////going from repracatice mode to normal practice mode! (haave to figure out how to reset it)
-
     //if no user signed in, redirect to auth page
     useEffect(() => {
         //if the user information is loading, return so the redirect does not run

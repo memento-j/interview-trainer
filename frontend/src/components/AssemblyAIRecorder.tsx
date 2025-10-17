@@ -4,6 +4,7 @@ import { Textarea } from "./ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { handleAnswerSubmit } from "@/services/interviewSessionService";
 import { useSessionStore } from "@/stores/useSessionStore";
+import { Mic } from "lucide-react";
 
 // reduce sample rate to 16kHz since that is what assembly ai's api requires as input 
 function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, outputSampleRate: number = 16000 ): Int16Array {
@@ -146,46 +147,47 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
         {/* No answer submitted, so allow user to answer the question*/}
         {questionsSubmitted[questionIndex] == false ?
           <div>
-            <div className="mb-2">
+            <Textarea value={answer} onChange={(e) => setAnswer(e.target.value)} className="h-40 resize-none"/>
+            <p className="text-muted-foreground text-sm mt-1 text-center">
+              Sometimes the transcription AI makes mistakes, so you can manually edit your answer if needed.
+            </p>
+            <div className="pt-2">
               {isRecording ? (
-                <div>
-                  <p>Click to stop recording!</p>
-                  <Button onClick={stopRecording}>
+                <div className="flex flex-col items-center gap-2 my-3">
+                  <p className="text-lg font-[500]">Recording...</p>
+                  <Mic onClick={stopRecording} className="hover:cursor-pointer hover:scale-105 dark:hover:bg-teal-700 hover:bg-teal-500 duration-150 transition-all bg-teal-300 dark:bg-teal-500 rounded-2xl" size={40}>
                     Stop recording
-                  </Button>
+                  </Mic>
                 </div>
               ) : (
-                <div>
-                  <p>Click to start recording!</p>
-                  <Button onClick={startRecording}>
+                <div className="flex flex-col items-center gap-2 py-3">
+                  <p className="text-lg font-[500]">Click the microphone to start recording!</p>
+                  <Mic onClick={startRecording} className="hover:cursor-pointer hover:scale-105 hover:bg-teal-300 dark:hover:bg-teal-500 duration-150 transition-all bg-teal-500 dark:bg-teal-700 rounded-2xl" size={40}>
                     Record
-                  </Button>
+                  </Mic>
                 </div>
               )}
             </div>
-            <Textarea value={answer} onChange={(e) => setAnswer(e.target.value)}/>
-            <p className="text-muted-foreground text-sm mt-1">
-              Sometimes the transcription AI makes mistakes, so you can manually edit your answer if needed.
-            </p>
-            <Button className="mt-5" onClick={() => {
-                if (answer == "") {
-                    return;
-                }
-                //set this specific question to being submitted(true)
-                updateQuestionSubmitted(questionIndex, true);
-                handleAnswerSubmit(user, session, createdSessionID, answer, questionText, questionId)
-            }}>
-                Submit Answer
-            </Button>
-            <p className="text-muted-foreground text-sm mt-1">
-              * Once submitted, you will be unable change your answer
-            </p>
+            <div className="flex flex-col items-center mt-10 gap-1">
+              <p className="text-muted-foreground text-sm mt-3">
+                * Once submitted, you will be unable change your answer
+              </p>
+              <Button className="hover:cursor-pointer" onClick={() => {
+                  if (answer == "") {
+                      return;
+                  }
+                  //set this specific question to being submitted(true)
+                  updateQuestionSubmitted(questionIndex, true);
+                  handleAnswerSubmit(user, session, createdSessionID, answer, questionText, questionId)
+              }}>
+                  Submit Answer
+              </Button>
+            </div>
           </div>
        : 
           <div>
             {/* Answer has been submitted, so do not allow the user to make more changes*/}
-            <Textarea defaultValue={answer} disabled/>
-            <p className="text-muted-foreground text-sm mt-1">
+            <p className="text-muted-foreground text-sm mt-1 text-center">
               Answer submitted!
             </p>
           </div>
