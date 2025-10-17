@@ -4,15 +4,15 @@ export default function Hero() {
     return(
         <section className="relative bg-gradient-to-br from-zinc-300 to-white dark:from-zinc-800 dark:to-black">
             {/* Hero Section */}
-            <div className="relative flex min-h-screen xl:pb-0 gap-16 flex-col items-center text-center px-6 sm:px-12 lg:px-24 m-auto pt-32 lg:pt-40 xl:pt-48">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl max-w-[1600px] font-[500] text-zinc-700 dark:text-zinc-300">
+            <div className="relative flex min-h-screen xl:pb-0 gap-12 md:gap-16 flex-col items-center text-center px-6 sm:px-12 lg:px-24 m-auto pt-24 lg:pt-40 xl:pt-48">
+                <h1 className="text-4xl sm:text-6xl md:text-7xl xl:text-8xl max-w-[1600px] font-[500] text-zinc-700 dark:text-zinc-300">
                     Your&nbsp;  
                     <span className="tracking-tight mb-6 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
                         AI Interview Trainer 
                     </span> 
                     &nbsp;to Help You Land the Job You Deserve.
                 </h1>
-                <p className="text-lg sm:text-2xl lg:text-2xl xl:text-3xl text-zinc-700 dark:text-zinc-300 mb-6 mt-2 max-w-6xl leading-relaxed">
+                <p className="text-md sm:text-2xl lg:text-2xl xl:text-3xl text-zinc-700 dark:text-zinc-300 md:mb-6 mt-2 max-w-6xl leading-relaxed">
                     Practice role-specific questions, get instant feedback, and boost your confidence.  
                     PractiMate AI makes interview prep smarter and faster.
                 </p>
