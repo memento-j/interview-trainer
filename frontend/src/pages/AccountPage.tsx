@@ -36,13 +36,13 @@ export default function AccountPage() {
             {user && profile && (
                 <div className="flex flex-col items-center gap-10">
                     {/* Welcome section */}
-                    <div className="flex w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
+                    <div className="flex w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
                         <div className="flex items-center gap-3 ml-3">
-                            <div className="flex items-center justify-center w-18 h-18 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 font-semibold text-3xl">
+                            <div className="hidden md:flex items-center justify-center md:w-18 md:h-18 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 font-semibold text-3xl">
                                 {profile?.username?.charAt(0)}
                             </div>
                             <div className="flex flex-col ml-2">
-                                <p className="text-3xl font-[500] mb-1.5">Hello {profile?.firstName}</p>
+                                <p className="text-lg md:text-3xl font-[500] mb-1.5">Hello {profile?.firstName}</p>
                                 <p className="text-zinc-600 dark:text-zinc-400">
                                     View and manage your account information here.
                                 </p>
@@ -62,7 +62,7 @@ export default function AccountPage() {
                     {/* Form for users to update profile information*/}
                     <ProfileUpdateForm/>
                     {/* Interview sessions seciton*/}
-                    <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
+                    <Card className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                         <CardHeader>
                             <div className="flex justify-between">
                                 <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>

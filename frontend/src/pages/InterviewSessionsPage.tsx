@@ -35,13 +35,13 @@ export default function InterviewSessionPage() {
             ) :
                 <div className="flex justify-center pt-40 pb-20">
                     {/* Interview sessions seciton*/}
-                    <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
+                    <Card className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                         <CardHeader>
                             <div className="flex justify-between">
                                 <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
                                 <div className="flex flex-col md:flex-row gap-2">
                                     <Link to="/practice?mode=repractice">
-                                        <Button className="hover:cursor-pointer mt-3 w-42 text-[12px] md:w-50 md:text-[14px]">
+                                        <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
                                             Repractice Questions
                                         </Button>
                                     </Link>
