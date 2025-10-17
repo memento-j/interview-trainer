@@ -16,6 +16,9 @@ export default function AccountPage() {
     const { data: userSessions } = useUserSessions(user?.id, session?.access_token);
     const navigate = useNavigate();
 
+    //////bugs ! going from repractice questions and back tabbing to this page
+    /////going from repracatice mode to normal practice mode! (haave to figure out how to reset it)
+
     //if no user signed in, redirect to auth page
     useEffect(() => {
         //if the user information is loading, return so the redirect does not run
@@ -44,7 +47,7 @@ export default function AccountPage() {
                             <div className="flex flex-col ml-2">
                                 <p className="text-3xl font-[500] mb-1.5">Hello {profile?.firstName}</p>
                                 <p className="text-zinc-600 dark:text-zinc-400">
-                                    View and manage your account info here.
+                                    View and manage your account information here.
                                 </p>
                             </div>
                         </div>
@@ -65,12 +68,19 @@ export default function AccountPage() {
                     <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                         <CardHeader>
                             <div className="flex justify-between">
-                                <CardTitle className="text-2xl mt-3">Practice Interview Sessions</CardTitle>
-                                <Link to="/account/practice-sessions">
-                                    <Button className="hover:cursor-pointer mt-3">
-                                        Manage All Sessions
-                                    </Button>
-                                </Link>
+                                <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
+                                <div className="flex flex-col md:flex-row gap-3">
+                                    <Link to="/practice?mode=repractice">
+                                        <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
+                                            Repractice Questions
+                                        </Button>
+                                    </Link>
+                                    <Link to="/account/practice-sessions">
+                                        <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
+                                            Manage All Sessions
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
                         </CardHeader>
                             <CardContent>
@@ -79,7 +89,7 @@ export default function AccountPage() {
                                     collapsible
                                     className="w-full"
                                 >
-                                {userSessions && userSessions.length > 0 && (
+                                {userSessions && userSessions.length > 0 ? (
                                     <div className="flex flex-col gap-2 sm:gap-6.5">
                                         {userSessions.slice(0, 3).map((session:any, index:number) => (
                                             <SessionAccordionItem
@@ -87,6 +97,10 @@ export default function AccountPage() {
                                                 allSessionData={session}
                                             />
                                         ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex justify-center pt-10">
+                                        <Spinner variant="ellipsis" size={64}/>
                                     </div>
                                 )}
                                 </Accordion>

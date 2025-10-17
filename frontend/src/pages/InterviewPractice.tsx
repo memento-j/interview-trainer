@@ -7,6 +7,8 @@ import Stepper, { Step } from '../components/Stepper';
 import { Button } from "@/components/ui/button";
 import { useCurrentQuestions } from "@/hooks/useCurrentQuestions";
 import { useSessionStore } from "@/stores/useSessionStore";
+import { useSearchParams } from "react-router";
+import RepracticeSessionSetup from "@/components/RepracticeSessionSetup";
 
 export default function InterviewPractice() {
     const { user, session } = useAuth();
@@ -14,14 +16,21 @@ export default function InterviewPractice() {
     const [feedbackGiven, setFeedbackGiven] = useState<boolean>(false);
     const { createdSessionID, setupCompleted, questionsSubmitted, setQuestionsSubmitted, resetSession } = useSessionStore();
     const { data: currentQuestions } = useCurrentQuestions(setupCompleted, createdSessionID, user?.id, session?.access_token);
-    
+    const [searchParams] = useSearchParams();
+    const mode = searchParams.get("mode");
+
     useEffect(() => {
         //once the setup is completed, fetch the interview session info        
         if (setupCompleted && currentQuestions) {
             const falseArary = new Array(currentQuestions.length).fill(false);
             setQuestionsSubmitted(falseArary);
         }
-    }, [setupCompleted, currentQuestions])
+    }, [setupCompleted, currentQuestions, location.pathname])
+
+    useEffect(() => {
+        //on unmount, start new session
+        return () => startNewSession();
+    }, [])
 
     //reset stateful variables to start a new session
     function startNewSession() {
@@ -31,10 +40,14 @@ export default function InterviewPractice() {
     }
 
     return (
-        <div className="bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950"> 
+        <div className="min-h-screen bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950"> 
             {/* Setup the practice interview session */}        
             {!setupCompleted && !sessionCompleted && (
-                <SessionSetup/>    
+                mode === "repractice" ? (
+                    <RepracticeSessionSetup/>
+                ) : (
+                    <SessionSetup/>
+                )
             )}
             {/* Start the interview session once the questions are available */}  
             {setupCompleted && currentQuestions && !sessionCompleted && (

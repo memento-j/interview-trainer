@@ -7,6 +7,8 @@ import SessionAccordionItem from "@/components/SessionAccordionItem";
 import { useProfile } from "@/hooks/useProfile";
 import { useUserSessions } from "@/hooks/useUserSessions";
 import { Spinner } from "@/components/Spinner";
+import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
 
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
@@ -36,7 +38,14 @@ export default function InterviewSessionPage() {
                     <Card className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
                         <CardHeader>
                             <div className="flex justify-between">
-                                <CardTitle className="text-2xl mt-3">All interview practice sessions from {profile?.firstName}</CardTitle>
+                                <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
+                                <div className="flex flex-col md:flex-row gap-2">
+                                    <Link to="/practice?mode=repractice">
+                                        <Button className="hover:cursor-pointer mt-3 w-42 text-[12px] md:w-50 md:text-[14px]">
+                                            Repractice Questions
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
                         </CardHeader>
                         <CardContent>

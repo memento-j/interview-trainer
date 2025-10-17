@@ -80,19 +80,19 @@ export default function SessionSetup() {
                     nextButtonText="Next"
                 >
                     <Step canContinue={questionSource ? true : false}>
-                        <p className='font-semibold mb-8 md:text-2xl lg:text-3xl'>Where would you like your practice interview questions to come from?</p>
+                        <p className='font-semibold mb-8 md:text-2xl lg:text-3xl'>Choose where your interview questions should come from</p>
                         <RadioGroup value={questionSource} onValueChange={setQuestionSource} >
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 gap-2">
                                 <RadioGroupItem value="ai-generated" id="ai-generated" />
-                                <Label htmlFor="ai-generated" className='md:text-xl'>Have the AI generate the questions for me</Label>
+                                <Label htmlFor="ai-generated" className='md:text-xl font-[400]'>Have the AI generate the questions for me</Label>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 gap-2">
                                 <RadioGroupItem value="preloaded" id="preloaded" />
-                                <Label htmlFor="preloaded" className='md:text-xl'>Select from a preloaded list of questions</Label>
+                                <Label htmlFor="preloaded" className='md:text-xl font-[400]'>Select from a preloaded list of questions</Label>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 gap-2">
                                 <RadioGroupItem value="provided" id="provided" />
-                                <Label htmlFor="provided" className='md:text-xl'>I would like to provide the questions myself</Label>
+                                <Label htmlFor="provided" className='md:text-xl font-[400]'>I would like to provide the questions myself</Label>
                             </div>
                         </RadioGroup>
                     </Step>
@@ -102,11 +102,11 @@ export default function SessionSetup() {
                             <RadioGroup value={selectedOption} onValueChange={setSelectedOption} >
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="role-specific" id="role-specific" />
-                                    <Label htmlFor="role-specific" className='md:text-xl'>Role-specific questions</Label>
+                                    <Label htmlFor="role-specific" className='md:text-xl font-[400]'>Role-specific questions</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="general" id="general" />
-                                    <Label htmlFor="general" className='md:text-xl'>General questions (behavioral/situational)</Label>
+                                    <Label htmlFor="general" className='md:text-xl font-[400]'>General questions (behavioral/situational)</Label>
                                 </div>
                             </RadioGroup>
                         </Step>

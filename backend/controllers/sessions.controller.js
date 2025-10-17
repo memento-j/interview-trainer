@@ -181,6 +181,11 @@ export async function updateSession(req,res) {
         }
       } = feedback;
     
+    //used to determine whether answer was answered well or not
+    const values = Object.values(scores);
+    const average = values.reduce((sum, value) => sum + value, 0) / values.length;
+    const roundedAverage = Math.round(average * 100) / 100;
+    
     //add result (sessionid, userid, question text, answer text, feedback (strengths, weaknesses, etc.))
     const { data: resultsData, error: resultsError } = await supabase
         .from("results")
@@ -193,7 +198,9 @@ export async function updateSession(req,res) {
             weaknesses,
             suggestions,
             tone,
-            scores
+            scores,
+            averagescore: roundedAverage,
+            weakanswer: average < 6 ? true : false
         })
         .select();
 

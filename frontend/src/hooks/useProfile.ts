@@ -13,6 +13,7 @@ export function useProfile(userId?: string, token?: string) {
     //run only if there is a userid (!! double negation to cast value to a boolean)
     enabled: !!userId,
     // cache valid for 5 minutes
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 60
   });
 }

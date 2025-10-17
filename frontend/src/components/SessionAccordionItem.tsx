@@ -40,6 +40,9 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
             console.log(err);
         }  
     }
+    
+    //console.log(sessionData);
+    //console.log(allSessionData);
 
     return (
     <AccordionItem value={sessionData.name}>

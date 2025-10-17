@@ -32,6 +32,7 @@ export const useSessionStore = create<SessionState>()(
                 updated[index] = value;
                 return { questionsSubmitted: updated };
             }),
+        //if question is already included, then remove it, otherwise append to the array
         toggleQuestion: (question) => set((state) => ({
             selectedPremadeQuestions: state.selectedPremadeQuestions.includes(question)
             ? state.selectedPremadeQuestions.filter(q => q !== question)

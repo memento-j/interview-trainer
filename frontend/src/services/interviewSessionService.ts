@@ -8,7 +8,7 @@ export async function createInterviewSession(
     questionSource: string,
     aiQuestionCount: string,
     providedQuestions: string[],
-    SelectedPremadeQuestions: string[],
+    selectedPremadeQuestions: string[],
     sessionName: string
 ) {
     //if there is a user, store in db 
@@ -36,10 +36,19 @@ export async function createInterviewSession(
             return dbResponse.data;
         } 
         else if (questionSource === "preloaded") {
+            //remove extra text surrounding the question if this is question repractice
+            let cleanQuestions: string[] = []
+            if (role === "Question Repractice") {
+                    cleanQuestions = selectedPremadeQuestions.map((question) => {
+                    const questionText = question.charAt(0) === "❗" ? question.split("❗")[1].split("-")[0].trim() : question.split("-")[0].trim();
+                    return questionText;
+                })                
+            }
+            
             //create interview sesson in db using the provided questions and role
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
-                    questions: SelectedPremadeQuestions,
+                    questions: role === "Question Repractice" ? cleanQuestions : selectedPremadeQuestions,
                     name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
                 },
@@ -90,7 +99,7 @@ export async function createInterviewSession(
         else if (questionSource === "preloaded") {
             const interviewSession = {
                 role: selectedOption === "general" ? "general" : role,
-                questions: SelectedPremadeQuestions,
+                questions: selectedPremadeQuestions,
                 answers: [],
                 feedback: [],
             };
