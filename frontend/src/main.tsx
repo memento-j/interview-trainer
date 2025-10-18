@@ -11,6 +11,7 @@ import AccountPage from './pages/AccountPage.tsx'
 import InterviewSessionPage from './pages/InterviewSessionsPage.tsx'
 import NavBar from './components/NavBar.tsx'
 import NotFoundPage from './pages/NotFoundPage.tsx'
+import FAQPage from './pages/FAQPage.tsx';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/practice" element={<InterviewPractice/>}/>
           <Route path="/account" element={<AccountPage/>}/>
           <Route path="/account/practice-sessions" element={<InterviewSessionPage/>}/>
+          <Route path="/FAQ" element={<FAQPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
         <Toaster position="top-center" richColors closeButton/>

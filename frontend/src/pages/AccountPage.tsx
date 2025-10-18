@@ -9,6 +9,7 @@ import ProfileUpdateForm from "@/components/ProfileUpdateForm";
 import { useProfile } from "@/hooks/useProfile";
 import { Spinner } from "@/components/Spinner";
 import { useUserSessions } from "@/hooks/useUserSessions";
+import { motion } from "framer-motion";
 
 export default function AccountPage() {
     const { user, session, loading, signOut } = useAuth();
@@ -36,7 +37,12 @@ export default function AccountPage() {
             {user && profile && (
                 <div className="flex flex-col items-center gap-10">
                     {/* Welcome section */}
-                    <div className="flex w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between">
+                    <motion.div
+                        className="flex w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.05 }}
+                        >
                         <div className="flex items-center gap-3 ml-3">
                             <div className="hidden md:flex items-center justify-center md:w-18 md:h-18 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 font-semibold text-3xl">
                                 {profile?.username?.charAt(0)}
@@ -58,51 +64,58 @@ export default function AccountPage() {
                         >
                             Signout
                         </Button>
-                    </div>
+                    </motion.div>
                     {/* Form for users to update profile information*/}
                     <ProfileUpdateForm/>
                     {/* Interview sessions seciton*/}
-                    <Card className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
-                        <CardHeader>
-                            <div className="flex justify-between">
-                                <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
-                                <div className="flex flex-col md:flex-row gap-3">
-                                    <Link to="/practice?mode=repractice">
-                                        <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                            Repractice Questions
-                                        </Button>
-                                    </Link>
-                                    <Link to="/account/practice-sessions">
-                                        <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                            Manage All Sessions
-                                        </Button>
-                                    </Link>
+                    <motion.div
+                        className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 bg-zinc-100 dark:bg-zinc-900"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.15 }}
+                        >
+                        <Card>
+                            <CardHeader>
+                                <div className="flex justify-between">
+                                    <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
+                                    <div className="flex flex-col md:flex-row gap-3">
+                                        <Link to="/practice?mode=repractice">
+                                            <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
+                                                Repractice Questions
+                                            </Button>
+                                        </Link>
+                                        <Link to="/account/practice-sessions">
+                                            <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
+                                                Manage All Sessions
+                                            </Button>
+                                        </Link>
+                                    </div>
                                 </div>
-                            </div>
-                        </CardHeader>
-                            <CardContent>
-                                <Accordion
-                                    type="single"
-                                    collapsible
-                                    className="w-full"
-                                >
-                                {userSessions && userSessions.length > 0 ? (
-                                    <div className="flex flex-col gap-2 sm:gap-6.5">
-                                        {userSessions.slice(0, 3).map((session:any, index:number) => (
-                                            <SessionAccordionItem
-                                                key={index}
-                                                allSessionData={session}
-                                            />
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="flex justify-center pt-10">
-                                        <Spinner variant="ellipsis" size={64}/>
-                                    </div>
-                                )}
-                                </Accordion>
-                            </CardContent>
-                    </Card>
+                            </CardHeader>
+                                <CardContent>
+                                    <Accordion
+                                        type="single"
+                                        collapsible
+                                        className="w-full"
+                                    >
+                                    {userSessions && userSessions.length > 0 ? (
+                                        <div className="flex flex-col gap-2 sm:gap-6.5">
+                                            {userSessions.slice(0, 3).map((session:any, index:number) => (
+                                                <SessionAccordionItem
+                                                    key={index}
+                                                    allSessionData={session}
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="flex justify-center pt-10">
+                                            <Spinner variant="ellipsis" size={64}/>
+                                        </div>
+                                    )}
+                                    </Accordion>
+                                </CardContent>
+                        </Card>
+                    </motion.div>
                 </div>
             )}
         </div>

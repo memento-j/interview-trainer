@@ -10,6 +10,7 @@ import { useSessionStore } from "@/stores/useSessionStore";
 import { useSearchParams } from "react-router";
 import RepracticeSessionSetup from "@/components/RepracticeSessionSetup";
 import { Link } from "react-router";
+import { motion } from "framer-motion";
 
 export default function InterviewPractice() {
     const { user, session } = useAuth();
@@ -45,31 +46,49 @@ export default function InterviewPractice() {
             {/* Setup the practice interview session */}        
             {!setupCompleted && !sessionCompleted && (
                 mode === "repractice" ? (
-                    <RepracticeSessionSetup/>
+                    <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.10 }}
+                        >
+                        <RepracticeSessionSetup/>
+                    </motion.div>
                 ) : (
-                    <SessionSetup/>
+                    <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.10 }}
+                        >
+                        <SessionSetup/>
+                    </motion.div>
                 )
             )}
             {/* Start the interview session once the questions are available */}  
             {setupCompleted && currentQuestions && !sessionCompleted && (
-                <Stepper
-                    initialStep={1}
-                    onStepChange={(step) => {
-                        console.log(step);
-                    }}
-                    onFinalStepCompleted={() => setSessionCompleted(true)}
-                    backButtonText="Review Previous Answer"
-                    nextButtonText="Next Question"
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.10 }}
                 >
-                    {currentQuestions?.map((question: any, index: number) => (
-                        //questionsSubmitted checks to ensure that the current question has an answer
-                        <Step key={index} canContinue={questionsSubmitted[index]}>
-                            <p className='font-semibold mb-8 text-3xl text-center'>{user ? question.text : question}</p>
-                            <AssemblyAIRecorder questionText={user ? question.text : question} questionId={question.id} questionIndex={index}/>
-                            <div className='m-auto'/>
-                        </Step>
-                    ))}            
-                </Stepper>
+                    <Stepper
+                        initialStep={1}
+                        onStepChange={(step) => {
+                            console.log(step);
+                        }}
+                        onFinalStepCompleted={() => setSessionCompleted(true)}
+                        backButtonText="Review Previous Answer"
+                        nextButtonText="Next Question"
+                    >
+                        {currentQuestions?.map((question: any, index: number) => (
+                            //questionsSubmitted checks to ensure that the current question has an answer
+                            <Step key={index} canContinue={questionsSubmitted[index]}>
+                                <p className='font-semibold mb-8 text-3xl text-center'>{user ? question.text : question}</p>
+                                <AssemblyAIRecorder questionText={user ? question.text : question} questionId={question.id} questionIndex={index}/>
+                                <div className='m-auto'/>
+                            </Step>
+                        ))}            
+                    </Stepper>
+                </motion.div>
             )}
             {/* Session is completed, so show overview of the session along with button to start a new one*/}
             {sessionCompleted && (

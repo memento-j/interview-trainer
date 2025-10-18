@@ -9,6 +9,7 @@ import { useUserSessions } from "@/hooks/useUserSessions";
 import { Spinner } from "@/components/Spinner";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
@@ -56,10 +57,14 @@ export default function InterviewSessionPage() {
                                 >
                                 {userSessions && userSessions.length > 0 &&
                                     userSessions.map((session: any, index: number) => (
-                                        <SessionAccordionItem
+                                        <motion.div
                                             key={index}
-                                            allSessionData={session}
-                                        />
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: index * 0.05 }}
+                                        >
+                                            <SessionAccordionItem allSessionData={session}/>
+                                        </motion.div>                                        
                                     ))
                                 }
                             </Accordion>

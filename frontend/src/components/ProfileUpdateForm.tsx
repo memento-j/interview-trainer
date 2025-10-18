@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useProfile } from "@/hooks/useProfile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import {motion} from "framer-motion";
 
 type ProfileFormInputs = {
     username?: string;
@@ -64,78 +65,85 @@ export default function ProfileUpdateForm() {
     }
 
     return(
-    <Card className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
-        <CardHeader>
-            <CardTitle className="text-2xl mt-3">Profile Details</CardTitle>
-        </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent>
-                <div className="grid grid-cols-2 gap-2 sm:gap-6.5">
-                    <div className="grid gap-2">
-                        <div className="flex items-center">
-                            <Label htmlFor="username">Username</Label>
+        <motion.div
+            className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 bg-zinc-100 dark:bg-zinc-900"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.10 }}
+        >
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-2xl mt-3">Profile Details</CardTitle>
+                </CardHeader>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-6.5">
+                            <div className="grid gap-2">
+                                <div className="flex items-center">
+                                    <Label htmlFor="username">Username</Label>
+                                </div>
+                                <Input 
+                                id="username" 
+                                type="text" 
+                                className="text-sm sm:text-md" 
+                                {...register("username", { 
+                                    required: "Username is required",
+                                    minLength: { value: 3, message: "Must be at least 3 characters" },
+                                    maxLength: { value: 16, message: "Must be at most 16 characters" },    
+                                    pattern: { value: /^[A-Za-z0-9_]+$/, message: "Only letters, numbers, and underscores allowed" },                                
+                                }
+                                )}/>
+                                {errors.username && (
+                                    <p className="text-red-500 text-sm">{String(errors.username.message)}</p>
+                                )}
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                id="email"
+                                type="email"
+                                defaultValue={user?.email}
+                                disabled
+                                className="text-sm sm:text-md"
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label>First name</Label>
+                                <Input
+                                    id="first-name"
+                                    type="text"
+                                    className="text-sm sm:text-md"
+                                    {...register("firstName", { required: "First name is required" })}
+                                />
+                                {errors.firstName && (
+                                    <p className="text-red-500 text-sm">{String(errors.firstName.message)}</p>
+                                )}
+                            </div>
+                            <div className="grid gap-2">
+                                <Label>Last name</Label>
+                                <Input
+                                    id="last-name"
+                                    type="text"
+                                    className="text-sm sm:text-md"
+                                    {...register("lastName", { required: "Last name is required" })}
+                                />
+                                {errors.lastName && (
+                                    <p className="text-red-500 text-sm">{String(errors.lastName.message)}</p>
+                                )}
+                            </div>
                         </div>
-                        <Input 
-                        id="username" 
-                        type="text" 
-                        className="text-sm sm:text-md" 
-                        {...register("username", { 
-                            required: "Username is required",
-                            minLength: { value: 3, message: "Must be at least 3 characters" },
-                            maxLength: { value: 16, message: "Must be at most 16 characters" },    
-                            pattern: { value: /^[A-Za-z0-9_]+$/, message: "Only letters, numbers, and underscores allowed" },                                
-                        }
-                        )}/>
-                        {errors.username && (
-                            <p className="text-red-500 text-sm">{String(errors.username.message)}</p>
-                        )}
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                        id="email"
-                        type="email"
-                        defaultValue={user?.email}
-                        disabled
-                        className="text-sm sm:text-md"
-                        />
-                    </div>
-                    <div className="grid gap-2">
-                        <Label>First name</Label>
-                        <Input
-                            id="first-name"
-                            type="text"
-                            className="text-sm sm:text-md"
-                            {...register("firstName", { required: "First name is required" })}
-                        />
-                        {errors.firstName && (
-                            <p className="text-red-500 text-sm">{String(errors.firstName.message)}</p>
-                        )}
-                    </div>
-                    <div className="grid gap-2">
-                        <Label>Last name</Label>
-                        <Input
-                            id="last-name"
-                            type="text"
-                            className="text-sm sm:text-md"
-                            {...register("lastName", { required: "Last name is required" })}
-                        />
-                        {errors.lastName && (
-                            <p className="text-red-500 text-sm">{String(errors.lastName.message)}</p>
-                        )}
-                    </div>
-                </div>
-            </CardContent>
-            <CardFooter className="flex justify-end gap-2 mt-5">
-                <Button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="hover:cursor-pointer"
-                >
-                    {isSubmitting ? "Saving..." : "Save Changes"}
-                </Button>
-            </CardFooter>
-        </form>
-    </Card>
+                    </CardContent>
+                    <CardFooter className="flex justify-end gap-2 mt-5">
+                        <Button 
+                            type="submit" 
+                            disabled={isSubmitting}
+                            className="hover:cursor-pointer"
+                        >
+                            {isSubmitting ? "Saving..." : "Save Changes"}
+                        </Button>
+                    </CardFooter>
+                </form>
+            </Card>
+        </motion.div>
     );
 }
