@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { type SessionData } from "@/types/SessionData";
 import { type ResultData } from "@/types/ResultsData";
 import { type QuestionsData } from "@/types/QuestionData";
+import {motion} from "framer-motion";
 
 interface SessionAccordionItemProps {
     allSessionData: {
@@ -40,9 +41,6 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
             console.log(err);
         }  
     }
-    
-    //console.log(sessionData);
-    //console.log(allSessionData);
 
     return (
     <AccordionItem value={sessionData.name}>
@@ -51,85 +49,91 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
             {questionsData.map((questionData: any, index: number) => {
                 const result = resultsData[index];
                 return(
-                    <Card key={index} className="shadow-lg rounded-2xl">
-                        <CardHeader>
-                            <CardTitle className="text-lg font-semibold">
-                                Question {index + 1} : <span className="font-normal">{questionData.question}</span>
-                            </CardTitle>
-                        </CardHeader>
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ type: "spring", duration: 0.6}}
+                    >
+                        <Card key={index} className="shadow-lg rounded-2xl">
+                            <CardHeader>
+                                <CardTitle className="text-lg font-semibold">
+                                    Question {index + 1} : <span className="font-normal">{questionData.question}</span>
+                                </CardTitle>
+                            </CardHeader>
 
-                        {result && (
-                        <CardContent className="space-y-4">
-                            {/* Answer */}
-                            <div>
-                                <p className="text-sm font-semibold">Your Answer</p>
-                                <p className="text-muted-foreground">{result.answer}</p>
-                            </div>
-
-                            <Separator />
-
-                            {/* Tone */}
-                            <div>
-                                <p className="text-sm font-semibold mb-1">Tone</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {result.tone.map((t, i) => (
-                                    <Badge key={i} variant="secondary">
-                                        {t}
-                                    </Badge>
-                                    ))}
+                            {result && (
+                            <CardContent className="space-y-4">
+                                {/* Answer */}
+                                <div>
+                                    <p className="text-sm font-semibold">Your Answer</p>
+                                    <p className="text-muted-foreground">{result.answer}</p>
                                 </div>
-                            </div>
 
-                            <Separator />
+                                <Separator />
 
-                            {/* Scores */}
-                            <div>
-                                <p className="text-sm font-semibold mb-1">Scores</p>
-                                <div className="flex gap-4 text-sm text-muted-foreground">
-                                    <span>Clarity: {result.scores.clarity}</span>
-                                    <span>Relevance: {result.scores.relevance}</span>
-                                    <span>Confidence: {result.scores.confidence}</span>
+                                {/* Tone */}
+                                <div>
+                                    <p className="text-sm font-semibold mb-1">Tone</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {result.tone.map((t, i) => (
+                                        <Badge key={i} variant="secondary">
+                                            {t}
+                                        </Badge>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <Separator />
+                                <Separator />
 
-                            {/* Strengths */}
-                            <div>
-                                <p className="text-sm font-semibold mb-1">Strengths</p>
-                                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                                    {result.strengths.map((s, i) => (
-                                    <li key={i}>{s}</li>
-                                    ))}
-                                </ul>
-                            </div>
+                                {/* Scores */}
+                                <div>
+                                    <p className="text-sm font-semibold mb-1">Scores</p>
+                                    <div className="flex gap-4 text-sm text-muted-foreground">
+                                        <span>Clarity: {result.scores.clarity}</span>
+                                        <span>Relevance: {result.scores.relevance}</span>
+                                        <span>Confidence: {result.scores.confidence}</span>
+                                    </div>
+                                </div>
 
-                            <Separator />
+                                <Separator />
 
-                            {/* Weaknesses */}
-                            <div>
-                                <p className="text-sm font-semibold mb-1">Weaknesses</p>
-                                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                                    {result.weaknesses.map((w, i) => (
-                                    <li key={i}>{w}</li>
-                                    ))}
-                                </ul>
-                            </div>
+                                {/* Strengths */}
+                                <div>
+                                    <p className="text-sm font-semibold mb-1">Strengths</p>
+                                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                                        {result.strengths.map((s, i) => (
+                                        <li key={i}>{s}</li>
+                                        ))}
+                                    </ul>
+                                </div>
 
-                            <Separator />
+                                <Separator />
 
-                            {/* Suggestions */}
-                            <div>
-                                <p className="text-sm font-semibold mb-1">Suggestions</p>
-                                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                                    {result.suggestions.map((s, i) => (
-                                    <li key={i}>{s}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </CardContent>
-                        )}
-                    </Card>
+                                {/* Weaknesses */}
+                                <div>
+                                    <p className="text-sm font-semibold mb-1">Weaknesses</p>
+                                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                                        {result.weaknesses.map((w, i) => (
+                                        <li key={i}>{w}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <Separator />
+
+                                {/* Suggestions */}
+                                <div>
+                                    <p className="text-sm font-semibold mb-1">Suggestions</p>
+                                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                                        {result.suggestions.map((s, i) => (
+                                        <li key={i}>{s}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </CardContent>
+                            )}
+                        </Card>
+                    </motion.div>
                 );
             })}
             <div className="flex justify-end">

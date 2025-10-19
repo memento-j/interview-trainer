@@ -48,26 +48,25 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen py-20 bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950">
-      <div className="flex flex-col justify-center mx-auto max-w-4xl">
-        <h1 className="text-4xl font-[500] text-center mb-12">Frequently Asked Questions</h1>
+      <div className="flex flex-col justify-center mx-auto max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl">
+        <h1 className="text-2xl md:text-4xl font-[500] text-center mb-12">Frequently Asked Questions</h1>
         <Accordion
           type="single"
           collapsible
           className="w-full"
-          defaultValue="0"
         >
           {faqs.map((faq: FAQ, index:number) => (
             <motion.div
               key={index}
-              className="border border-zinc-300 dark:border-zinc-800  shadow-xl rounded-2xl py-3 px-2 mb-2"
-              initial={{ opacity: 0, y: 10 }}
+              className="border border-zinc-300 dark:border-zinc-800 shadow-xl rounded-2xl py-3 px-2 mb-2"
+              initial={{ opacity: 0, y: 25   }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              transition={{ delay: index * 0.06, type: "spring" }}
             >
               <AccordionItem value={index.toString()} className="mb-1" key={index}>
-                <AccordionTrigger className="text-2xl py-4 px-3">{faq.question}</AccordionTrigger>
+                <AccordionTrigger className="text-lg md:text-2xl py-4 px-3">{faq.question}</AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-balance">
-                  <p className="px-3 text-lg ">{faq.answer}</p>
+                  <p className="px-3 text-sm md:text-lg ">{faq.answer}</p>
                 </AccordionContent>
               </AccordionItem>
             </motion.div>

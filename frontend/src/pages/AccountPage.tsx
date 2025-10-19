@@ -41,8 +41,8 @@ export default function AccountPage() {
                         className="flex w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mt-15 mb-3 items-center justify-between"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.05 }}
-                        >
+                        transition={{ delay: 0.10 }}
+                    >
                         <div className="flex items-center gap-3 ml-3">
                             <div className="hidden md:flex items-center justify-center md:w-18 md:h-18 pb-1 rounded-full bg-teal-400 dark:bg-teal-700 font-semibold text-3xl">
                                 {profile?.username?.charAt(0)}
@@ -69,10 +69,10 @@ export default function AccountPage() {
                     <ProfileUpdateForm/>
                     {/* Interview sessions seciton*/}
                     <motion.div
-                        className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 bg-zinc-100 dark:bg-zinc-900"
+                        className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15 }}
+                        transition={{ delay: 0.25 }}
                         >
                         <Card>
                             <CardHeader>
