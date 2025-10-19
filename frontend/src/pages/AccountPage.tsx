@@ -1,6 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion } from "@/components/ui/accordion";
@@ -10,11 +10,14 @@ import { useProfile } from "@/hooks/useProfile";
 import { Spinner } from "@/components/Spinner";
 import { useUserSessions } from "@/hooks/useUserSessions";
 import { motion } from "framer-motion";
+import ProfileOverview from "@/components/ProfileOverview";
 
 export default function AccountPage() {
     const { user, session, loading, signOut } = useAuth();
     const { data: profile } = useProfile(user?.id, session?.access_token);
     const { data: userSessions } = useUserSessions(user?.id, session?.access_token);
+    const [userSessionsLoading, setUserSessionsLoading] = useState(true);
+
     const navigate = useNavigate();
 
     //if no user signed in, redirect to auth page
@@ -22,10 +25,14 @@ export default function AccountPage() {
         //if the user information is loading, return so the redirect does not run
         if (loading) return;
 
+        if (userSessions) {
+            setUserSessionsLoading(false);
+        }
+
         if (!user) {
             navigate("/auth");
         }
-    }, [user]);
+    }, [user, userSessions]);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950">
@@ -67,23 +74,27 @@ export default function AccountPage() {
                     </motion.div>
                     {/* Form for users to update profile information*/}
                     <ProfileUpdateForm/>
+                    {/* Profile overview with session data statistics */}
+                    <ProfileOverview/>
                     {/* Interview sessions seciton*/}
                     <motion.div
                         className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.25 }}
-                        >
+                    >
                         <Card>
                             <CardHeader>
                                 <div className="flex justify-between">
                                     <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
                                     <div className="flex flex-col md:flex-row gap-3">
-                                        <Link to="/practice?mode=repractice">
-                                            <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                                Repractice Questions
-                                            </Button>
-                                        </Link>
+                                        { userSessions && userSessions.length > 0 && 
+                                            <Link to="/practice?mode=repractice">
+                                                <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
+                                                    Repractice Questions
+                                                </Button>
+                                            </Link>
+                                        }
                                         <Link to="/account/practice-sessions">
                                             <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
                                                 Manage All Sessions
@@ -108,9 +119,15 @@ export default function AccountPage() {
                                             ))}
                                         </div>
                                     ) : (
-                                        <div className="flex justify-center pt-10">
-                                            <Spinner variant="ellipsis" size={64}/>
-                                        </div>
+                                        userSessionsLoading ? (
+                                            <div className="flex justify-center py-10">
+                                                <Spinner variant="ellipsis" size={64}/>
+                                            </div>
+                                        )  :  (
+                                            <p className="text-sm my-5 md:text-lg font-medium text-center text-zinc-600 dark:text-zinc-300">
+                                                Your practice interview sessions will appear here.
+                                            </p>
+                                        )
                                     )}
                                     </Accordion>
                                 </CardContent>

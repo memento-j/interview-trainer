@@ -3,12 +3,20 @@ import { useSessionStore } from "@/stores/useSessionStore";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserQuestions } from "@/hooks/useUserQuestions";
 import { Spinner } from "./Spinner";
+import { useState, useEffect } from "react";
 
 export default function DisplayUserQuestions() {
     const { user, session } = useAuth();    
     const { selectedPremadeQuestions, toggleQuestion } = useSessionStore();
     const { data: userUniqueQuestions } = useUserQuestions(user?.id, session?.access_token);
-    
+    const [userQuestionsLoading, setUserQuestionsLoading] = useState(true);
+
+    useEffect(() => {
+        if (userUniqueQuestions) {
+            setUserQuestionsLoading(false);
+        }
+    }, [userUniqueQuestions]);
+
     //adds or removes premade questions from the list when the conditions are met
     function handleQuestionSelect(question: string) {        
         if (selectedPremadeQuestions.length < 10 || selectedPremadeQuestions.includes(question)) {
@@ -35,9 +43,15 @@ export default function DisplayUserQuestions() {
                     ))}
                 </div>
             ) : (
-                <div className="flex justify-center pt-10">
-                    <Spinner variant="ellipsis" size={64}/>
-                </div>
+                userQuestionsLoading ? (
+                    <div className="flex justify-center py-10">
+                        <Spinner variant="ellipsis" size={64}/>
+                    </div>
+                )  :  (
+                    <p className="text-lg my-5 md:text-2xl font-medium text-center text-zinc-600 dark:text-zinc-300">
+                        You haven't done any interview sessions yet!
+                    </p>
+                )
             )}
         </div>
     );

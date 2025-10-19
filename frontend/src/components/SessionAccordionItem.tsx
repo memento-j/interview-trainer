@@ -53,6 +53,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ type: "spring", duration: 0.6}}
+                        key={index}
                     >
                         <Card key={index} className="shadow-lg rounded-2xl">
                             <CardHeader>

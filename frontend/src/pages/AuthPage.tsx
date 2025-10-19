@@ -30,7 +30,7 @@ export default function AuthPage() {
                     variables: {
                     default: {
                         colors: {
-                        brand: '#52525B',          
+                        brand: '#52525B',
                         brandAccent: '#6B7280',
                         inputBackground: '#27272a',
                         inputBorder: '#52525b',

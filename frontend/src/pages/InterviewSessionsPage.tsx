@@ -41,11 +41,13 @@ export default function InterviewSessionPage() {
                             <div className="flex justify-between">
                                 <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
                                 <div className="flex flex-col md:flex-row gap-2">
-                                    <Link to="/practice?mode=repractice">
-                                        <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                            Repractice Questions
-                                        </Button>
-                                    </Link>
+                                    { userSessions && userSessions.length > 0 && 
+                                        <Link to="/practice?mode=repractice">
+                                            <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
+                                                Repractice Questions
+                                            </Button>
+                                        </Link>
+                                    }
                                 </div>
                             </div>
                         </CardHeader>
@@ -55,7 +57,7 @@ export default function InterviewSessionPage() {
                                 collapsible
                                 className="w-full flex flex-col gap-2 sm:gap-6.5"
                                 >
-                                {userSessions && userSessions.length > 0 &&
+                                {userSessions && userSessions.length > 0 ? (
                                     userSessions.map((session: any, index: number) => (
                                         <motion.div
                                             key={index}
@@ -66,6 +68,17 @@ export default function InterviewSessionPage() {
                                             <SessionAccordionItem allSessionData={session}/>
                                         </motion.div>                                        
                                     ))
+                                ) : (
+                                    loading ? (
+                                        <div className="flex justify-center py-10">
+                                            <Spinner variant="ellipsis" size={64}/>
+                                        </div>
+                                    )  :  (
+                                    <p className="text-sm my-5 md:text-lg font-medium text-center text-zinc-600 dark:text-zinc-300">
+                                        Your practice interview sessions will appear here.
+                                    </p>
+                                    )
+                                )
                                 }
                             </Accordion>
                         </CardContent>

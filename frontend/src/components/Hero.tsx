@@ -36,7 +36,7 @@ export default function Hero() {
                             bg-gradient-to-tr from-teal-600 to-teal-400 
                             text-zinc-100 font-semibold shadow-sm dark:shadow-white/3
                             hover:from-teal-500 hover:to-teal-300
-                            hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+                            dark:hover:shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
                     >
                         Get Started
                     </Link>
@@ -45,7 +45,7 @@ export default function Hero() {
                         className="px-6 py-3 text-2xl sm:text-3xl md:text-4xl 
                             rounded-xl border border-teal-600 text-teal-600 dark:text-teal-400 
                             font-semibold hover:bg-teal-50 dark:hover:bg-zinc-800 shadow-sm dark:shadow-white/7 
-                            hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+                            dark:hover:shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
                     >
                         Learn More
                     </Link>
@@ -101,7 +101,7 @@ export default function Hero() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1, duration: 0.6, type: "spring" }}
                             viewport={{ once: false, amount: 0.2 }}
-                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm hover:shadow-lg transition-shadow"
+                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                         >
                             <div className="flex justify-center">
                                 <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-sky-200 text-2xl shadow-md">
@@ -121,7 +121,7 @@ export default function Hero() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.175, duration: 0.6, type: "spring" }}
                             viewport={{ once: false, amount: 0.2 }}
-                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 shadow-sm dark:shadow-white/4 hover:shadow-lg transition-shadow"
+                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 shadow-sm dark:shadow-white/4 dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                         >
                             <div className="flex justify-center">
                                 <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-white text-2xl shadow-md">
@@ -141,7 +141,7 @@ export default function Hero() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.25, duration: 0.6, type: "spring" }}
                             viewport={{ once: false, amount: 0.2 }}
-                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm hover:shadow-lg transition-shadow"
+                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                         >
                             <div className="flex justify-center">
                                 <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-300 text-white text-2xl shadow-md">
@@ -160,7 +160,7 @@ export default function Hero() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.325, duration: 0.6, type: "spring" }}
                             viewport={{ once: false, amount: 0.2 }}
-                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm hover:shadow-lg transition-shadow"
+                            className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                         >
                             <div className="flex justify-center">
                                 <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-200 text-2xl shadow-md">
@@ -179,7 +179,7 @@ export default function Hero() {
                     <div className="text-center mt-16">
                         <Link
                             to="/practice"
-                            className="inline-block dark:shadow-white/8 px-8 py-4 bg-gradient-to-tr from-teal-600 to-teal-400 hover:from-teal-500 hover:to-teal-300 text-white text-lg font-semibold rounded-xl shadow-sm hover:shadow-lg hover:scale-105 active:scale-95 transition-transform"
+                            className="inline-block dark:shadow-white/8 px-8 py-4 bg-gradient-to-tr from-teal-600 to-teal-400 hover:from-teal-500 hover:to-teal-300 text-white text-lg font-semibold rounded-xl shadow-sm dark:hover:shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-transform"
                         >
                             Start Practicing
                         </Link>
