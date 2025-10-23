@@ -7,8 +7,10 @@ export function useCurrentSession(sessionId: string, userId?: string, token?: st
         queryFn: async () => {
             //if user is signed in, fetch from db
             if (userId) {
-                const res = await axios.get(`http://localhost:8080/interview-sessions/${sessionId}`, {
+                const res = await axios.get(`http://localhost:8080/interview-sessions/${sessionId}`, 
+                {
                     headers: { Authorization: `Bearer ${token}` },
+                    data: { id: userId }
                 });                
                 return res.data;
             }
@@ -27,13 +29,14 @@ export function useCurrentSession(sessionId: string, userId?: string, token?: st
                 }
                 //ensure feedback has been added to every question before stopping the interval
                 const feedbackDone = latestData.state.data.resultsData.length == latestData.state.data.questionsData.length;
-                return feedbackDone? false : 3000;
+                return feedbackDone ? false : 3000;
             }
             else {
+                //ensure feedback has been added to every question in local storaage before stopping the interval
                 const currentSession = localStorage.getItem("interview_session") || "";
                 const currentSessionJSON = JSON.parse(currentSession);
                 const feedbackDone = currentSessionJSON.questions.length == currentSessionJSON.feedback.length;
-                return feedbackDone? false : 3000;    
+                return feedbackDone ? false : 3000;    
             }
         },
         //refetches even when the user switches taabs

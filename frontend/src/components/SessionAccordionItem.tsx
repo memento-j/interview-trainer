@@ -22,16 +22,19 @@ interface SessionAccordionItemProps {
 //displays session data
 export default function SessionAccordionItem({ allSessionData }: SessionAccordionItemProps) {
     const { questionsData, resultsData, sessionData } = allSessionData;    
-    const { session } = useAuth();
+    const { user, session } = useAuth();
 
     //deletes session from db
     async function handleDeleteSession() {
         try {
             const deleteRes = await axios.delete(`http://localhost:8080/interview-sessions/${sessionData.id}`, {
                 headers: {
-                  Authorization: `Bearer ${session?.access_token}`,
+                    Authorization: `Bearer ${session?.access_token}`,
                 },
-              })
+                data: {
+                    id: user?.id
+                },
+            })
             if (deleteRes.status == 204) {
                 console.log("Deleted Successfully");
                 //refresh page

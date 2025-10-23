@@ -149,12 +149,12 @@ export async function getUserSessionsData(req,res) {
 }
 
 //for appending information session_data (answers and feedback)
-export async function updateSession(req,res) {
+export async function updateSession(req, res) {
     const { sessionId } = req.params;
-    const { questionId, answer, feedback } = req.body;
+    const { answer, feedback, questionId } = req.body;
 
     //ensures there is at least one of the fields present
-    if (!answer || !feedback  || !questionId || !req.user.id) {
+    if (!answer & !feedback & !questionId & !req.user.id) {
         return res.status(400).json({ error: "No progress data for the interview session provided" });
     }
 

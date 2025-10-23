@@ -17,8 +17,8 @@ export async function createInterviewSession(
         if (questionSource === "ai-generated") {
             //generate questions
             const aiResponse = await axios.post("http://localhost:8080/ai/interview-questions", {
-                questionCount: aiQuestionCount,
-                role: selectedOption === "general" ? "general" : role,
+                    questionCount: aiQuestionCount,
+                    role: selectedOption === "general" ? "general" : role,
                 });
             const generatedQuestions = aiResponse.data.questions;
             //create interview sesson in  db using the generated questions and role
@@ -138,18 +138,23 @@ export async function handleAnswerSubmit(
     
     //update session in db with the answer and feedback
     if (user) {
-        const updateDbResponse = await axios.patch(`http://localhost:8080/interview-sessions/${sessionID}/progress`, 
-            {
-                answer,
-                feedback,
-                questionId
-            },
-            {
-                headers: { Authorization: `Bearer ${session?.access_token}` },
-            }
-        );
-        console.log(updateDbResponse.data);
-        console.log(updateDbResponse.status);
+        try {
+            const updateDbResponse = await axios.patch(`http://localhost:8080/interview-sessions/${sessionID}/progress`, 
+                {
+                    answer,
+                    feedback,
+                    questionId,
+                    id: user.id
+                },
+                {
+                    headers: { Authorization: `Bearer ${session?.access_token}` }
+                }
+            );
+            console.log(updateDbResponse.data);
+            console.log(updateDbResponse.status);
+        } catch (err) {
+            console.log(err);
+        }
     }
     //update session in local storagee
     else {

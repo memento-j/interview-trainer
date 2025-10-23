@@ -7,6 +7,7 @@ export function useUserQuestions(userId?: string, token?: string) {
     queryFn: async () => {
         const res = await axios.get(`http://localhost:8080/interview-sessions/user/${userId}`, {
             headers: { Authorization: `Bearer ${token}` },
+            data: { id: userId }
         });
         const allSessionData = res.data.userSessionsData;
         //get question data from the usersession
