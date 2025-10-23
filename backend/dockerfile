@@ -24,7 +24,7 @@ EXPOSE 8080
 CMD ["npm", "start"]
 
 #creates img
-#docker build -t my-backend .
+#docker build -t practimate-backend .
 
 #runs img with env file
-#docker run --env-file .env -p 8080:8080 my-backend 
+#docker run --env-file .env -p 8080:8080 practimate-backend 

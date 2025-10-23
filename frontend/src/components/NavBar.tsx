@@ -67,11 +67,6 @@ export default function NavBar() {
                           </Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
-                          <Link to="/about">
-                            <div className="font-medium">About</div>
-                          </Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
                           <Link to="/faq">
                             <div className="font-medium">FAQ</div>
                           </Link>
