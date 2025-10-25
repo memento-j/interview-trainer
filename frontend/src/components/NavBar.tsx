@@ -56,7 +56,12 @@ export default function NavBar() {
             <Skeleton className="mr-50 h-11 w-32 rounded-2xl" />
           ) : (
             <NavigationMenuList className="hidden md:flex gap-3 mr-10">
-              <NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/practice">
+                      <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl"><Briefcase className="w-6 h-6 mt-0.5" />Interview Practice</Button>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem className="ml-5">
                   <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#0F0F11] xl:text-[16px]">Overview</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[150px] gap-4">
@@ -74,11 +79,6 @@ export default function NavBar() {
                       </li>
                     </ul>
                   </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/practice">
-                      <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl"><Briefcase className="w-6 h-6 mt-0.5" />Interview Practice</Button>
-                  </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="xl:mr-12 lg:mr-6">
                     { !user ? 

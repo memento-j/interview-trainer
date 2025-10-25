@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Link } from "react-router";
 import { useUserSessions } from "@/hooks/useUserSessions";
 import { useAuth } from "@/contexts/AuthContext";
+import { RefreshCw } from "lucide-react";
 
 export default function ProfileOverview() {
     const { user, session } = useAuth();
@@ -12,7 +13,7 @@ export default function ProfileOverview() {
     return(
         userSessions &&  userSessions.length !== 0 ? (
             <motion.div
-                className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
+                className="w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
@@ -23,8 +24,12 @@ export default function ProfileOverview() {
                             <CardTitle className="text-lg md:text-2xl mt-3">Profile Overview</CardTitle>
                             <div className="flex flex-col md:flex-row gap-3">
                                 <Link to="/practice?mode=repractice">
-                                    <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                        Repractice Questions
+                                    <Button
+                                        variant="default"
+                                        className="hover:cursor-pointer w-24 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2"
+                                    >
+                                        <RefreshCw className="w-4 h-4" />
+                                        Repractice
                                     </Button>
                                 </Link>
                             </div>

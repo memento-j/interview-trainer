@@ -10,6 +10,7 @@ import { Spinner } from "@/components/Spinner";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { RefreshCw } from "lucide-react";
 
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
@@ -43,8 +44,12 @@ export default function InterviewSessionPage() {
                                 <div className="flex flex-col md:flex-row gap-2">
                                     { userSessions && userSessions.length > 0 && 
                                         <Link to="/practice?mode=repractice">
-                                            <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                                Repractice Questions
+                                            <Button
+                                                variant="default"
+                                                className="hover:cursor-pointer w-36 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2"
+                                            >
+                                                <RefreshCw className="w-4 h-4" />
+                                                Repractice
                                             </Button>
                                         </Link>
                                     }

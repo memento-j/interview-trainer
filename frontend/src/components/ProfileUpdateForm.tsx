@@ -9,7 +9,8 @@ import { useForm } from "react-hook-form";
 import { useProfile } from "@/hooks/useProfile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
+import { Save } from "lucide-react";
 
 type ProfileFormInputs = {
     username?: string;
@@ -66,79 +67,98 @@ export default function ProfileUpdateForm() {
 
     return(
         <motion.div
-            className="w-full rounded-2xl max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 bg-zinc-100 dark:bg-zinc-900"
+            className="w-full rounded-2xl max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 bg-zinc-100 dark:bg-zinc-900"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.175 }}
         >
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-2xl mt-3">Profile Details</CardTitle>
+            <Card className="shadow-sm border border-zinc-200 dark:border-zinc-800 rounded-2xl transition-all bg-white/60 dark:bg-zinc-900/60 backdrop-blur">
+                <CardHeader className="pb-3">
+                    <CardTitle className="text-2xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+                    Profile Details
+                    </CardTitle>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                    Update your personal information below.
+                    </p>
                 </CardHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-6.5">
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="username">Username</Label>
-                                </div>
-                                <Input 
-                                id="username" 
-                                type="text" 
-                                className="text-sm sm:text-md" 
-                                {...register("username", { 
-                                    required: "Username is required",
-                                    minLength: { value: 3, message: "Must be at least 3 characters" },
-                                    maxLength: { value: 16, message: "Must be at most 16 characters" },    
-                                    pattern: { value: /^[A-Za-z0-9_]+$/, message: "Only letters, numbers, and underscores allowed" },                                
-                                }
-                                )}/>
+                    <CardContent className="pt-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Username */}
+                            <div className="space-y-1.5">
+                                <Label htmlFor="username" className="text-sm font-medium">
+                                    Username
+                                </Label>
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    placeholder="Enter your username"
+                                    className="text-sm sm:text-md focus-visible:ring-teal-500 dark:focus-visible:ring-teal-700"
+                                    {...register("username", {
+                                        required: "Username is required",
+                                        minLength: { value: 3, message: "Must be at least 3 characters" },
+                                        maxLength: { value: 16, message: "Must be at most 16 characters" },
+                                        pattern: { value: /^[A-Za-z0-9_]+$/, message: "Only letters, numbers, and underscores allowed" },
+                                    })}
+                                />
                                 {errors.username && (
-                                    <p className="text-red-500 text-sm">{String(errors.username.message)}</p>
+                                    <p className="text-red-500 text-xs mt-1">{String(errors.username.message)}</p>
                                 )}
                             </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
+                            {/* Email */}
+                            <div className="space-y-1.5">
+                                <Label htmlFor="email" className="text-sm font-medium">
+                                    Email
+                                </Label>
                                 <Input
-                                id="email"
-                                type="email"
-                                defaultValue={user?.email}
-                                disabled
-                                className="text-sm sm:text-md"
+                                    id="email"
+                                    type="email"
+                                    defaultValue={user?.email}
+                                    disabled
+                                    className="text-sm sm:text-md bg-zinc-100 dark:bg-zinc-800/50"
                                 />
                             </div>
-                            <div className="grid gap-2">
-                                <Label>First name</Label>
+                            {/* First Name */}
+                            <div className="space-y-1.5">
+                                <Label htmlFor="first-name" className="text-sm font-medium">
+                                    First Name
+                                </Label>
                                 <Input
                                     id="first-name"
                                     type="text"
-                                    className="text-sm sm:text-md"
+                                    placeholder="Enter your first name"
+                                    className="text-sm sm:text-md focus-visible:ring-teal-500 dark:focus-visible:ring-teal-700"
                                     {...register("firstName", { required: "First name is required" })}
                                 />
                                 {errors.firstName && (
-                                    <p className="text-red-500 text-sm">{String(errors.firstName.message)}</p>
+                                    <p className="text-red-500 text-xs mt-1">{String(errors.firstName.message)}</p>
                                 )}
                             </div>
-                            <div className="grid gap-2">
-                                <Label>Last name</Label>
+                            {/* Last Name */}
+                            <div className="space-y-1.5">
+                                <Label htmlFor="last-name" className="text-sm font-medium">
+                                    Last Name
+                                </Label>
                                 <Input
                                     id="last-name"
                                     type="text"
-                                    className="text-sm sm:text-md"
+                                    placeholder="Enter your last name"
+                                    className="text-sm sm:text-md focus-visible:ring-teal-500 dark:focus-visible:ring-teal-700"
                                     {...register("lastName", { required: "Last name is required" })}
                                 />
                                 {errors.lastName && (
-                                    <p className="text-red-500 text-sm">{String(errors.lastName.message)}</p>
+                                    <p className="text-red-500 text-xs mt-1">{String(errors.lastName.message)}</p>
                                 )}
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-end gap-2 mt-5">
-                        <Button 
-                            type="submit" 
+                    <CardFooter className="flex justify-end gap-3 mt-5">
+                        <Button
+                            type="submit"
                             disabled={isSubmitting}
-                            className="hover:cursor-pointer"
+                            className="flex items-center gap-2 bg-teal-500 hover:bg-teal-400 dark:bg-teal-600 dark:hover:bg-teal-700 text-white shadow-sm"
                         >
+                            <Save className="w-4 h-4" />
                             {isSubmitting ? "Saving..." : "Save Changes"}
                         </Button>
                     </CardFooter>

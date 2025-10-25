@@ -10,7 +10,7 @@ import { createInterviewSession } from "@/services/interviewSessionService";
 import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayPreloadedQuestions from './DisplayPreloadedQuestions';
-import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, ChevronDown, FileText } from "lucide-react";
+import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText } from "lucide-react";
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
@@ -125,38 +125,39 @@ export default function SessionSetup() {
                                 onValueChange={setSelectedOption}
                                 className="grid gap-5 max-w-2xl mx-auto pb-24"
                             >
-                                {[
                                 {
-                                    value: "role-specific",
-                                    label: "Role-specific questions",
-                                    description: "Questions tailored to your chosen position or field.",
-                                    icon: <Briefcase className="w-6 h-6 text-teal-500" />,
-                                },
-                                {
-                                    value: "general",
-                                    label: "General questions (behavioral/situational)",
-                                    description: "Common questions assessing soft skills and problem-solving.",
-                                    icon: <MessageSquare className="w-6 h-6 text-blue-500" />,
-                                },
-                                ].map(({ value, label, description, icon }) => (
-                                <div
-                                    key={value}
-                                    onClick={() => setSelectedOption(value)}
-                                    className={`flex items-center gap-4 p-5 border-2 rounded-2xl cursor-pointer transition-all
-                                    ${selectedOption === value
-                                        ? "border-teal-500 bg-gradient-to-tr from-teal-50 to-white dark:from-teal-900/30 dark:to-zinc-900 shadow-md"
-                                        : "border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                                    }`}
-                                >
-                                    {icon}
-                                    <div className="flex flex-col">
-                                        <Label htmlFor={value} className="text-lg md:text-xl font-semibold cursor-pointer">
-                                            {label}
-                                        </Label>
-                                        <p className="text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
-                                    </div>
-                                    <RadioGroupItem value={value} id={value} className="ml-auto" />
-                                </div>
+                                    [
+                                        {
+                                            value: "role-specific",
+                                            label: "Role-specific questions",
+                                            description: "Questions tailored to your chosen position or field.",
+                                            icon: <Briefcase className="w-6 h-6 text-teal-500" />,
+                                        },
+                                        {
+                                            value: "general",
+                                            label: "General questions (behavioral/situational)",
+                                            description: "Common questions assessing soft skills and problem-solving.",
+                                            icon: <MessageSquare className="w-6 h-6 text-blue-500" />,
+                                        },
+                                    ].map(({ value, label, description, icon }) => (
+                                        <div
+                                            key={value}
+                                            onClick={() => setSelectedOption(value)}
+                                            className={`flex items-center gap-4 p-5 border-2 rounded-2xl cursor-pointer transition-all
+                                            ${selectedOption === value
+                                                ? "border-teal-500 bg-gradient-to-tr from-teal-50 to-white dark:from-teal-900/30 dark:to-zinc-900 shadow-md"
+                                                : "border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                                            }`}
+                                        >
+                                            {icon}
+                                            <div className="flex flex-col">
+                                                <Label htmlFor={value} className="text-lg md:text-xl font-semibold cursor-pointer">
+                                                    {label}
+                                                </Label>
+                                                <p className="text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
+                                            </div>
+                                            <RadioGroupItem value={value} id={value} className="ml-auto" />
+                                        </div>
                                 ))}
                             </RadioGroup>
                         </Step>
