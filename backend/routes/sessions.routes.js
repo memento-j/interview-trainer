@@ -12,6 +12,6 @@ router.post("/", createLimit, createSession);
 router.get("/user/:id", readLimit, requireAuthentication, getUserSessionsData);
 router.get("/:sessionId", readLimit, doesOwnSession, getSessionData);
 router.patch("/:sessionId/progress", updateLimit, doesOwnSession, updateSession);
-router.delete("/:sessionId", deleteLimit,doesOwnSession, deleteSession);
+router.delete("/:sessionId", deleteLimit, doesOwnSession, deleteSession);
 
 export default router;

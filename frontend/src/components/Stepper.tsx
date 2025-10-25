@@ -77,11 +77,11 @@ export default function Stepper({
 
   return (
     <div
-      className="flex min-h-full flex-1 flex-col items-center justify-center p-4 sm:aspect-[4/3] md:aspect-[2/1]"
+      className="flex flex-1 flex-col items-center justify-center p-4 sm:aspect-[4/3] md:aspect-[2/1]"
       {...rest}
     >
       <div
-        className={`dark:border-cyan-500 mx-auto w-full max-w-5xl mt-20 sm:mt-50 md:mt-120 lg:mt-110 xl:mt-14 mb-60 rounded-4xl shadow-lg ${stepCircleContainerClassName}`}
+        className={`dark:border-cyan-500 mx-auto w-full max-w-6xl mt-6 sm:mt-12 mb-60 rounded-4xl shadow-lg ${stepCircleContainerClassName}`}
         style={{ border: `1px solid ${localStorage.getItem("theme") === "dark" ? "#161618" : "#E4E4E7" }` }}
       >
         <div className={`${stepContainerClassName} flex w-full items-center p-8`}>
@@ -126,7 +126,7 @@ export default function Stepper({
         </StepContentWrapper>
 
         {!isCompleted && (
-          <div className={`px-8 pb-8 ${footerClassName}`}>
+          <div className={`px-8 pb-16 ${footerClassName}`}>
             <div className={`mt-16 flex ${currentStep !== 1 ? 'justify-between' : 'justify-end'}`}>
               {currentStep !== 1 && (
                 <button

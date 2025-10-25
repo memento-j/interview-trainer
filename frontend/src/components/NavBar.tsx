@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Link } from "react-router"
 import { ThemeToggle } from "./ThemeToggle"
 import { useAuth } from "@/contexts/AuthContext";
@@ -8,6 +7,7 @@ import { Menu } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,} from "@/components/ui/navigation-menu"
 import { useProfile } from "@/hooks/useProfile";
 import { Skeleton } from "./ui/skeleton";
+import { House, Briefcase, UserRound, CircleQuestionMark, LogOut, Settings, History } from "lucide-react";
 
 export default function NavBar() {
   const { user, session, loading, signOut } = useAuth();
@@ -57,18 +57,18 @@ export default function NavBar() {
           ) : (
             <NavigationMenuList className="hidden md:flex gap-3 mr-10">
               <NavigationMenuItem>
-                  <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#0F0F11] xl:text-[16px]">Home</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#0F0F11] xl:text-[16px]">Overview</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[150px] gap-4">
                       <li>
                         <NavigationMenuLink asChild>
                           <Link to="/">
-                            <div className="font-medium">Home</div>
+                            <div className="font-medium flex"><House className="w-6 h-6 text-teal-500 dark:text-teal-600 mr-2.5 mt-0.5" />Home</div>
                           </Link>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
                           <Link to="/faq">
-                            <div className="font-medium">FAQ</div>
+                            <div className="font-medium flex"><CircleQuestionMark className="w-6 h-6 text-teal-500 dark:text-teal-600 mr-2.5 mt-0.75" />FAQ</div>
                           </Link>
                         </NavigationMenuLink>
                       </li>
@@ -77,14 +77,14 @@ export default function NavBar() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/practice">
-                      <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">Interview Practice</Button>
+                      <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl"><Briefcase className="w-6 h-6 mt-0.5" />Interview Practice</Button>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="xl:mr-12 lg:mr-6">
                     { !user ? 
                       ( 
                         <Link to="/auth">
-                          <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">Signin/Signup</Button>
+                          <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl"><UserRound className="w-6 h-6" />Signin/Signup</Button>
                         </Link>
                       ) : (
                         <div>
@@ -94,17 +94,41 @@ export default function NavBar() {
                             </div>
                           </NavigationMenuTrigger>
                           <NavigationMenuContent className="right-0 left-auto">
-                            <ul className="grid gap-2 md:w-[200px] lg:w-[250px] xl:w-[300px]">
-                              <li className="p-2 font-[700] text-xl">Welcome, {profile?.username}</li>
-                              <ListItem href="/account" title="Manage Account">
-                                View and update your account info here.
-                              </ListItem>
-                              <ListItem href="/account/practice-sessions" title="View Practice Sessions">
-                                Reivew and update past practice interview sessions.
-                              </ListItem>
-                              <ListItem href="/#"  title="Sign out" onClick={() => signOut()}>
-                                Click here to sign out.
-                              </ListItem>
+                            <ul className="grid gap-0 md:w-[200px] lg:w-[250px] xl:w-[300px]">
+                              <li className="p-2 font-[700] text-xl mb-1 ml-2">Welcome, {profile?.username}</li>
+                              <NavigationMenuLink>
+                                <div className="flex gap-2 my-1">
+                                  <Settings className="!w-7 !h-7 text-teal-500 dark:text-teal-600 mx-1.5 mt-3" />
+                                  <Link to="/account">
+                                    <div className="text-sm leading-none font-medium mb-1">Manage Account</div>
+                                    <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+                                      View and update your account info here.
+                                    </p>
+                                  </Link>
+                                </div>
+                              </NavigationMenuLink>
+                              <NavigationMenuLink>
+                                  <div className="flex gap-2 my-1">
+                                    <History className="!w-8 !h-8 text-teal-500 dark:text-teal-600 mx-1.5 mt-3" />
+                                    <Link to="/account/practice-sessions">
+                                      <div className="text-sm leading-none font-medium mb-1">View Practice Sessions</div>
+                                      <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+                                        Reivew and update past practice interview sessions.
+                                      </p>
+                                    </Link>
+                                  </div>
+                              </NavigationMenuLink>
+                              <NavigationMenuLink>
+                                <div className="flex gap-2 my-1" onClick={() => signOut()}>
+                                  <LogOut className="!w-6 !h-6 text-teal-500 dark:text-teal-600 mx-1.5 mt-2" />
+                                  <Link to="#">
+                                    <div className="text-sm leading-none font-medium mb-1">Sign out</div>
+                                    <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+                                      Click here to sign out.
+                                    </p>
+                                  </Link>
+                                </div>
+                              </NavigationMenuLink>
                             </ul>
                           </NavigationMenuContent>
                         </div>
@@ -118,25 +142,5 @@ export default function NavBar() {
           )}
       </NavigationMenu>
     </div>
-  )
-}
-
-function ListItem({
-  title,
-  children,
-  href,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link to={href}>
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
   )
 }
