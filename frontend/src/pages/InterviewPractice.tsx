@@ -76,7 +76,7 @@ export default function InterviewPractice() {
                             console.log(step);
                         }}
                         onFinalStepCompleted={() => setSessionCompleted(true)}
-                        backButtonText="Review Previous Answer"
+                        backButtonText="Go Back"
                         nextButtonText="Next Question"
                     >
                         {currentQuestions?.map((question: any, index: number) => (
@@ -95,14 +95,45 @@ export default function InterviewPractice() {
                 <div className="pt-12">
                     <SessionOverview sessionID={createdSessionID} setFeedbackGiven={setFeedbackGiven}/>
                     {feedbackGiven && (
-                        <div className="flex justify-center py-20 gap-8">
-                            <Button onClick={startNewSession} className="hover:cursor-pointer">Start new session</Button>
-                            <Link to="/practice?mode=repractice">
-                                <Button className="hover:cursor-pointer mt-3 w-32 text-[12px] md:w-40 md:text-[14px]">
-                                    Repractice Questions
-                                </Button>
-                            </Link>
-                        </div>
+                        <motion.div
+                            className="flex flex-col sm:flex-row justify-center items-center py-20 gap-6"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: "spring", duration: 0.6 }}
+                            >
+                            {/* Start New Session */}
+                            <Button
+                                onClick={startNewSession}
+                                className="
+                                    px-8 py-5 text-lg font-semibold 
+                                    bg-gradient-to-tr from-teal-600 to-teal-400 
+                                    text-white rounded-xl shadow-md
+                                    hover:from-teal-500 hover:to-teal-300 
+                                    hover:shadow-xl hover:scale-105 
+                                    active:scale-95 transition-all
+                                "
+                            >
+                                🚀 Start New Session
+                            </Button>
+                            {/* Repractice Questions */}
+                            { user && (
+                                <Link to="/practice?mode=repractice">
+                                    <Button
+                                        onClick={startNewSession}
+                                        className="
+                                            px-8 py-5 text-lg font-semibold 
+                                            bg-gradient-to-tr from-zinc-200 to-zinc-100 
+                                            dark:from-zinc-900 dark:to-zinc-800 
+                                            text-zinc-800 dark:text-zinc-200 rounded-xl border
+                                            border-border/60 shadow-md
+                                            hover:shadow-lg hover:scale-105 active:scale-95 transition-all
+                                        "
+                                    >
+                                        🔁 Repractice Questions
+                                    </Button>
+                                </Link>
+                            )}
+                        </motion.div>
                     )}
                 </div>
             )}

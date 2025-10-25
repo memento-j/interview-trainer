@@ -4,6 +4,8 @@ import { Spinner } from "@/components/Spinner";
 import { useCurrentSession } from "@/hooks/useCurrentSession";
 import SessionFeedbackDB from "./SessionFeedbackDB";
 import SessionFeedbackLS from "./SessionFeedbackLS";
+import { motion } from "framer-motion";
+import { Brain } from "lucide-react";
 
 interface SessionOverviewProps{
     sessionID: string;
@@ -40,10 +42,41 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
     return(
         <div>
             {!interviewSession ? (
-                <div className="flex flex-col items-center pt-50 gap-5">
-                    <p className='font-semibold text-2xl'>AI is analyzing your answers</p>
-                    <Spinner variant="ellipsis" size={64}/>
-                </div>
+                <motion.div
+                    className="flex flex-col items-center justify-center gap-6 py-40"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                    {/* Animated Brain Icon */}
+                    <motion.div
+                        className="flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-teal-500 to-teal-400 dark:from-teal-700 dark:to-teal-600 shadow-lg"
+                        animate={{ rotate: [0, 10, -10, 0] }}
+                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                        <Brain className="w-10 h-10 text-white" />
+                    </motion.div>
+                    <p className="font-semibold text-2xl md:text-3xl text-center text-foreground">
+                        AI is analyzing your answers...
+                    </p>
+                    {/* Spinner or Loading Indicator */}
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 0.4 }}
+                    >
+                        <Spinner variant="ellipsis" size={64} />
+                    </motion.div>
+                    {/* Subtle Progress Text */}
+                    <motion.p
+                        className="text-muted-foreground text-sm mt-3 text-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 3, duration: 0.5 }}
+                    >
+                        This may take a few seconds — generating your personalized feedback ✨
+                    </motion.p>
+                </motion.div>
             ) : 
                 user ? (
                     <div>

@@ -62,8 +62,8 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                 {questionsData.map((questionData: any, index: number) => {
                     const result = resultsData[index];
                     const averageScore = parseFloat(
-                        ((result.scores.clarity + result.scores.relevance + result.scores.confidence) / 3).toFixed(2)
-                    );
+                        ((result?.scores?.clarity + result?.scores?.relevance + result?.scores?.confidence) / 3).toFixed(2)
+                    ); 
                     return (
                         <motion.div
                             key={index}
@@ -85,92 +85,96 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                 : "bg-amber-100/60 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
                                             }`}
                                         >
-                                            <p className="">{averageScore >= 6 ? "🌟" : "⚠️"} Avg Score: {averageScore}/10</p>
+                                            <p className="">{averageScore >= 6 ? "🌟" : "⚠️"} 
+                                                {Number.isNaN(averageScore) ? "Not Answered" : `Avg Score: ${averageScore}/10`}
+                                            </p>
                                         </div>
                                     </div>
                                 </CardHeader>
                                 {/* Question feedback */}
-                                <CardContent className="space-y-4 text-sm">
-                                    {/* Answer Preview */}
-                                    <div className="bg-muted/40 dark:bg-zinc-900/50 rounded-lg p-3">
-                                        <p className="font-semibold text-foreground">Your Answer</p>
-                                        <p className="text-muted-foreground mt-1 line-clamp-3">
-                                            {result.answer}
-                                        </p>
-                                    </div>
-                                    {/* Collapsible Analysis */}
-                                    <Accordion type="single" collapsible>
-                                        <AccordionItem value="analysis">
-                                            <AccordionTrigger className="text-sm text-primary font-medium hover:cursor-pointer">
-                                                View Full Analysis
-                                            </AccordionTrigger>
-                                            <AccordionContent className="space-y-5 mt-2">
-                                                {/* Tone */}
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        <AlertCircle className="w-4 h-4 text-blue-500" />
-                                                        <p className="font-semibold">Tone</p>
+                                { result && (
+                                    <CardContent className="space-y-4 text-sm">
+                                        {/* Answer Preview */}
+                                        <div className="bg-muted/40 dark:bg-zinc-900/50 rounded-lg p-3">
+                                            <p className="font-semibold text-foreground">Your Answer</p>
+                                            <p className="text-muted-foreground mt-1 line-clamp-3">
+                                                {result.answer}
+                                            </p>
+                                        </div>
+                                        {/* Collapsible Analysis */}
+                                        <Accordion type="single" collapsible>
+                                            <AccordionItem value="analysis">
+                                                <AccordionTrigger className="text-sm text-primary font-medium hover:cursor-pointer">
+                                                    View Full Analysis
+                                                </AccordionTrigger>
+                                                <AccordionContent className="space-y-5 mt-2">
+                                                    {/* Tone */}
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <AlertCircle className="w-4 h-4 text-blue-500" />
+                                                            <p className="font-semibold">Tone</p>
+                                                        </div>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {result.tone.map((t: string, i: number) => (
+                                                                <Badge key={i} variant="outline" className="rounded-full">
+                                                                {t}
+                                                                </Badge>
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {result.tone.map((t: string, i: number) => (
-                                                            <Badge key={i} variant="outline" className="rounded-full">
-                                                            {t}
-                                                            </Badge>
+                                                    {/* Scores */}
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <BarChart3 className="w-4 h-4 text-green-500" />
+                                                            <p className="font-semibold">Scores</p>
+                                                        </div>
+                                                        <div className="flex flex-col md:flex-row gap-8 text-muted-foreground">
+                                                            <p>🗣️ Clarity: {result.scores.clarity}</p>
+                                                            <p>🎯 Relevance: {result.scores.relevance}</p>
+                                                            <p>💪 Confidence: {result.scores.confidence}</p>
+                                                        </div>
+                                                    </div>
+                                                    {/* Strengths */}
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <Flame className="w-4 h-4 text-orange-500" />
+                                                            <p className="font-semibold">Strengths</p>
+                                                        </div>
+                                                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                                                            {result.strengths.map((s: string, i: number) => (
+                                                                <li key={i}>{s}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                    {/* Weaknesses */}
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                        <AlertCircle className="w-4 h-4 text-red-500" />
+                                                        <p className="font-semibold">Weaknesses</p>
+                                                        </div>
+                                                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                                                        {result.weaknesses.map((w: string, i: number) => (
+                                                            <li key={i}>{w}</li>
                                                         ))}
+                                                        </ul>
                                                     </div>
-                                                </div>
-                                                {/* Scores */}
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        <BarChart3 className="w-4 h-4 text-green-500" />
-                                                        <p className="font-semibold">Scores</p>
-                                                    </div>
-                                                    <div className="flex flex-col md:flex-row gap-8 text-muted-foreground">
-                                                        <p>🗣️ Clarity: {result.scores.clarity}</p>
-                                                        <p>🎯 Relevance: {result.scores.relevance}</p>
-                                                        <p>💪 Confidence: {result.scores.confidence}</p>
-                                                    </div>
-                                                </div>
-                                                {/* Strengths */}
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <Flame className="w-4 h-4 text-orange-500" />
-                                                        <p className="font-semibold">Strengths</p>
-                                                    </div>
-                                                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                                                        {result.strengths.map((s: string, i: number) => (
+                                                    {/* Suggestions */}
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                        <Lightbulb className="w-4 h-4 text-yellow-500" />
+                                                        <p className="font-semibold">Suggestions</p>
+                                                        </div>
+                                                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                                                        {result.suggestions.map((s: string, i: number) => (
                                                             <li key={i}>{s}</li>
                                                         ))}
-                                                    </ul>
-                                                </div>
-                                                {/* Weaknesses */}
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                    <AlertCircle className="w-4 h-4 text-red-500" />
-                                                    <p className="font-semibold">Weaknesses</p>
+                                                        </ul>
                                                     </div>
-                                                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                                                    {result.weaknesses.map((w: string, i: number) => (
-                                                        <li key={i}>{w}</li>
-                                                    ))}
-                                                    </ul>
-                                                </div>
-                                                {/* Suggestions */}
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                    <Lightbulb className="w-4 h-4 text-yellow-500" />
-                                                    <p className="font-semibold">Suggestions</p>
-                                                    </div>
-                                                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                                                    {result.suggestions.map((s: string, i: number) => (
-                                                        <li key={i}>{s}</li>
-                                                    ))}
-                                                    </ul>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-                                </CardContent>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        </Accordion>
+                                    </CardContent>
+                                )}
                             </Card>
                         </motion.div>
                     );

@@ -54,7 +54,7 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
   const [isRecording, setIsRecording] = useState(false);
   const [transcripts, setTranscripts] = useState<Record<number, string>>({});
   const { createdSessionID, questionsSubmitted, updateQuestionSubmitted } = useSessionStore();
-
+  
   const API_KEY = import.meta.env.VITE_ASSEMBLYAI_KEY;
 
   // Combine transcript for display
@@ -146,41 +146,66 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
       <div className="mt-3">
         {/* No answer submitted, so allow user to answer the question*/}
         {questionsSubmitted[questionIndex] == false ?
-          <div>
-            <Textarea value={answer} onChange={(e) => setAnswer(e.target.value)} className="h-40 resize-none"/>
-            <p className="text-muted-foreground text-sm mt-1 text-center">
-              Sometimes the transcription AI makes mistakes, so you can manually edit your answer if needed.
+          <div className="p-6 rounded-2xl border border-border/50 shadow-sm bg-gradient-to-b from-zinc-50 to-zinc-100 dark:from-zinc-950 dark:to-zinc-900 transition-all">
+            {/* Answer Area */}
+            <label htmlFor="answer" className="block text-lg font-semibold mb-3">
+              Your Answer
+            </label>
+            <Textarea
+              id="answer"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              placeholder="Your response will appear here here..."
+              className="h-40 resize-none text-base rounded-xl border-border focus:ring-2 focus:ring-primary/60 dark:bg-zinc-900 transition-all"
+            />
+            <p className="text-muted-foreground text-sm mt-2 text-center">
+              ✨ The transcription AI may not be perfect — feel free to edit your answer before submitting.
             </p>
-            <div className="pt-2">
+            {/* Recording Controls */}
+            <div className="pt-5">
               {isRecording ? (
-                <div className="flex flex-col items-center gap-2 my-3">
-                  <p className="text-lg font-[500]">Recording...</p>
-                  <Mic onClick={stopRecording} className="hover:cursor-pointer hover:scale-105 dark:hover:bg-teal-700 hover:bg-teal-500 duration-150 transition-all bg-teal-300 dark:bg-teal-500 rounded-2xl" size={40}>
-                    Stop recording
-                  </Mic>
+                <div className="flex flex-col items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <p className="text-lg font-medium text-red-500">Recording...</p>
+                  </div>
+                  <button
+                    onClick={stopRecording}
+                    className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-red-500 to-red-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
+                  >
+                    <Mic size={30} />
+                  </button>
+                  <p className="text-xs text-muted-foreground">Click to stop recording</p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center gap-2 py-3">
-                  <p className="text-lg font-[500]">Click the microphone to start recording!</p>
-                  <Mic onClick={startRecording} className="hover:cursor-pointer hover:scale-105 hover:bg-teal-300 dark:hover:bg-teal-500 duration-150 transition-all bg-teal-500 dark:bg-teal-700 rounded-2xl" size={40}>
-                    Record
-                  </Mic>
+                <div className="flex flex-col items-center gap-3">
+                  <p className="text-lg font-medium">Click the mic to start recording!</p>
+                  <button
+                    onClick={startRecording}
+                    className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-teal-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
+                  >
+                    <Mic size={30} />
+                  </button>
                 </div>
               )}
             </div>
-            <div className="flex flex-col items-center mt-10 gap-1">
-              <p className="text-muted-foreground text-sm mt-3">
-                * Once submitted, you will be unable change your answer
+            {/* Submit Section */}
+            <div className="flex flex-col items-center mt-8 gap-2">
+              <p className="text-muted-foreground text-sm italic">
+                Once submitted, you can't change your answer.
               </p>
-              <Button className="hover:cursor-pointer" onClick={() => {
-                  if (answer == "") {
-                      return;
+              <Button
+                size="lg"
+                className="hover:cursor-pointer mt-1 px-8 text-base font-medium rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all"
+                onClick={() => {
+                  if (answer.trim() === "") {
+                    return;
                   }
-                  //set this specific question to being submitted(true)
                   updateQuestionSubmitted(questionIndex, true);
-                  handleAnswerSubmit(user, session, createdSessionID, answer, questionText, questionId)
-              }}>
-                  Submit Answer
+                  handleAnswerSubmit(user, session, createdSessionID, answer, questionText, questionId);
+                }}
+              >
+                Submit Answer
               </Button>
             </div>
           </div>
