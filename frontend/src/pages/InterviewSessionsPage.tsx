@@ -15,7 +15,7 @@ import { RefreshCw } from "lucide-react";
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
     const { data: profile } = useProfile(user?.id, session?.access_token);
-    const {data: userSessions } = useUserSessions(user?.id, session?.access_token);
+    const { data: userSessions } = useUserSessions(user?.id, session?.access_token);
     const navigate = useNavigate();
 
     //if no user signed in, redirect to auth page

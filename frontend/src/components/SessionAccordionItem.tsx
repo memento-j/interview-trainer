@@ -48,7 +48,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
     return (
         <AccordionItem value={sessionData.name}>
             {/* Session Header */}
-            <AccordionTrigger className="text-lg font-semibold bg-zinc-100 dark:bg-zinc-950 px-4 py-3 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-950/40 transition-all hover:cursor-pointer">
+            <AccordionTrigger className="text-lg font-semibold bg-zinc-200/50 dark:bg-zinc-950 px-4 py-3 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-950/40 transition-all hover:cursor-pointer">
                 <span className="flex items-center gap-2">
                     <ClipboardList className="w-5 h-5 text-primary" />
                     {sessionData.name}
