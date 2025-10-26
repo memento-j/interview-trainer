@@ -3,7 +3,7 @@ import { ThemeToggle } from "./ThemeToggle"
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Zap } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,} from "@/components/ui/navigation-menu"
 import { useProfile } from "@/hooks/useProfile";
 import { Skeleton } from "./ui/skeleton";
@@ -16,7 +16,14 @@ export default function NavBar() {
   return (
     <div>
       <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#0F0F11] gap-5 py-8 border-b-1 border-[#E4E4E7] dark:border-[#161618] z-20"> 
-        <p className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent"><Link to="/">PractiMate</Link></p>
+        <p className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
+          <Link to="/">
+          <div className="flex gap-3">
+            <Zap className="w-7 h-7 text-teal-500 dark:text-teal-400 mt-1.5" />
+            <p>PractiMate</p>
+          </div>
+          </Link>
+        </p>
         {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}
         <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />

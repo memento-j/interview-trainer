@@ -85,7 +85,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                 : "bg-amber-100/60 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
                                             }`}
                                         >
-                                            <p className="">{averageScore >= 6 ? "🌟" : "⚠️"} 
+                                            <p>{averageScore >= 6 ? "🌟 " : "⚠️ "} 
                                                 {Number.isNaN(averageScore) ? "Not Answered" : `Avg Score: ${averageScore}/10`}
                                             </p>
                                         </div>

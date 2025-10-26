@@ -24,6 +24,7 @@ export async function createInterviewSession(
             //create interview sesson in  db using the generated questions and role
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
+                    questionType: questionSource,
                     questions: generatedQuestions,
                     name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
@@ -48,6 +49,7 @@ export async function createInterviewSession(
             //create interview sesson in db using the provided questions and role
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
+                    questionType: questionSource,
                     questions: role === "Question Repractice" ? cleanQuestions : selectedPremadeQuestions,
                     name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
@@ -64,6 +66,7 @@ export async function createInterviewSession(
             //create interview sesson in db using the provided questions and role
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
+                    questionType: questionSource,
                     questions: providedQuestions,
                     name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
