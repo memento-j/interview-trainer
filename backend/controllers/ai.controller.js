@@ -76,9 +76,12 @@ export async function analyzeAnswer(req,res) {
             Question: "${question}"
             Answer: "${answer}"
             Please return the answer feedback as a JSON Object conforming to the following schema: ${JSON.stringify(feedbackSchema.shape)}
-            Tone should only be single words in each array such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. But there can be multiple array items.
-            Strengths, weaknesses, and suggestions arrays of length 3 and only include 1 sentence each.
-            For each attribute in scores, a number between 1 and 10 should be chosen based on the answer to the question for clarity, relevence, and confidence.`
+            Tone should only be single words in each array such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. Multiple items per array are allowed.
+            Strengths, weaknesses, and suggestions arrays should have up to 3 items each, with each item being exactly one concise sentence. 
+            - Strengths: highlight what is clear, well-structured, or effective in the answer itself.
+            - Weaknesses: focus only on parts of the answer that are unclear, incomplete, or could be improved, not the candidate's personality.
+            - Suggestions: provide actionable advice to improve the answer's clarity, structure, or persuasiveness.
+            For each attribute in scores, select a number between 1 and 10 based solely on the content of the answer for clarity, relevance, and confidence.`
 
         const response = await client.chat.completions.create({
             model: "gpt-5-nano",

@@ -6,6 +6,7 @@ import SessionFeedbackDB from "./SessionFeedbackDB";
 import SessionFeedbackLS from "./SessionFeedbackLS";
 import { motion } from "framer-motion";
 import { Brain } from "lucide-react";
+import { useUserSessions } from "@/hooks/useUserSessions";
 
 interface SessionOverviewProps{
     sessionID: string;
@@ -16,6 +17,7 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
     const { user, session } = useAuth();    
     const { data: currentSession } = useCurrentSession( sessionID, user?.id, session?.access_token);
     const [ interviewSession, setInterviewSession ] = useState<any>();
+    const { refetch } = useUserSessions(user?.id, session?.access_token);
 
     //checks that the feeedback has be given before storing the session
     useEffect(() => {  
@@ -26,6 +28,8 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
         if (user) {
             if (currentSession.resultsData.length == currentSession.questionsData.length ) {
                 setInterviewSession(currentSession);
+                //refetch usersessions since a session has been fully completed
+                refetch();
                 setFeedbackGiven(true);
             }
         }

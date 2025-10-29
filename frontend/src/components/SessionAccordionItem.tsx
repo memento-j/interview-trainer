@@ -85,7 +85,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                 : "bg-amber-100/60 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
                                             }`}
                                         >
-                                            <p>{averageScore >= 6 ? "🌟 " : "⚠️ "} 
+                                            <p className="w-[150px] text-center">{averageScore >= 6 ? "🌟 " : "⚠️ "} 
                                                 {Number.isNaN(averageScore) ? "Not Answered" : `Avg Score: ${averageScore}/10`}
                                             </p>
                                         </div>
@@ -97,7 +97,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                         {/* Answer Preview */}
                                         <div className="bg-muted/40 dark:bg-zinc-900/50 rounded-lg p-3">
                                             <p className="font-semibold text-foreground">Your Answer</p>
-                                            <p className="text-muted-foreground mt-1 line-clamp-3">
+                                            <p className="text-muted-foreground mt-1 overflow-auto">
                                                 {result.answer}
                                             </p>
                                         </div>
@@ -122,16 +122,26 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                             ))}
                                                         </div>
                                                     </div>
-                                                    {/* Scores */}
+                                                    {/* Scores Overview */}
                                                     <div>
-                                                        <div className="flex items-center gap-2 mb-2">
+                                                        <div className="flex items-center gap-2 mb-3">
                                                             <BarChart3 className="w-4 h-4 text-green-500" />
                                                             <p className="font-semibold">Scores</p>
                                                         </div>
-                                                        <div className="flex flex-col md:flex-row gap-8 text-muted-foreground">
-                                                            <p>🗣️ Clarity: {result.scores.clarity}</p>
-                                                            <p>🎯 Relevance: {result.scores.relevance}</p>
-                                                            <p>💪 Confidence: {result.scores.confidence}</p>
+                                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                                            {[
+                                                            { label: "Clarity", value: result.scores.clarity },
+                                                            { label: "Relevance", value: result.scores.relevance },
+                                                            { label: "Confidence", value: result.scores.confidence },
+                                                            ].map((s, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="bg-muted/40 dark:bg-zinc-900/60 rounded-lg py-2 px-3 flex justify-between"
+                                                            >
+                                                                <p>{s.label}</p>
+                                                                <p className="font-semibold">{s.value}/10</p>
+                                                            </div>
+                                                            ))}
                                                         </div>
                                                     </div>
                                                     {/* Strengths */}
