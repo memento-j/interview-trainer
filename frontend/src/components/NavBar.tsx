@@ -16,14 +16,14 @@ export default function NavBar() {
   return (
     <div>
       <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#0F0F11] gap-5 py-8 border-b-1 border-[#E4E4E7] dark:border-[#161618] z-20"> 
-        <p className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
+        <div className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
           <Link to="/">
           <div className="flex gap-3">
             <Zap className="w-7 h-7 text-teal-500 dark:text-teal-400 mt-1.5" />
             <p>PractiMate</p>
           </div>
           </Link>
-        </p>
+        </div>
         {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}
         <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />
@@ -112,7 +112,7 @@ export default function NavBar() {
                               <NavigationMenuLink asChild>
                                 <Link to="/account/practice-sessions" className="flex flex-row items-center gap-3">
                                   <History className="!w-6 !h-6 text-teal-500 dark:text-teal-600" />
-                                  <p className="text-[16px] leading-none font-medium mb-1">View Practice Sessions</p>
+                                  <p className="text-[16px] leading-none font-medium mb-1">View Previous Sessions</p>
                                 </Link>
                               </NavigationMenuLink>
                               <NavigationMenuLink asChild>
