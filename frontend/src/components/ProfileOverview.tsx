@@ -3,30 +3,17 @@ import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Link } from "react-router";
 import { useUserSessions } from "@/hooks/useUserSessions";
+import { useSessionAnalysis } from "@/hooks/useSessionsAnalysis";
 import { useAuth } from "@/contexts/AuthContext";
 import { RefreshCw } from "lucide-react";
 import { Spinner } from "./Spinner";
-import { useMemo } from "react";
 
 export default function ProfileOverview() {
     const { user, session } = useAuth();
-    const { data: userSessions, isLoading } = useUserSessions(user?.id, session?.access_token);
-    //calculate statistics to display in cache
-    const userStats = useMemo(() => {
-        if (!userSessions) {
-            return null;
-        }
-        const totalSessions = userSessions.length;
-        const totalQuestions = userSessions.reduce((sum, currSession) => sum + currSession.questionsData.length, 0);
-
-        return { totalSessions, totalQuestions };
-
-    }, [userSessions]);
-    //?? is the nullish coalescing operator.
-    // returns the right-hand value only if the left-hand value is null or undefined.
-    const { totalSessions, totalQuestions } = userStats ?? {};
+    const { data: userSessions, isLoading: sessionsLoading } = useUserSessions(user?.id, session?.access_token);
+    const { data: userAnalysis, isLoading: analysisLoading } = useSessionAnalysis(user?.id, userSessions);
     
-    if (isLoading) {
+    if (sessionsLoading || analysisLoading) {
         return (
             <motion.div
                 className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
@@ -54,10 +41,11 @@ export default function ProfileOverview() {
             </motion.div>
         );
     }
-    
 
+    console.log(userAnalysis);
+    
     return(
-        userSessions &&  userSessions.length !== 0 ? (
+        userAnalysis && userSessions &&  userSessions.length !== 0 ? (
             <motion.div
                 className="w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
                 initial={{ opacity: 0, y: 10 }}
@@ -83,8 +71,7 @@ export default function ProfileOverview() {
                     </CardHeader>
                         <CardContent>
                             <div>
-                                <p>Total practice sessions: {totalSessions}</p>
-                                <p>Total questions answered: {totalQuestions}</p>
+                                <p>loadeddddd</p>
                             </div>
                         </CardContent>
                 </Card>
