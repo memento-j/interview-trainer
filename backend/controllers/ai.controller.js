@@ -1,13 +1,15 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import { z } from 'zod';
+import { createClient } from "@supabase/supabase-js";
 
 dotenv.config();
 
-// Initialize OpenAI client
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_KEY);
 const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
+
 // Schemas for open ai output
 const questionsSchema = z.object({
     questions: z.array(z.string())
@@ -117,10 +119,71 @@ export async function analyzeAnswer(req,res) {
     }
 }
 
+async function getStoredAnalysis(userId) {
+    const { data: profileAnalysis, error } = await supabase
+        .from("profiles")
+        .select("totalSessions, totalAnswers, overallAverages, toneInsights, mostCommonStrengths, mostCommonWeaknesses, suggestions")
+        .eq("id", userId)
+        .single();
+
+    if (error) {
+        console.log("error getting profile analysis", error);
+        throw error;
+    }
+
+    return {
+        totalSessions: profileAnalysis.totalSessions,
+        totalAnswers: profileAnalysis.totalAnswers,
+        overallAverages: profileAnalysis.overallAverages,
+        toneInsights: profileAnalysis.toneInsights,
+        mostCommonStrengths: profileAnalysis.mostCommonStrengths,
+        mostCommonWeaknesses: profileAnalysis.mostCommonWeaknesses,
+        suggestions: profileAnalysis.suggestions,
+    };
+}
+
+async function getSessionsCounts(userId) {
+    //count the number of sessions for this user id
+    const { count: interviewSessionCount, error: interviewSessionError } = await supabase
+        .from("interview_sessions")
+        .select("*", { count: "exact" })
+        .eq("userId", userId);
+
+    if (interviewSessionError) {
+        console.error(interviewSessionError);
+    }
+
+    //get the profiles.totalSessions row
+    const { data: profilesSessionCount, error: profilesError } = await supabase
+        .from("profiles")
+        .select("totalSessions")
+        .eq("id", userId)
+        .single()
+
+    if (profilesError) {
+        console.error(profilesError);
+    }
+
+    return { 
+        interviewSessionCount: interviewSessionCount, 
+        profilesSessionCount: profilesSessionCount.totalSessions 
+    }
+}
+
 //getting user analytics based on their completed sessions
 export async function analyzeUserSessions(req,res) {
     try {
-        const { userSessions } = req.body;
+        const { userSessions, userId } = req.body;
+        const { interviewSessionCount, profilesSessionCount } = await getSessionsCounts(userId);
+
+        //profile analysis is currently available in the db, 
+        // AND the interviewsession table session count matches the profiles table session count 
+        if (profilesSessionCount !== null && interviewSessionCount === profilesSessionCount) {
+            const analysis = await getStoredAnalysis(userId);
+            return res.status(200).json(analysis);    
+        }
+        
+        //gets only the data needed for each session to reduce the tokens used per request
         const releventSessionsDataList = userSessions.map(session => ({
             sessionName: session.sessionData.name,
             date: session.sessionData.created_at,
@@ -134,7 +197,7 @@ export async function analyzeUserSessions(req,res) {
             }))
         }));
         // having issues with this returning the exact zod schema everytime, so i decided to hardcode
-        // the schema into the prompt sincee it works way more often this way.
+        // the schema into the prompt since it works way more often this way.
         const prompt = 
             `Analyze this user's past mock interview sessions and produce insights.
 
@@ -172,11 +235,28 @@ export async function analyzeUserSessions(req,res) {
         });
 
         const analysis = userAnalysisSchema.parse(JSON.parse(response.choices[0].message.content));
-        console.log(analysis);
-        res.status(200).json(analysis);
+        
+        //store new analysis for this user profile in db
+        const { error: profileUpdateError } = await supabase
+            .from("profiles")
+            .update({
+                totalSessions: analysis.totalSessions,
+                totalAnswers: analysis.totalAnswers,
+                overallAverages: analysis.overallAverages,
+                toneInsights: analysis.toneInsights,
+                mostCommonStrengths: analysis.mostCommonStrengths,
+                mostCommonWeaknesses: analysis.mostCommonWeaknesses,
+                suggestions: analysis.suggestions,
+                updatedAt: new Date().toISOString(),
+            })
+            .eq("id", userId)
 
+        if (profileUpdateError) {
+            console.log("error adding analysis to profiles table", profileUpdateError);
+        }
+        res.status(200).json(analysis);
     } catch (error) {
-        console.error("User session's analysis API error:", error);
+        console.error("User sessions analysis API error:", error);
         res.status(500).json({ error: "Something went wrong" });
     }
 }

@@ -1,6 +1,7 @@
 import express from "express";
 import { createQuestions, analyzeAnswer, analyzeUserSessions } from "../controllers/ai.controller.js";
 import { aiLimit } from "../middleware/rateLimits.js";
+import { requireAuthorization } from "../middleware/requireAuthorization.js";
 
 const router = express.Router();
 

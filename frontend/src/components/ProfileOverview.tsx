@@ -11,7 +11,7 @@ import { Spinner } from "./Spinner";
 export default function ProfileOverview() {
     const { user, session } = useAuth();
     const { data: userSessions, isLoading: sessionsLoading } = useUserSessions(user?.id, session?.access_token);
-    const { data: userAnalysis, isLoading: analysisLoading } = useSessionAnalysis(user?.id, userSessions);
+    const { data: userAnalysis, isLoading: analysisLoading } = useSessionAnalysis(user?.id, session?.access_token, userSessions);
     
     if (sessionsLoading || analysisLoading) {
         return (
