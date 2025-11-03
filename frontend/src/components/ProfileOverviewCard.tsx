@@ -7,9 +7,9 @@ import { useSessionAnalysis } from "@/hooks/useSessionsAnalysis";
 import { useAuth } from "@/contexts/AuthContext";
 import { Brain, RefreshCw, Users } from "lucide-react";
 import { Spinner } from "./Spinner";
-import ProfileAnalytics from "./ProfileAnalytics";
+import ProfileAnalytics from "./ProfileAnalyticsAccordion";
 
-export default function ProfileOverview() {
+export default function ProfileOverviewCard() {
     const { user, session } = useAuth();
     const { data: userSessions, isLoading: sessionsLoading } = useUserSessions(user?.id, session?.access_token);
     const { data: userAnalysis, isLoading: analysisLoading } = useSessionAnalysis(user?.id, session?.access_token, userSessions);
@@ -81,8 +81,8 @@ export default function ProfileOverview() {
                 <Card>
                     <CardHeader>
                         <div className="flex justify-between">
-                            <CardTitle className="text-lg md:text-2xl font-bold flex items-center gap-2">
-                                <Users className="w-6 h-6 text-blue-500" /> Practice Profile Dashboard
+                            <CardTitle className="text-lg md:text-2xl font-[500] flex items-center gap-2">
+                                <Users className="w-6 h-6 text-blue-500" /> Overall Performance
                             </CardTitle>
                             <div className="flex flex-col md:flex-row gap-3">
                                 <Link to="/practice?mode=repractice">

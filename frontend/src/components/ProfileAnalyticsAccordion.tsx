@@ -1,28 +1,7 @@
 import { motion } from "framer-motion";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion";
 import { BarChart2, CheckCircle, AlertTriangle, Lightbulb, Users, MessageCircle, TrendingUp } from "lucide-react";
-
-interface OverallAverages {
-  clarity: number;
-  relevance: number;
-  confidence: number;
-}
-
-interface ToneInsights {
-  mostCommonTone: string;
-  mostCommonCount: number;
-  frequencies: Record<string, number>;
-}
-
-interface UserAnalysis {
-  totalSessions: number;
-  totalAnswers: number;
-  overallAverages: OverallAverages;
-  toneInsights: ToneInsights;
-  mostCommonStrengths: string[];
-  mostCommonWeaknesses: string[];
-  suggestions: string[];
-}
+import { type UserAnalysis } from "@/types/UserAnalysis";
 
 interface ProfileAnalyticsProps {
   userAnalysis: UserAnalysis;

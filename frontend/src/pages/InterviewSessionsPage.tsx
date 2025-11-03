@@ -11,7 +11,7 @@ import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
-import ProfileOverview from "@/components/ProfileOverview";
+import ProfileOverviewCard from "@/components/ProfileOverviewCard";
 
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
@@ -38,7 +38,7 @@ export default function InterviewSessionPage() {
             ) :
                 <div className="flex flex-col items-center pt-15 md:pt-30 pb-20 gap-5">
                     {/* Profile overview with session data statistics */}
-                    <ProfileOverview/>
+                    <ProfileOverviewCard/>
                     {/* Interview sessions seciton*/}
                     <motion.div
                         className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl bg-zinc-100 dark:bg-zinc-900 rounded-2xl"
