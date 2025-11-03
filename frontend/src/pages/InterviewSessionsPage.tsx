@@ -11,6 +11,7 @@ import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
+import ProfileOverview from "@/components/ProfileOverview";
 
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
@@ -35,59 +36,68 @@ export default function InterviewSessionPage() {
                     <Spinner variant="ellipsis" size={64}/>
                 </div>
             ) :
-                <div className="flex justify-center pt-40 pb-20">
+                <div className="flex flex-col items-center pt-15 md:pt-30 pb-20 gap-5">
+                    {/* Profile overview with session data statistics */}
+                    <ProfileOverview/>
                     {/* Interview sessions seciton*/}
-                    <Card className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl px-0 sm:px-2 bg-zinc-100 dark:bg-zinc-900">
-                        <CardHeader>
-                            <div className="flex justify-between">
-                                <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
-                                <div className="flex flex-col md:flex-row gap-2">
-                                    { userSessions && userSessions.length > 0 && 
-                                        <Link to="/practice?mode=repractice">
-                                            <Button
-                                                variant="default"
-                                                className="hover:cursor-pointer w-36 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2"
-                                            >
-                                                <RefreshCw className="w-4 h-4" />
-                                                Repractice
-                                            </Button>
-                                        </Link>
-                                    }
+                    <motion.div
+                        className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl bg-zinc-100 dark:bg-zinc-900 rounded-2xl"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.30 }}
+                    >
+                        <Card>
+                            <CardHeader>
+                                <div className="flex justify-between">
+                                    <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
+                                    <div className="flex flex-col md:flex-row gap-2">
+                                        { userSessions && userSessions.length > 0 && 
+                                            <Link to="/practice?mode=repractice">
+                                                <Button
+                                                    variant="default"
+                                                    className="hover:cursor-pointer w-36 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2"
+                                                >
+                                                    <RefreshCw className="w-4 h-4" />
+                                                    Repractice
+                                                </Button>
+                                            </Link>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <Accordion
-                                type="single"
-                                collapsible
-                                className="w-full flex flex-col gap-2 sm:gap-6.5"
-                                >
-                                {userSessions && userSessions.length > 0 ? (
-                                    userSessions.map((session: any, index: number) => (
-                                        <motion.div
-                                            key={index}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                        >
-                                            <SessionAccordionItem allSessionData={session}/>
-                                        </motion.div>                                        
-                                    ))
-                                ) : (
-                                    loading ? (
-                                        <div className="flex justify-center py-10">
-                                            <Spinner variant="ellipsis" size={64}/>
-                                        </div>
-                                    )  :  (
-                                    <p className="text-sm my-5 md:text-lg font-medium text-center text-zinc-600 dark:text-zinc-300">
-                                        Your practice interview sessions will appear here.
-                                    </p>
+                            </CardHeader>
+                            <CardContent>
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="w-full flex flex-col gap-2 sm:gap-6.5"
+                                    >
+                                    {userSessions && userSessions.length > 0 ? (
+                                        userSessions.map((session: any, index: number) => (
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.05 }}
+                                            >
+                                                <SessionAccordionItem allSessionData={session}/>
+                                            </motion.div>                                        
+                                        ))
+                                    ) : (
+                                        loading ? (
+                                            <div className="flex justify-center py-10">
+                                                <Spinner variant="ellipsis" size={64}/>
+                                            </div>
+                                        )  :  (
+                                        <p className="text-sm my-5 md:text-lg font-medium text-center text-zinc-600 dark:text-zinc-300">
+                                            Your practice interview sessions will appear here.
+                                        </p>
+                                        )
                                     )
-                                )
-                                }
-                            </Accordion>
-                        </CardContent>
-                    </Card>
+                                    }
+                                </Accordion>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
                 </div>
             }
         </div>

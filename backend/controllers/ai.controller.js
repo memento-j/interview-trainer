@@ -220,7 +220,7 @@ export async function analyzeUserSessions(req,res) {
                 },
                 "mostCommonStrengths": [string, string, string],
                 "mostCommonWeaknesses": [string, string, string],
-                "suggestions": [string, string, string, string, string]
+                "suggestions": [string, string, string, string, string, string]
             }
 
             Do not include any extra keys or explanation. Return only valid JSON.`;

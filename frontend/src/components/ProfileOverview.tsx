@@ -5,8 +5,9 @@ import { Link } from "react-router";
 import { useUserSessions } from "@/hooks/useUserSessions";
 import { useSessionAnalysis } from "@/hooks/useSessionsAnalysis";
 import { useAuth } from "@/contexts/AuthContext";
-import { RefreshCw } from "lucide-react";
+import { Brain, RefreshCw, Users } from "lucide-react";
 import { Spinner } from "./Spinner";
+import ProfileAnalytics from "./ProfileAnalytics";
 
 export default function ProfileOverview() {
     const { user, session } = useAuth();
@@ -29,20 +30,45 @@ export default function ProfileOverview() {
                     </CardHeader>
                         <CardContent>
                             <motion.div
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ duration: 0.4 }}
-                                className="flex justify-center"
+                                className="flex flex-col items-center justify-center gap-6"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
                             >
-                                <Spinner variant="ellipsis" size={64} />
+                                {/* Animated Brain Icon */}
+                                <motion.div
+                                    className="flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-teal-500 to-teal-400 dark:from-teal-700 dark:to-teal-600 shadow-lg"
+                                    animate={{ rotate: [0, 10, -10, 0] }}
+                                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <Brain className="w-10 h-10 text-white" />
+                                </motion.div>
+                                <p className="font-semibold text-xl md:text-2xl text-center text-foreground">
+                                    AI is currently analyzing ALL of your sessions...
+                                </p>
+                                {/* Spinner or Loading Indicator */}
+                                <motion.div
+                                    initial={{ scale: 0.9, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.3, duration: 0.4 }}
+                                >
+                                    <Spinner variant="ellipsis" size={64} />
+                                </motion.div>
+                                {/* Subtle Progress Text */}
+                                <motion.p
+                                    className="text-muted-foreground text-sm mt-3 text-center"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 10, duration: 0.5 }}
+                                >
+                                    This may take up to 30 seconds — we're generating your personalized feedback ✨
+                                </motion.p>
                             </motion.div>
                         </CardContent>
                 </Card>
             </motion.div>
         );
     }
-
-    console.log(userAnalysis);
     
     return(
         userAnalysis && userSessions &&  userSessions.length !== 0 ? (
@@ -55,7 +81,9 @@ export default function ProfileOverview() {
                 <Card>
                     <CardHeader>
                         <div className="flex justify-between">
-                            <CardTitle className="text-lg md:text-2xl mt-3">Profile Overview</CardTitle>
+                            <CardTitle className="text-lg md:text-2xl font-bold flex items-center gap-2">
+                                <Users className="w-6 h-6 text-blue-500" /> Practice Profile Dashboard
+                            </CardTitle>
                             <div className="flex flex-col md:flex-row gap-3">
                                 <Link to="/practice?mode=repractice">
                                     <Button
@@ -70,9 +98,8 @@ export default function ProfileOverview() {
                         </div>
                     </CardHeader>
                         <CardContent>
-                            <div>
-                                <p>loadeddddd</p>
-                            </div>
+                            {/*User analytics display*/}
+                            <ProfileAnalytics userAnalysis={userAnalysis}/>
                         </CardContent>
                 </Card>
             </motion.div>

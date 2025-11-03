@@ -10,7 +10,6 @@ import { useProfile } from "@/hooks/useProfile";
 import { Spinner } from "@/components/Spinner";
 import { useUserSessions } from "@/hooks/useUserSessions";
 import { motion } from "framer-motion";
-import ProfileOverview from "@/components/ProfileOverview";
 import { RefreshCw, FolderOpen } from "lucide-react";
 
 export default function AccountPage() {
@@ -65,8 +64,6 @@ export default function AccountPage() {
                     </motion.div>
                     {/* Form for users to update profile information*/}
                     <ProfileUpdateForm/>
-                    {/* Profile overview with session data statistics */}
-                    <ProfileOverview/>
                     {/* Interview sessions seciton*/}
                     <motion.div
                         className="w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl rounded-2xl bg-zinc-100 dark:bg-zinc-900"
@@ -76,9 +73,9 @@ export default function AccountPage() {
                     >
                         <Card>
                             <CardHeader>
-                                <div className="flex justify-between">
-                                    <CardTitle className="text-lg md:text-2xl mt-3">Practice Interview Sessions Overview</CardTitle>
-                                    <div className="flex flex-col md:flex-row gap-3">
+                                <div className="flex justify-between gap-1 md:gap-0">
+                                    <CardTitle className="text-lg md:text-2xl mt-2 mb-0 md:mb-2">Your 3 Most Recent Practice Sessions</CardTitle>
+                                    <div className="flex flex-col md:flex-row gap-3 mt-1">
                                         {userSessions && userSessions.length > 0 && (
                                             <Link to="/practice?mode=repractice">
                                                 <Button
@@ -96,7 +93,7 @@ export default function AccountPage() {
                                             className="hover:cursor-pointer w-36 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2 border-zinc-300 dark:border-zinc-700"
                                             >
                                                 <FolderOpen className="w-4 h-4" />
-                                                Manage Sessions
+                                                Manage All Sessions
                                             </Button>
                                         </Link>
                                     </div>
