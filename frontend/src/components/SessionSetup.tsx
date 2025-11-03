@@ -2,6 +2,7 @@ import Stepper, { Step } from '../components/Stepper';
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import { Textarea } from './ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useAuth } from '@/contexts/AuthContext';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
@@ -10,7 +11,7 @@ import { createInterviewSession } from "@/services/interviewSessionService";
 import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayPreloadedQuestions from './DisplayPreloadedQuestions';
-import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText } from "lucide-react";
+import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText, BriefcaseBusiness } from "lucide-react";
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
@@ -18,6 +19,7 @@ export default function SessionSetup() {
     const [role, setRole] = useState<string>("");
     const [selectedOption, setSelectedOption] = useState<string>("role-specific");
     const [questionSource, setQuestionSource] = useState<string>("ai-generated");
+    const [jobDescription, setJobDescription] = useState<string>("");
     const [providedQuestions, setProvidedQuestions] = useState<string[]>([""]);
     const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
     const [sessionName, setSessionName] = useState<string>("");
@@ -35,6 +37,7 @@ export default function SessionSetup() {
             aiQuestionCount,
             providedQuestions,
             selectedPremadeQuestions,
+            jobDescription,
             sessionName
         );
         
@@ -93,6 +96,7 @@ export default function SessionSetup() {
                                     { value: "ai-generated", label: "Have the AI generate the questions for me", icon: <Sparkles className="w-6 h-6 text-teal-500" /> },
                                     { value: "preloaded", label: "Select from a preloaded list of questions", icon: <ListChecks className="w-6 h-6 text-blue-500" /> },
                                     { value: "provided", label: "I would like to provide the questions myself", icon: <Edit className="w-6 h-6 text-purple-500" /> },
+                                    { value: "job-description", label: "Have the AI generate questions based on a job description", icon: <BriefcaseBusiness className="w-8 h-8 text-green-500" /> },
                                 ].map(({ value, label, icon }) => (
                                     <div
                                         key={value}
@@ -114,12 +118,11 @@ export default function SessionSetup() {
                             ))}
                         </RadioGroup>
                     </Step>
-                    { questionSource !== "preloaded" && questionSource !== "provided" &&
+                    { questionSource === "ai-generated" &&
                         <Step canContinue={!!selectedOption}>
                             <p className="font-semibold mb-8 text-2xl lg:text-3xl text-center">
                                 Select what type of interview questions you would like
                             </p>
-
                             <RadioGroup
                                 value={selectedOption}
                                 onValueChange={setSelectedOption}
@@ -162,6 +165,21 @@ export default function SessionSetup() {
                             </RadioGroup>
                         </Step>
                     }
+                    { questionSource === "job-description" &&
+                        <Step canContinue={!!jobDescription}>
+                            <p className='mb-10 mt-3 font-semibold md:text-2xl lg:text-3xl text-center'>Provide the job description for the AI to generate questions from below</p>
+                            <Textarea
+                            id="answer"
+                            value={jobDescription}
+                            onChange={(e) => setJobDescription(e.target.value)}
+                            placeholder="Enter the job description here..."
+                            className="h-40 resize-none text-base rounded-xl border-border focus:ring-2 focus:ring-primary/60 dark:bg-zinc-900 transition-all"
+                            />
+                            <p className="text-muted-foreground text-sm mt-2 text-center">
+                                ✨ This will be used to generate questions for you to practice tailored to your provided job description
+                            </p>
+                        </Step>
+                    }
                     {/* Promot user to provide the questions they would like to practice */}
                     { questionSource === "provided" &&
                         //checks if every question is emepty or not
@@ -198,7 +216,7 @@ export default function SessionSetup() {
                         </Step>
                     }
                     {/* Prompt user to provide the number of questions they would like the AI to generate*/}
-                    { questionSource === "ai-generated" &&
+                    { questionSource === "ai-generated" || questionSource === "job-description" &&
                         <Step canContinue={!!aiQuestionCount}>
                             <div className="text-center mb-10">
                                 <div className="flex justify-center items-center gap-3 mb-4">
@@ -208,7 +226,7 @@ export default function SessionSetup() {
                                     </h2>
                                 </div>
                                 <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-                                Choose how many questions you'd like the AI to generate — <br/> between <span className="font-semibold text-teal-500">3</span> and <span className="font-semibold text-teal-500">10</span>.
+                                    Choose how many questions you'd like the AI to generate — <br/> between <span className="font-semibold text-teal-500">3</span> and <span className="font-semibold text-teal-500">10</span>.
                                 </p>
                             </div>
                             <div className="flex justify-center">

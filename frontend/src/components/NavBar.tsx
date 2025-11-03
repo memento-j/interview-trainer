@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Zap } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,} from "@/components/ui/navigation-menu"
 import { useProfile } from "@/hooks/useProfile";
-import { Skeleton } from "./ui/skeleton";
+import { Spinner } from "./Spinner";
 import { House, Briefcase, UserRound, CircleQuestionMark, LogOut, Settings, History } from "lucide-react";
 
 export default function NavBar() {
@@ -24,7 +24,7 @@ export default function NavBar() {
           </div>
           </Link>
         </div>
-        {/* Mobile nav bar !!!!!!!!! has errors remember to fix later !!!!!!!!!!!!! */}
+        {/* Mobile nav bar !!!!!!!!! has errors when opening remember to fix later !!!!!!!!!!!!! */}
         <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />
             <Sheet>
@@ -60,7 +60,38 @@ export default function NavBar() {
           
           {/* Desktop nav bar */}
           { loading ? (
-            <Skeleton className="mr-50 h-11 w-32 rounded-2xl" />
+            <NavigationMenuList className="hidden md:flex gap-3 mr-10">
+              <NavigationMenuItem>
+                <Link to="/practice">
+                    <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl"><Briefcase className="w-6 h-6 mt-0.5" />Interview Practice</Button>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="ml-5">
+                <NavigationMenuTrigger className="font-[500] dark:hover:bg-zinc-900 bg-zinc-100 dark:bg-[#0F0F11] xl:text-[16px]">Overview</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[120px] gap-2">
+                    <NavigationMenuLink asChild>
+                      <Link to="/" className="flex flex-row items-center gap-3">
+                        <House className="text-teal-500 dark:text-teal-600 !w-6 !h-6"/>
+                        <p className="text-[16px] font-[500]">Home</p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link to="/faq" className="flex flex-row items-center gap-3">
+                        <CircleQuestionMark className="text-teal-500 dark:text-teal-600 !w-6 !h-6"/>
+                        <p className="text-[16px] font-[500]">FAQ</p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="mr-20">
+                <Spinner variant="circle" size={36} />
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                  <ThemeToggle/>
+              </NavigationMenuItem>
+            </NavigationMenuList>
           ) : (
             <NavigationMenuList className="hidden md:flex gap-3 mr-10">
                 <NavigationMenuItem>
@@ -95,11 +126,15 @@ export default function NavBar() {
                         </Link>
                       ) : (
                         <div>
-                          <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
-                            <div className="flex items-center justify-center w-11 h-11 mt-0.5 pb-1 rounded-full bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 font-semibold text-xl">
-                                {profile?.username?.charAt(0)}
-                            </div>
-                          </NavigationMenuTrigger>
+                            {profile ? (
+                              <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
+                                <div className="flex items-center justify-center w-11 h-11 mt-0.5 pb-1 rounded-full bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 font-semibold text-xl">
+                                  {profile?.username?.charAt(0)}
+                                </div>
+                              </NavigationMenuTrigger>
+                            ): (
+                              <Spinner variant="circle" size={36} className="mr-10"/>
+                            )}
                           <NavigationMenuContent className="right-0 left-auto">
                             <ul className="grid gap-0 md:w-[200px] lg:w-[250px] xl:w-[300px]">
                               <li className="p-2 font-[700] text-xl mb-1 ml-1">Welcome, {profile?.username}</li>

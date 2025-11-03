@@ -9,6 +9,7 @@ export async function createInterviewSession(
     aiQuestionCount: string,
     providedQuestions: string[],
     selectedPremadeQuestions: string[],
+    jobDescription: string,
     sessionName: string
 ) {
     //if there is a user, store in db 
@@ -19,6 +20,7 @@ export async function createInterviewSession(
             const aiResponse = await axios.post("http://localhost:8080/ai/interview-questions", {
                     questionCount: aiQuestionCount,
                     role: selectedOption === "general" ? "general" : role,
+                    jobDescription
                 });
             const generatedQuestions = aiResponse.data.questions;
             //create interview sesson in  db using the generated questions and role
@@ -36,6 +38,30 @@ export async function createInterviewSession(
             //return the created interview session's session ID 
             return dbResponse.data;
         } 
+        else if (questionSource === "job-description") {
+            //generate questions
+            const aiResponse = await axios.post("http://localhost:8080/ai/interview-questions", {
+                    questionCount: aiQuestionCount,
+                    role,
+                    jobDescription
+                });
+            const generatedQuestions = aiResponse.data.questions;
+            //create interview sesson in  db using the generated questions and role
+            const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
+                {
+                    questionType: questionSource,
+                    questions: generatedQuestions,
+                    name: sessionName,
+                    role,
+                    jobDescription
+                },
+                {
+                    headers: { Authorization: `Bearer ${session?.access_token}` },
+                }
+            );
+            //return the created interview session's session ID 
+            return dbResponse.data;
+        }
         else if (questionSource === "preloaded") {
             //remove extra text surrounding the question if this is question repractice
             let cleanQuestions: string[] = []
@@ -45,7 +71,6 @@ export async function createInterviewSession(
                     return questionText;
                 })                
             }
-            
             //create interview sesson in db using the provided questions and role
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
                 {
@@ -61,7 +86,7 @@ export async function createInterviewSession(
             //return the created interview session's session ID 
             return dbResponse.data;
         }
-        //simply store the session in db
+        //simply store the session in db using the provided questions from the user
         else {
             //create interview sesson in db using the provided questions and role
             const dbResponse = await axios.post("http://localhost:8080/interview-sessions",
@@ -87,6 +112,7 @@ export async function createInterviewSession(
             const aiResponse = await axios.post("http://localhost:8080/ai/interview-questions", {
                 questionCount: aiQuestionCount,
                 role: selectedOption === "general" ? "general" : role,
+                jobDescription
             });
             const generatedQuestions = aiResponse.data.questions;
             //now store in local storage
@@ -108,6 +134,24 @@ export async function createInterviewSession(
             };
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
             return ""; 
+        }
+        else if (questionSource === "job-description") {
+            //generate questions
+            const aiResponse = await axios.post("http://localhost:8080/ai/interview-questions", {
+                    questionCount: aiQuestionCount,
+                    role,
+                    jobDescription
+                });
+            const generatedQuestions = aiResponse.data.questions;
+            //now store in local storage
+            const interviewSession = {
+                role: selectedOption === "general" ? "general" : role,
+                questions: generatedQuestions,
+                answers: [],
+                feedback: [],
+            };
+            localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+            return "";
         }
         //simply store the provided questions and role in local storage
         else {

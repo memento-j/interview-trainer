@@ -50,7 +50,7 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
                     variants={motionVariants}
                     transition={{ duration: 0.3 }}
                 >
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="flex flex-col items-center p-2">
                             <Users className="w-5 h-5 text-blue-500 mb-1" />
                             <p className="text-sm text-zinc-500 dark:text-zinc-400">Total Sessions</p>
@@ -68,7 +68,7 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
                         </div>
                         <div className="flex flex-col items-center p-2">
                             <TrendingUp className="w-5 h-5 text-red-500 mb-1" />
-                            <p className="text-sm text-zinc-500 dark:text-zinc-400">Tone Count</p>
+                            <p className="text-sm text-zinc-500 dark:text-zinc-400">Most Common Tone Count</p>
                             <p className="text-xl font-bold">{userAnalysis.toneInsights.mostCommonCount}</p>
                         </div>
                     </div>

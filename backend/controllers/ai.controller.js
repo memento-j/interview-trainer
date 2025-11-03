@@ -46,7 +46,7 @@ const userAnalysisSchema = z.object({
 //getting interview questions
 export async function createQuestions(req,res) {
     try {
-        const { questionCount, role } = req.body;
+        const { questionCount, role, jobDescription } = req.body;
   
         if (!questionCount || !role) {
             return res.status(400).json({ error: "Missing questionCount or role" });
@@ -59,8 +59,15 @@ export async function createQuestions(req,res) {
         } 
         //otherwise, the prompt will be role-specific
         else {
-            prompt = `Generate ${questionCount} interview questions for a ${role}. The questions should be clear and professional and include a mix of behavioral, situational, and technical (if applicable) questions related to the role. All of these questions must be able to only be answered verbally. Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(questionsSchema.shape)}`
-        }  
+            //no job description, so just provide questions only based on role
+            if (jobDescription === "") {
+                prompt = `Generate ${questionCount} interview questions for a ${role}. The questions should be clear and professional and include a mix of behavioral, situational, and technical (if applicable) questions related to the role. All of these questions must be able to only be answered verbally. Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(questionsSchema.shape)}`
+            }
+            //there is a job description, so ensure the questions are tailored to this job description 
+            else {
+                prompt = `Generate ${questionCount} interview questions for a ${role} tailored to this job description: ${jobDescription}. If there is a company name present, there should be questions that are tailored to this specific company as well. The questions should be clear and professional and include a mix of behavioral, situational, and technical (if applicable) questions related to the role. All of these questions must be able to only be answered verbally. Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(questionsSchema.shape)}`
+            }
+        } 
 
         const response = await client.chat.completions.create({
             model: "gpt-5-nano",
@@ -89,12 +96,26 @@ export async function analyzeAnswer(req,res) {
         if (!question || !answer) {
             return res.status(400).json({ error: "Missing question or answer" });
         }
-
+        // having issues with this returning the exact zod schema everytime, so i decided to hardcode
+        // the schema into the prompt since it works way more often this way.
         const prompt = `Analyze the following interview answer:
             Question: "${question}"
             Answer: "${answer}"
-            Please return the answer feedback as a JSON Object conforming to the following schema: ${JSON.stringify(feedbackSchema.shape)}
-            Tone should only be single words in each array such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. Multiple items per array are allowed.
+            Please return the answer feedback as a JSON Object conforming to the following schema: 
+            
+            {
+                "strengths": [string, string, string],
+                "weaknesses": [string, string, string],
+                "suggestions": [string, string, string],
+                "tone": [string, string, ...],
+                "scores": {
+                    "clarity": number,
+                    "relevance": number,
+                    "confidence": number
+                }
+            }
+
+            Each element in the Tone array should only be single words in each array such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. Multiple items per array are allowed.
             Strengths, weaknesses, and suggestions arrays should have up to 3 items each, with each item being exactly one concise sentence. 
             - Strengths: highlight what is clear, well-structured, or effective in the answer itself.
             - Weaknesses: focus only on parts of the answer that are unclear, incomplete, or could be improved, not the candidate's personality.
@@ -110,7 +131,7 @@ export async function analyzeAnswer(req,res) {
             response_format: {type: "json_object"}
         });
         const content = response.choices[0].message.content;
-        const analysis = JSON.parse(content);  
+        const analysis = feedbackSchema.parse(JSON.parse(content));  
         console.log(analysis);
         res.status(200).json({ analysis });
     } catch (err) {
