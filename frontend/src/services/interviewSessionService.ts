@@ -53,7 +53,7 @@ export async function createInterviewSession(
                     questions: generatedQuestions,
                     name: sessionName,
                     role,
-                    jobDescription
+                    jobDescription 
                 },
                 {
                     headers: { Authorization: `Bearer ${session?.access_token}` },

@@ -3,7 +3,7 @@ import { ThemeToggle } from "./ThemeToggle"
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Zap } from "lucide-react";
+import { CheckCircle2, Menu, MessageSquare } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,} from "@/components/ui/navigation-menu"
 import { useProfile } from "@/hooks/useProfile";
 import { Spinner } from "./Spinner";
@@ -19,7 +19,10 @@ export default function NavBar() {
         <div className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
           <Link to="/">
           <div className="flex gap-3">
-            <Zap className="w-7 h-7 text-teal-500 dark:text-teal-400 mt-1.5" />
+            <div className="relative inline-flex items-center justify-center mt-1">
+              <MessageSquare className="w-8 h-8 text-teal-500" />
+              <CheckCircle2 className="w-4 h-4 text-teal-600 absolute bottom-0 right-0 bg-white dark:bg-zinc-900 rounded-full" />
+            </div>
             <p>PractiMate</p>
           </div>
           </Link>
@@ -147,7 +150,7 @@ export default function NavBar() {
                               <NavigationMenuLink asChild>
                                 <Link to="/account/practice-sessions" className="flex flex-row items-center gap-3">
                                   <History className="!w-6 !h-6 text-teal-500 dark:text-teal-600" />
-                                  <p className="text-[16px] leading-none font-medium mb-1">View Previous Sessions</p>
+                                  <p className="text-[16px] leading-none font-medium mb-1">View All Sessions</p>
                                 </Link>
                               </NavigationMenuLink>
                               <NavigationMenuLink asChild>

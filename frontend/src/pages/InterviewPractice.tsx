@@ -27,7 +27,7 @@ export default function InterviewPractice() {
             const falseArary = new Array(currentQuestions.length).fill(false);
             setQuestionsSubmitted(falseArary);
         }
-    }, [setupCompleted, currentQuestions, location.pathname])
+    }, [setupCompleted, currentQuestions])
 
     useEffect(() => {
         //on unmount, start new session

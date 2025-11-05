@@ -139,7 +139,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
         onScroll={handleScroll}
         style={{
           scrollbarWidth: displayScrollbar ? 'thin' : 'none',
-          scrollbarColor: '#222 #060010'
+          scrollbarColor: '#52525B #BAC4C8'
         }}
       >
         {items.map((item, index) => (

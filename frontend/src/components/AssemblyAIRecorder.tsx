@@ -146,7 +146,7 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
       <div className="mt-3">
         {/* No answer submitted, so allow user to answer the question*/}
         {questionsSubmitted[questionIndex] == false ?
-          <div className="p-6 rounded-2xl border border-border/50 shadow-sm bg-gradient-to-b from-zinc-50 to-zinc-100 dark:from-zinc-950 dark:to-zinc-900 transition-all">
+          <div className="p-6 rounded-2xl border border-border/50 shadow-sm  bg-zinc-100 dark:bg-zinc-900 transition-all">
             {/* Answer Area */}
             <label htmlFor="answer" className="block text-lg font-semibold mb-3">
               Your Answer

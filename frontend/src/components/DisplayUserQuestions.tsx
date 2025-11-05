@@ -15,7 +15,7 @@ export default function DisplayUserQuestions() {
         if (userUniqueQuestions) {
             setUserQuestionsLoading(false);
         }
-    }, [userUniqueQuestions]);
+    }, [userUniqueQuestions, userQuestionsLoading]);
 
     //adds or removes premade questions from the list when the conditions are met
     function handleQuestionSelect(question: string) {        
@@ -26,33 +26,31 @@ export default function DisplayUserQuestions() {
     }
 
     return (
-        <div>
-            { userUniqueQuestions && userUniqueQuestions.length > 0 ? (
-                <div>
-                    <p className="text-center text-xl mb-3">❗= Questions you should practice again (Highest score of less than 6)</p>
-                    <AnimatedList
-                        items={userUniqueQuestions.map((q: any) => `${q.weak ? "❗" : ""} ${q.question} - (Your Highest Score: ${q.averageScore})`)}
-                        onItemSelect={(question) => handleQuestionSelect(question)}
-                        enableArrowNavigation
-                        displayScrollbar
-                        showGradients={false}
-                    />
-                    <p className="text-center text-2xl my-3 font-[500]">Your Selected Questions</p>
-                    {selectedPremadeQuestions.map((question, index) => (
-                        <p className="text-center font-[500]" key={index}>{index+1}.) {question}</p>
-                    ))}
+        userUniqueQuestions && userUniqueQuestions.length > 0 ? (
+            <div>
+                <p className="text-center text-xl mb-3">❗= Questions you should practice again (Highest score of less than 6)</p>
+                <AnimatedList
+                    items={userUniqueQuestions.map((q: any) => `${q.weak ? "❗" : ""} ${q.question} - (Your Highest Score: ${q.averageScore})`)}
+                    onItemSelect={(question) => handleQuestionSelect(question)}
+                    enableArrowNavigation
+                    displayScrollbar
+                    showGradients={false}
+                />
+                <p className="text-center text-2xl my-3 font-[500]">Your Selected Questions</p>
+                {selectedPremadeQuestions.map((question, index) => (
+                    <p className="text-center font-[500]" key={index}>{index+1}.) {question}</p>
+                ))}
+            </div>
+        ) : (
+            userQuestionsLoading ? (
+                <div className="flex justify-center h-[520px] mt-5">
+                    <Spinner variant="ellipsis" size={64}/>
                 </div>
-            ) : (
-                userQuestionsLoading ? (
-                    <div className="flex justify-center py-10">
-                        <Spinner variant="ellipsis" size={64}/>
-                    </div>
-                )  :  (
-                    <p className="text-lg my-5 md:text-2xl font-medium text-center text-zinc-600 dark:text-zinc-300">
-                        You haven't done any interview sessions yet!
-                    </p>
-                )
-            )}
-        </div>
+            )  :  (
+                <p className="text-lg my-5 md:text-2xl font-medium text-center text-zinc-600 dark:text-zinc-300">
+                    You haven't done any interview sessions yet!
+                </p>
+            )
+        )
     );
 }
