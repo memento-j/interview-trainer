@@ -9,7 +9,7 @@ import AuthPage from './pages/AuthPage.tsx'
 import InterviewPractice from './pages/InterviewPractice.tsx'
 import AccountPage from './pages/AccountPage.tsx'
 import InterviewSessionPage from './pages/InterviewSessionsPage.tsx'
-import NavBar from './components/NavBar.tsx'
+import NavBar from './components/NavBar.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx'
 import FAQPage from './pages/FAQPage.tsx';
 
