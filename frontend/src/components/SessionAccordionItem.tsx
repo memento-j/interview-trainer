@@ -46,7 +46,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
     }
 
     return (
-        <AccordionItem value={sessionData.name} className="border-none">
+        <AccordionItem value={sessionData.id} className="border-none">
             {/* Session Header */}
             <AccordionTrigger className="text-lg font-semibold bg-zinc-200/50 dark:bg-zinc-950 px-4 py-3 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-950/40 transition-all hover:cursor-pointer">
                 <span className="flex items-center gap-2">

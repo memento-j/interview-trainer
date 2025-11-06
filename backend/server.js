@@ -5,6 +5,9 @@ import profileRouter from "./routes/profiles.routes.js"
 import sessionsRouter from "./routes/sessions.routes.js"
 import preLoadedQuestionsRouter from "./routes/preloadedQuestions.routes.js";
 import helmet from "helmet";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const corsOptions = {
   origin: ["http://localhost:5173"],
@@ -29,6 +32,6 @@ app.use("/interview-sessions", sessionsRouter);
 app.use("/preloaded-questions", preLoadedQuestionsRouter);
 
 // Start server
-app.listen(8080, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server running on http://localhost:8080");
 });

@@ -25,10 +25,6 @@ const faqs: FAQ[] = [
         answer: "No. The AI analyzes your answers in real-time and returns structured feedback immediately. The raw text of your responses is stored only if you are signed in, but you can delete this anytime you'd like."
     },
     {
-        question: "Can I delete my account and data?",
-        answer: "Yes. You can permanently delete your account and all associated sessions, answers, and feedback from your account settings page."
-    },
-    {
         question: "What does the AI feedback include?",
         answer: "The AI provides score on clarity, confidence, relevance, and highlights strengths/weaknesses while providing suggestions."
     },

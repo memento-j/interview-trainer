@@ -15,11 +15,10 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
 
     function scoreBar(score: number) {
         const widthPercent = (score / 10) * 100;
-        console.log(widthPercent);
         //tailwind generates classes at build time, not dynamically, so must use the style arguement for things that change at runtime
         return (
             <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-3 rounded-full overflow-hidden">
-                <div className={`bg-green-500 h-3 rounded-full`} style={{ width: `${widthPercent}`}}/>
+                <div className={`bg-green-500 h-3 rounded-full`} style={{ width: `${widthPercent}%`}}/>
             </div>
         );
     };

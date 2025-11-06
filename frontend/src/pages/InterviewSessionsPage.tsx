@@ -67,8 +67,7 @@ export default function InterviewSessionPage() {
                             </CardHeader>
                             <CardContent>
                                 <Accordion
-                                    type="single"
-                                    collapsible
+                                    type="multiple"
                                     className="w-full flex flex-col gap-2 sm:gap-6.5"
                                     >
                                     {userSessions && userSessions.length > 0 ? (

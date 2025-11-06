@@ -43,7 +43,7 @@ export default function DisplayUserQuestions() {
             </div>
         ) : (
             userQuestionsLoading ? (
-                <div className="flex justify-center h-[520px] mt-5">
+                <div className="flex justify-center min-h-[520px] mt-5">
                     <Spinner variant="ellipsis" size={64}/>
                 </div>
             )  :  (

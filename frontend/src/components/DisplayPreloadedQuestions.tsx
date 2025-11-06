@@ -2,6 +2,7 @@ import { usePreloadedQuestions } from "@/hooks/usePreloadedQuestions";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import AnimatedList from "./AnimatedList";
 import { useSessionStore } from "@/stores/useSessionStore";
+import type { PreloadedQuestion } from "@/types/PreloadedQustion";
 
 export default function DisplayPreloadedQuestions() {
     const { data: preloadedQuestions } = usePreloadedQuestions();    
@@ -17,7 +18,7 @@ export default function DisplayPreloadedQuestions() {
 
     return (
         preloadedQuestions &&
-            <div className="h-[520px]">
+            <div className="min-h-[620px]">
                 <p className="text-center text-2xl mb-3 font-[500]">Select Your Questions By Category (10 max)</p>
                 <Tabs defaultValue={Object.keys(preloadedQuestions)[0]}>
                     <div className="flex justify-center my-3">
@@ -32,7 +33,7 @@ export default function DisplayPreloadedQuestions() {
                     {Object.entries(preloadedQuestions).map(([role, questions]) => (
                         <TabsContent key={role} value={role} className="text-lg">
                             <AnimatedList
-                                items={questions.map((q: any) => q.question)}
+                                items={questions.map((q: PreloadedQuestion) => q.question)}
                                 onItemSelect={(question) => handleQuestionSelect(question)}
                                 enableArrowNavigation
                                 displayScrollbar

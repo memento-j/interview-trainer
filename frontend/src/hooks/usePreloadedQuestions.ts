@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { type PreloadedQuestion } from "@/types/PreloadedQustion";
+
+type PreloadedQuestions = Record<string, PreloadedQuestion[]>
 
 export function usePreloadedQuestions() {
-    return useQuery({
+    return useQuery<PreloadedQuestions>({
         queryKey: ["preloadedQuestions"],
         queryFn: async () => {
             const res = await axios.get(`http://localhost:8080/preloaded-questions`);
