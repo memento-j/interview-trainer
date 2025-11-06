@@ -14,8 +14,7 @@ export default function NavBar() {
   const { data: profile } = useProfile(user?.id, session?.access_token);
 
   return (
-    <div>
-      <NavigationMenu viewport={false} className="flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#0F0F11] gap-5 py-8 border-b-1 border-[#E4E4E7] dark:border-[#161618] z-20"> 
+      <NavigationMenu viewport={false} className="sticky top-0 flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#0F0F11] gap-5 py-8 border-b-1 border-[#E4E4E7] dark:border-[#161618] z-20"> 
         <div className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
           <Link to="/">
           <div className="flex gap-3">
@@ -171,6 +170,5 @@ export default function NavBar() {
             </NavigationMenuList>          
           )}
       </NavigationMenu>
-    </div>
   )
 }

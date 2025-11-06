@@ -103,7 +103,6 @@ export default function AccountPage() {
                                     <Accordion
                                         type="single"
                                         collapsible
-                                        className="w-full"
                                     >
                                     {userSessions && userSessions.length > 0 ? (
                                         <div className="flex flex-col gap-2 sm:gap-6.5">

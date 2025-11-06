@@ -221,7 +221,7 @@ export default function SessionSetup() {
                             <div className="text-center mb-10">
                                 <div className="flex justify-center items-center gap-3 mb-4">
                                     <BrainCircuit className="w-8 h-8 text-teal-500 dark:text-teal-400" />
-                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-cyan-400 bg-clip-text text-transparent">
+                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
                                         AI Question Count
                                     </h2>
                                 </div>
@@ -269,7 +269,7 @@ export default function SessionSetup() {
                             <div className="text-center mb-10">
                                 <div className="flex justify-center items-center gap-3 mb-4">
                                     <Briefcase className="w-8 h-8 text-teal-500 dark:text-teal-400" />
-                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-cyan-400 bg-clip-text text-transparent">
+                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
                                         Role Information
                                     </h2>
                                 </div>
@@ -293,7 +293,7 @@ export default function SessionSetup() {
                             <div className="text-center mb-10">
                                 <div className="flex justify-center items-center gap-3 mb-4">
                                     <FileText className="w-8 h-8 text-teal-500 dark:text-teal-400" />
-                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-cyan-400 bg-clip-text text-transparent">
+                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
                                         Name Your Session
                                     </h2>
                                 </div>

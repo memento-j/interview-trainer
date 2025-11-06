@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion";
-import { BarChart2, CheckCircle, AlertTriangle, Lightbulb, Users, MessageCircle, TrendingUp } from "lucide-react";
+import { BarChart2, CheckCircle, AlertTriangle, Lightbulb, Users, MessageCircle, TrendingUp, Flame } from "lucide-react";
 import { type UserAnalysis } from "@/types/UserAnalysis";
 
 interface ProfileAnalyticsProps {
@@ -8,30 +8,20 @@ interface ProfileAnalyticsProps {
 }
 
 export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps) {
-    const maxScore = 10;
-    const maxToneCount = Math.max(...Object.values(userAnalysis.toneInsights.frequencies), 1);
-
-    const scoreBar = (score: number) => {
-        const widthPercent = (score / maxScore) * 100;
-        return (
-        <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-3 rounded-full overflow-hidden">
-            <div className="bg-green-500 h-3 rounded-full" style={{ width: `${widthPercent}%` }} />
-        </div>
-        );
-    };
-
-    const toneBar = (count: number) => {
-        const widthPercent = (count / maxToneCount) * 100;
-        return (
-        <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
-            <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${widthPercent}%` }} />
-        </div>
-        );
-    };
-
     const motionVariants = {
         hidden: { opacity: 0, y: 10 },
         visible: { opacity: 1, y: 0 },
+    };
+
+    function scoreBar(score: number) {
+        const widthPercent = (score / 10) * 100;
+        console.log(widthPercent);
+        //tailwind generates classes at build time, not dynamically, so must use the style arguement for things that change at runtime
+        return (
+            <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-3 rounded-full overflow-hidden">
+                <div className={`bg-green-500 h-3 rounded-full`} style={{ width: `${widthPercent}`}}/>
+            </div>
+        );
     };
 
   return (
@@ -39,7 +29,7 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
         {/* Totals */}
         <AccordionItem value="totals">
             <AccordionTrigger>
-                <div className="flex items-center gap-2 font-semibold">
+                <div className="flex items-center gap-2 font-semibold text-xl">
                     <CheckCircle className="w-5 h-5 text-green-500" /> Totals
                 </div>
             </AccordionTrigger>
@@ -78,7 +68,7 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
         {/* Average Scores */}
         <AccordionItem value="scores">
             <AccordionTrigger>
-                <div className="flex items-center gap-2 font-semibold">
+                <div className="flex items-center gap-2 font-semibold  text-xl">
                     <BarChart2 className="w-5 h-5 text-purple-500" /> Average Scores
                 </div>
             </AccordionTrigger>
@@ -102,64 +92,37 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
                 </motion.div>
             </AccordionContent>
         </AccordionItem>
-        {/* Tone Frequencies */}
-        <AccordionItem value="toneFrequencies">
-            <AccordionTrigger>
-                <div className="flex items-center gap-2 font-semibold">
-                    <BarChart2 className="w-5 h-5 text-blue-500" /> Tone Frequencies
-                </div>
-            </AccordionTrigger>
-            <AccordionContent>
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={motionVariants}
-                    transition={{ duration: 0.3 }}
-                    className="space-y-2"
-                >
-                {Object.entries(userAnalysis.toneInsights.frequencies).map(([tone, count]) => (
-                    <div key={tone} className="flex items-center gap-2">
-                        <span className="w-32 text-sm font-medium capitalize">{tone}</span>
-                        {toneBar(count)}
-                        <span className="ml-2 text-sm font-medium">{count}</span>
-                    </div>
-                ))}
-                </motion.div>
-            </AccordionContent>
-        </AccordionItem>
         {/* Strengths */}
         <AccordionItem value="strengths">
-            <AccordionTrigger>
-                <div className="flex items-center gap-2 font-semibold">
-                    <CheckCircle className="w-5 h-5 text-teal-500" /> Common Strengths
-                </div>
-            </AccordionTrigger>
-            <AccordionContent>
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={motionVariants}
-                    transition={{ duration: 0.3 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
-                >
-                {userAnalysis.mostCommonStrengths.map((strength, i) => (
-                    <div
-                    key={i}
-                    className="flex items-center gap-2 p-3 bg-teal-50 dark:bg-teal-950 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-default"
-                    >
-                    <p className="text-sm md:text-base text-center font-medium text-teal-700 dark:text-teal-200">
+        <AccordionTrigger>
+            <div className="flex items-center gap-2 font-semibold text-xl">
+                <Flame className="w-5 h-5 text-green-500" /> Common Strengths
+            </div>
+        </AccordionTrigger>
+        <AccordionContent>
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={motionVariants}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
+            >
+            {userAnalysis.mostCommonStrengths.map((strength, i) => (
+                <div key={i}
+                className="flex justify-center items-center p-3 bg-green-50 dark:bg-green-900 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-default text-center">
+                    <p className="text-sm md:text-base font-medium text-green-700 dark:text-green-200">
                         {strength}
                     </p>
-                    </div>
-                ))}
-                </motion.div>
-            </AccordionContent>
+                </div>
+            ))}
+            </motion.div>
+        </AccordionContent>
         </AccordionItem>
         {/* Weaknesses */}
         <AccordionItem value="weaknesses">
             <AccordionTrigger>
-                <div className="flex items-center gap-2 font-semibold">
-                <AlertTriangle className="w-5 h-5 text-teal-400" /> Common Weaknesses
+                <div className="flex items-center gap-2 font-semibold text-xl">
+                    <AlertTriangle className="w-5 h-5 text-red-500" /> Common Weaknesses
                 </div>
             </AccordionTrigger>
             <AccordionContent>
@@ -171,9 +134,11 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"
                 >
                 {userAnalysis.mostCommonWeaknesses.map((weakness, i) => (
-                    <div key={i} 
-                    className="flex items-center gap-2 p-3 bg-teal-100 dark:bg-teal-900 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-default">
-                        <p className="text-sm md:text-base text-center font-medium text-teal-600 dark:text-teal-300">
+                    <div
+                    key={i}
+                    className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-900 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-default"
+                    >
+                        <p className="text-sm md:text-base text-center font-medium text-red-700 dark:text-red-200">
                             {weakness}
                         </p>
                     </div>
@@ -184,8 +149,8 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
         {/* Suggestions */}
         <AccordionItem value="suggestions">
             <AccordionTrigger>
-                <div className="flex items-center gap-2 font-semibold">
-                    <Lightbulb className="w-5 h-5 text-teal-300" /> Overall Suggestions
+                <div className="flex items-center gap-2 font-semibold text-xl">
+                    <Lightbulb className="w-5 h-5 text-yellow-500" /> Overall Suggestions
                 </div>
             </AccordionTrigger>
             <AccordionContent>
@@ -198,8 +163,8 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
                 >
                 {userAnalysis.suggestions.map((suggestion, i) => (
                     <div key={i}
-                    className="flex items-center gap-2 p-3 bg-teal-200 dark:bg-teal-800 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-default">
-                        <p className="text-sm md:text-base text-center font-medium text-teal-700 dark:text-teal-100">
+                    className="flex items-center gap-2 p-3 bg-yellow-50 dark:bg-yellow-900 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-default">
+                        <p className="text-sm md:text-base text-center font-medium text-yellow-700 dark:text-yellow-200">
                             {suggestion}
                         </p>
                     </div>
@@ -207,6 +172,7 @@ export default function ProfileAnalytics({ userAnalysis }: ProfileAnalyticsProps
                 </motion.div>
             </AccordionContent>
         </AccordionItem>
+
     </Accordion>
   );
 }

@@ -16,8 +16,8 @@ export default function SessionFeedbackDB({ resultsData }: SessionFeedbackProps)
 
   return (
     <div className="max-w-6xl mx-auto space-y-10 p-6">
-      <h1 className="text-3xl font-bold text-center mb-4">
-        Session Results Overview
+      <h1 className="text-3xl font-bold text-center mb-4 pb-2 bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
+        Session Analysis
       </h1>
 
       <Accordion type="multiple" className="space-y-5">
@@ -82,71 +82,100 @@ export default function SessionFeedbackDB({ resultsData }: SessionFeedbackProps)
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <AlertCircle className="w-4 h-4 text-blue-500" />
-                          <p className="font-semibold">Tone</p>
+                          <p className="font-semibold text-lg">Tone</p>
                         </div>
                         <div className="flex flex-wrap gap-2">
                           {result.tone.map((t: string, i: number) => (
                             <Badge
                               key={i}
                               variant="outline"
-                              className="rounded-full px-3 py-1"
+                              className="rounded-full px-3 py-1 text-md"
                             >
                               {t}
                             </Badge>
                           ))}
                         </div>
                       </div>
-
-                      {/* Scores */}
+                      {/* Scores Overview */}
                       <div>
-                        <div className="flex items-center gap-2 mb-2">
-                          <BarChart3 className="w-4 h-4 text-green-500" />
-                          <p className="font-semibold">Scores</p>
-                        </div>
-                        <div className="flex flex-col md:flex-row gap-6 text-muted-foreground">
-                          <p>🗣️ Clarity: {result.scores.clarity}</p>
-                          <p>🎯 Relevance: {result.scores.relevance}</p>
-                          <p>💪 Confidence: {result.scores.confidence}</p>
-                        </div>
+                          <div className="flex items-center gap-2 mb-3">
+                              <BarChart3 className="w-4 h-4 text-green-500" />
+                              <p className="font-semibold text-lg">Scores</p>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              {[
+                              { label: "Clarity", value: result.scores.clarity },
+                              { label: "Relevance", value: result.scores.relevance },
+                              { label: "Confidence", value: result.scores.confidence },
+                              ].map((s, i) => (
+                              <div
+                                  key={i}
+                                  className="bg-zinc-200 dark:bg-zinc-900/60 rounded-lg py-2 px-3 flex justify-between"
+                              >
+                                  <p className="font-semibold text-md">{s.label}</p>
+                                  <p className="font-semibold text-md">{s.value}/10</p>
+                              </div>
+                              ))}
+                          </div>
                       </div>
-
                       {/* Strengths */}
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <Flame className="w-4 h-4 text-orange-500" />
-                          <p className="font-semibold">Strengths</p>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Flame className="w-4 h-4 text-green-500" />
+                          <p className="font-semibold text-green-600 dark:text-green-300">Strengths</p>
                         </div>
-                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {result.strengths.map((s: string, i: number) => (
-                            <li key={i}>{s}</li>
+                            <div
+                              key={i}
+                              className="p-3 bg-green-50 dark:bg-green-900 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                            >
+                              <p className="text-sm md:text-base text-center font-medium text-green-700 dark:text-green-200">
+                                {s}
+                              </p>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
 
                       {/* Weaknesses */}
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <AlertCircle className="w-4 h-4 text-red-500" />
-                          <p className="font-semibold">Weaknesses</p>
+                          <p className="font-semibold text-red-600 dark:text-red-300">Weaknesses</p>
                         </div>
-                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {result.weaknesses.map((w: string, i: number) => (
-                            <li key={i}>{w}</li>
+                            <div
+                              key={i}
+                              className="p-3 bg-red-50 dark:bg-red-900 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                            >
+                              <p className="text-sm md:text-base text-center font-medium text-red-700 dark:text-red-200">
+                                {w}
+                              </p>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
 
                       {/* Suggestions */}
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <Lightbulb className="w-4 h-4 text-yellow-500" />
-                          <p className="font-semibold">Suggestions</p>
+                          <p className="font-semibold text-yellow-600 dark:text-yellow-300">Suggestions</p>
                         </div>
-                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {result.suggestions.map((s: string, i: number) => (
-                            <li key={i}>{s}</li>
+                            <div
+                              key={i}
+                              className="p-3 bg-yellow-50 dark:bg-yellow-900 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                            >
+                              <p className="text-sm md:text-base text-center font-medium text-yellow-800 dark:text-yellow-200">
+                                {s}
+                              </p>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>

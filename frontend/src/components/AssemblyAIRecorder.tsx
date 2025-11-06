@@ -171,7 +171,7 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
                   </div>
                   <button
                     onClick={stopRecording}
-                    className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-red-500 to-red-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
+                    className="flex items-center hover:cursor-pointer justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-red-500 to-red-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
                   >
                     <Mic size={30} />
                   </button>
@@ -182,7 +182,7 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
                   <p className="text-lg font-medium">Click the mic to start recording!</p>
                   <button
                     onClick={startRecording}
-                    className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-teal-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
+                    className="flex hover:cursor-pointer items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-teal-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
                   >
                     <Mic size={30} />
                   </button>

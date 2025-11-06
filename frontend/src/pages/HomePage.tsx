@@ -1,4 +1,3 @@
-import AppDemo from "@/components/AppDemo";
 import AppOverview from "@/components/AppOverview";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
@@ -9,7 +8,6 @@ export default function HomePage() {
     <div>
         <Hero/>
         <AppOverview/>
-        <AppDemo/>
         <Footer/>
     </div>
   );

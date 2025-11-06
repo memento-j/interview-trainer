@@ -9,7 +9,7 @@ import { type SessionData } from "@/types/SessionData";
 import { type ResultData } from "@/types/ResultsData";
 import { type QuestionsData } from "@/types/QuestionData";
 import { motion } from "framer-motion";
-import { AlertCircle, BarChart3, Lightbulb, Flame, Trash2, ClipboardList } from "lucide-react";
+import { AlertCircle, BarChart3, Lightbulb, Flame, Trash2, ClipboardList, CircleAlert, ThumbsUp } from "lucide-react";
 
 interface SessionAccordionItemProps {
     allSessionData: {
@@ -46,7 +46,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
     }
 
     return (
-        <AccordionItem value={sessionData.name}>
+        <AccordionItem value={sessionData.name} className="border-none">
             {/* Session Header */}
             <AccordionTrigger className="text-lg font-semibold bg-zinc-200/50 dark:bg-zinc-950 px-4 py-3 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-950/40 transition-all hover:cursor-pointer">
                 <span className="flex items-center gap-2">
@@ -75,8 +75,8 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                 {/* Question Preview */}
                                 <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                                     <CardTitle className="text-base font-semibold text-foreground/90">
-                                        <span className="text-primary">Question {index + 1}</span>:{" "}
-                                        <span className="font-normal">{questionData.question}</span>
+                                        <p className="text-primary text-lg mb-1">Question {index + 1}: </p>
+                                        <span className="font-normal text-[18px]">{questionData.question}</span>
                                     </CardTitle>
                                     <div className="flex items-center gap-3 text-sm text-muted-foreground">
                                         <div className={`flex items-center gap-1 px-2 py-0.5 rounded-md ${
@@ -85,9 +85,10 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                 : "bg-amber-100/60 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
                                             }`}
                                         >
-                                            <p className="w-[150px] text-center">{averageScore >= 6 ? "🌟 " : "⚠️ "} 
-                                                {Number.isNaN(averageScore) ? "Not Answered" : `Avg Score: ${averageScore}/10`}
-                                            </p>
+                                            <div className="flex items-center justify-center gap-2 p-1 w-[150px] md:w-[200px] text-[16px]">
+                                                <p>{averageScore >= 6 ? <ThumbsUp/> : <CircleAlert/>}</p>
+                                                <p>{Number.isNaN(averageScore) ? "Not Answered" : `Avg Score: ${averageScore}/10`}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </CardHeader>
@@ -95,16 +96,16 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                 { result && (
                                     <CardContent className="space-y-4 text-sm">
                                         {/* Answer Preview */}
-                                        <div className="bg-muted/40 dark:bg-zinc-900/50 rounded-lg p-3">
-                                            <p className="font-semibold text-foreground">Your Answer</p>
-                                            <p className="text-muted-foreground mt-1 overflow-auto">
+                                        <div className="bg-zinc-200 dark:bg-zinc-900/50 rounded-lg p-3">
+                                            <p className="font-semibold text-foreground text-lg">Your Answer:</p>
+                                            <p className="text-muted-foreground mt-1 overflow-auto text-[16px]">
                                                 {result.answer}
                                             </p>
                                         </div>
                                         {/* Collapsible Analysis */}
                                         <Accordion type="single" collapsible>
                                             <AccordionItem value="analysis">
-                                                <AccordionTrigger className="text-sm text-primary font-medium hover:cursor-pointer">
+                                                <AccordionTrigger className="text-xl text-primary font-medium hover:cursor-pointer">
                                                     View Full Analysis
                                                 </AccordionTrigger>
                                                 <AccordionContent className="space-y-5 mt-2">
@@ -112,11 +113,11 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                     <div>
                                                         <div className="flex items-center gap-2 mb-2">
                                                             <AlertCircle className="w-4 h-4 text-blue-500" />
-                                                            <p className="font-semibold">Tone</p>
+                                                            <p className="font-semibold text-xl">Tone</p>
                                                         </div>
                                                         <div className="flex flex-wrap gap-2">
                                                             {result.tone.map((t: string, i: number) => (
-                                                                <Badge key={i} variant="outline" className="rounded-full">
+                                                                <Badge key={i} variant="outline" className="rounded-full text-[16px]">
                                                                 {t}
                                                                 </Badge>
                                                             ))}
@@ -126,7 +127,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                     <div>
                                                         <div className="flex items-center gap-2 mb-3">
                                                             <BarChart3 className="w-4 h-4 text-green-500" />
-                                                            <p className="font-semibold">Scores</p>
+                                                            <p className="font-semibold text-xl">Scores</p>
                                                         </div>
                                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                                             {[
@@ -136,49 +137,60 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                             ].map((s, i) => (
                                                             <div
                                                                 key={i}
-                                                                className="bg-muted/40 dark:bg-zinc-900/60 rounded-lg py-2 px-3 flex justify-between"
+                                                                className="bg-zinc-200 dark:bg-zinc-900/60 rounded-lg py-2 px-3 flex justify-between"
                                                             >
-                                                                <p>{s.label}</p>
-                                                                <p className="font-semibold">{s.value}/10</p>
+                                                                <p className="font-semibold text-lg">{s.label}</p>
+                                                                <p className="font-semibold text-lg">{s.value}/10</p>
                                                             </div>
                                                             ))}
                                                         </div>
                                                     </div>
-                                                    {/* Strengths */}
-                                                    <div>
-                                                        <div className="flex items-center gap-2 mb-1">
-                                                            <Flame className="w-4 h-4 text-orange-500" />
-                                                            <p className="font-semibold">Strengths</p>
+                                                    <div className="grid gap-6 lg:grid-cols-3">
+                                                        {/* Strengths */}
+                                                        <div className="rounded-2xl bg-green-50 dark:bg-green-950/40 p-5 shadow-sm hover:shadow-md transition-shadow">
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <Flame className="w-5 h-5 text-green-500" />
+                                                                <p className="font-semibold text-green-700 dark:text-green-300">Strengths</p>
+                                                            </div>
+                                                            <ul className="space-y-2">
+                                                                {result.strengths.map((s: string, i: number) => (
+                                                                    <li key={i}
+                                                                    className="flex items-start gap-2 text-green-700 dark:text-green-200 bg-green-100/60 dark:bg-green-900/40 rounded-lg px-3 py-2 hover:bg-green-200/60 dark:hover:bg-green-800/60 transition-colors text-center">
+                                                                        <span className="text-sm md:text-base">{s}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
                                                         </div>
-                                                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                                                            {result.strengths.map((s: string, i: number) => (
-                                                                <li key={i}>{s}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                    {/* Weaknesses */}
-                                                    <div>
-                                                        <div className="flex items-center gap-2 mb-1">
-                                                        <AlertCircle className="w-4 h-4 text-red-500" />
-                                                        <p className="font-semibold">Weaknesses</p>
+                                                        {/* Weaknesses */}
+                                                        <div className="rounded-2xl bg-red-50 dark:bg-red-950/40 p-5 shadow-sm hover:shadow-md transition-shadow">
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <AlertCircle className="w-5 h-5 text-red-500" />
+                                                                <p className="font-semibold text-red-700 dark:text-red-300">Weaknesses</p>
+                                                            </div>
+                                                            <ul className="space-y-2">
+                                                                {result.weaknesses.map((w: string, i: number) => (
+                                                                    <li key={i}
+                                                                    className="flex items-start gap-2 text-red-700 dark:text-red-200 bg-red-100/60 dark:bg-red-900/40 rounded-lg px-3 py-2 hover:bg-red-200/60 dark:hover:bg-red-800/60 transition-colors text-center">
+                                                                        <span className="text-sm md:text-base">{w}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
                                                         </div>
-                                                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                                                        {result.weaknesses.map((w: string, i: number) => (
-                                                            <li key={i}>{w}</li>
-                                                        ))}
-                                                        </ul>
-                                                    </div>
-                                                    {/* Suggestions */}
-                                                    <div>
-                                                        <div className="flex items-center gap-2 mb-1">
-                                                        <Lightbulb className="w-4 h-4 text-yellow-500" />
-                                                        <p className="font-semibold">Suggestions</p>
+                                                        {/* Suggestions */}
+                                                        <div className="rounded-2xl bg-yellow-50 dark:bg-yellow-950/40 p-5 shadow-sm hover:shadow-md transition-shadow">
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <Lightbulb className="w-5 h-5 text-yellow-500" />
+                                                                <p className="font-semibold text-yellow-700 dark:text-yellow-300">Suggestions</p>
+                                                            </div>
+                                                            <ul className="space-y-2">
+                                                                {result.suggestions.map((s: string, i: number) => (
+                                                                    <li key={i}
+                                                                    className="flex items-start gap-2 text-yellow-700 dark:text-yellow-200 bg-yellow-100/60 dark:bg-yellow-900/40 rounded-lg px-3 py-2 hover:bg-yellow-200/60 dark:hover:bg-yellow-800/60 transition-colors text-center">
+                                                                        <span className="text-sm md:text-base">{s}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
                                                         </div>
-                                                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                                                        {result.suggestions.map((s: string, i: number) => (
-                                                            <li key={i}>{s}</li>
-                                                        ))}
-                                                        </ul>
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>

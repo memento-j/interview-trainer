@@ -41,10 +41,10 @@ export default function InterviewSessionPage() {
                     <ProfileOverviewCard/>
                     {/* Interview sessions seciton*/}
                     <motion.div
-                        className="w-full max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl bg-zinc-100 dark:bg-zinc-900 rounded-2xl"
+                        className="w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl bg-zinc-100 dark:bg-zinc-900 rounded-2xl"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.30 }}
+                        transition={{ delay: 0.175 }}
                     >
                         <Card>
                             <CardHeader>
@@ -55,7 +55,7 @@ export default function InterviewSessionPage() {
                                             <Link to="/practice?mode=repractice">
                                                 <Button
                                                     variant="default"
-                                                    className="hover:cursor-pointer w-36 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2"
+                                                    className="hover:cursor-pointer w-24 mt-3 md:w-44 text-[13px] md:text-[15px] flex items-center gap-2"
                                                 >
                                                     <RefreshCw className="w-4 h-4" />
                                                     Repractice
@@ -73,14 +73,7 @@ export default function InterviewSessionPage() {
                                     >
                                     {userSessions && userSessions.length > 0 ? (
                                         userSessions.map((session: any, index: number) => (
-                                            <motion.div
-                                                key={index}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: index * 0.05 }}
-                                            >
-                                                <SessionAccordionItem allSessionData={session}/>
-                                            </motion.div>                                        
+                                            <SessionAccordionItem allSessionData={session} key={index}/>                                    
                                         ))
                                     ) : (
                                         loading ? (

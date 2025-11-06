@@ -81,8 +81,7 @@ export default function Stepper({
       {...rest}
     >
       <div
-        className={`dark:border-cyan-500 mx-auto w-full max-w-6xl mt-6 sm:mt-12 mb-60 rounded-4xl shadow-lg ${stepCircleContainerClassName}`}
-        style={{ border: `1px solid ${localStorage.getItem("theme") === "dark" ? "#161618" : "#E4E4E7" }` }}
+        className={`dark:border-cyan-500 mx-auto w-full max-w-6xl mt-6 sm:mt-12 mb-60 rounded-4xl shadow-lg ${stepCircleContainerClassName} border 1px solid border-zinc-200 dark:border-zinc-800`}
       >
         <div className={`${stepContainerClassName} flex w-full items-center p-8`}>
           {stepsArray.map((_, index) => {

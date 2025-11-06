@@ -79,7 +79,9 @@ export default function SessionOverview( { sessionID, setFeedbackGiven } : Sessi
                         animate={{ opacity: 1 }}
                         transition={{ delay: 3, duration: 0.5 }}
                     >
-                        This may take a few seconds — generating your personalized feedback ✨
+                        This will take around 20-40 seconds — generating your personalized feedback ✨
+                        <br/>
+                        Please do not refresh the page.
                     </motion.p>
                 </motion.div>
             ) : 
