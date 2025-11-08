@@ -12,7 +12,8 @@ import InterviewSessionPage from './pages/InterviewSessionsPage.tsx'
 import NavBar from './components/NavBar.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx'
 import FAQPage from './pages/FAQPage.tsx';
-import SignUpPage from './pages/SignupPage.tsx';
+import SignUpPage from './pages/SignUpPage.tsx';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<HomePage />} />
           <Route path="/auth/login" element={<LoginPage/>}/>
           <Route path="/auth/signup" element={<SignUpPage/>}/>
+          <Route path="/auth/forgot-password" element={<ForgotPasswordPage/>}/>
           <Route path="/practice" element={<InterviewPractice/>}/>
           <Route path="/dashboard" element={<AccountPage/>}/>
           <Route path="/account/practice-sessions" element={<InterviewSessionPage/>}/>

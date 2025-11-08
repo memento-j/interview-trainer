@@ -23,7 +23,7 @@ export default function LoginPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
                 viewport={{ once: true }}
-                className="w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-6xl"
+                className="w-full max-w-xs sm:max-w-lg md:max-w-2xl"
             >
                 <LoginForm/>
             </motion.div>

@@ -2,10 +2,9 @@ import { Navigate } from 'react-router'
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from 'sonner';
 import { motion } from "framer-motion";
-import { SignUpForm } from '@/components/sign-up-form';
+import { ForgotPasswordForm } from '@/components/forgot-password-form';
 
-export default function SignUpPage() {
-    //current session and supabase client from context
+export default function ForgotPasswordPage() {
     const { session } = useAuth();
 
     //when there is a current session, navigate to homepage
@@ -14,7 +13,6 @@ export default function SignUpPage() {
         return (<Navigate to="/"/>)
     }
 
-    // otherwise, user sees auth componenet where they can signin or out
     return (
         //supabase auth component
         <div className="min-h-screen flex items-center justify-center pb-50 bg-zinc-100 dark:bg-[#0F0F11] text-zinc-50">
@@ -25,7 +23,7 @@ export default function SignUpPage() {
                 viewport={{ once: true }}
                 className="w-full max-w-xs sm:max-w-lg md:max-w-2xl"
             >
-                <SignUpForm/>
+                <ForgotPasswordForm/>
             </motion.div>
         </div>
     )
