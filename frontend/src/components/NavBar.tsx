@@ -44,13 +44,13 @@ export default function NavBar() {
                                 <Link to="/practice" className="font-medium underline">Interview Practice</Link>
                             </div>
                             {!user ? (
-                                <Link to="/auth">
+                                <Link to="/auth/login">
                                     <Button className="w-full">Sign in</Button>
                                 </Link>
                             ) : (
                                 <div className="flex flex-col gap-1 p-3">
                                     <p className="font-[700] text-lg">Welcome, {profile?.username}</p>
-                                    <Link to="/account" className="underline">Manage Account</Link>
+                                    <Link to="/dashboard" className="underline">Manage Account</Link>
                                     <Link to="/account/practice-sessions" className="underline">View Practice Sessions</Link>
                                     <Button className="mt-30 hover:cursor-pointer" variant="destructive" onClick={signOut}>Sign out</Button>
                                 </div>
@@ -92,7 +92,7 @@ export default function NavBar() {
                     {loading ? (
                         <Spinner variant="circle" size={36} className="mr-10"/>
                         ) : !user ? (
-                            <Link to="/auth">
+                            <Link to="/auth/login">
                                 <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">
                                     <UserRound className="w-6 h-6" />Signin/Signup
                                 </Button>
@@ -112,7 +112,7 @@ export default function NavBar() {
                                     <ul className="grid gap-0 md:w-[200px] lg:w-[250px] xl:w-[300px]">
                                         <li className="p-2 font-[700] text-xl mb-1 ml-1">Welcome, {profile?.username}</li>
                                         <NavigationMenuLink asChild>
-                                            <Link to="/account" className="flex flex-row items-center gap-3">
+                                            <Link to="/dashboard" className="flex flex-row items-center gap-3">
                                                 <Settings className="!w-6 !h-6 text-teal-500 dark:text-teal-600" />
                                                 <p className="text-[16px] leading-none font-medium mb-1">Manage Account</p>
                                             </Link>

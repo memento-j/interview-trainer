@@ -4,7 +4,7 @@ export function useTheme() {
   const [theme, setTheme] = useState<"light" | "dark">
   //set default theme (set to light or dark if theme is available in localstorage, if not, set to light)
   (
-    (localStorage.getItem("theme") as "light" | "dark") || "light"
+    (localStorage.getItem("theme") as "light" | "dark") || "dark"
   )
 
   //when theme state changes, remove light and dark for <html> (documentElement) so there is no dupicates

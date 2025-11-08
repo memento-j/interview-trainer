@@ -50,14 +50,14 @@ export default function AppOverview() {
                     >
                         <div className="flex justify-center">
                             <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-white text-2xl shadow-md">
-                            <Lightbulb/>
+                                <Lightbulb/>
                             </div>
                         </div>
                         <h3 className="text-xl text-center font-semibold text-zinc-900 dark:text-white mb-3">
-                        Instant Feedback
+                            Instant Feedback
                         </h3>
                         <p className="text-zinc-600 text-center dark:text-zinc-300 leading-relaxed">
-                        AI highlights strengths and weaknesses in your answers so you can improve quickly.
+                            AI highlights strengths and weaknesses in your answers so you can improve quickly.
                         </p>
                     </motion.div>
                     {/* Feature card */}

@@ -30,7 +30,7 @@ export default function AccountPage() {
         }
 
         if (!user) {
-            navigate("/auth");
+            navigate("/auth/login");
         }
     }, [user, userSessions]);
 
