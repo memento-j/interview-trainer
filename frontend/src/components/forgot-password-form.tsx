@@ -27,7 +27,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
     try {
       // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'http://localhost:3000/update-password',
+        redirectTo: 'http://localhost:5173/update-password',
       })
       if (error) throw error
       setSuccess(true)
@@ -56,33 +56,33 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl text-center">Reset Your Password</CardTitle>
+            <CardDescription  className='text-center text-md mb-4 mt-1'>
               Type in your email and we&apos;ll send you a link to reset your password
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleForgotPassword}>
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-6 md:mx-12">
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className='text-lg'>Email</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="Email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full mt-5 hover:cursor-pointer bg-gradient-to-br from-teal-300 to-teal-200 dark:from-teal-600 dark:to-teal-400 hover:scale-103 transition-transform duration-250 text-black dark:text-white text-lg" disabled={isLoading}>
                   {isLoading ? 'Sending...' : 'Send reset email'}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
                 Already have an account?{' '}
-                <a href="/login" className="underline underline-offset-4">
+                <a href="/auth/login" className="underline underline-offset-4 text-teal-600 font-semibold  dark:text-teal-400">
                   Login
                 </a>
               </div>

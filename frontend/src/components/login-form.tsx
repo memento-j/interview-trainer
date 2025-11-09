@@ -11,13 +11,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import { CheckCircle2, MessageSquare } from 'lucide-react'
+import { CheckCircle2, EyeIcon, EyeOffIcon, MessageSquare } from 'lucide-react'
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
   const { supabase } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -82,15 +83,27 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                     Forgot your password?
                   </a>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className='focus-visible:ring-teal-300 dark:focus-visible:ring-teal-500'
-                />
+                  <div className='relative'>
+                    <Input
+                      id="password"
+                      type={ isVisible ? "text" : "password" }
+                      placeholder="Password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className='focus-visible:ring-teal-300 dark:focus-visible:ring-teal-500'
+                    />
+                    <Button
+                        type='button'
+                        variant='ghost'
+                        size='icon'
+                        onClick={() => setIsVisible(prevState => !prevState)}
+                        className='text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent'
+                    >
+                        {isVisible ? <EyeOffIcon /> : <EyeIcon />}
+                        <span className='sr-only'>{isVisible ? 'Hide password' : 'Show password'}</span>
+                    </Button>
+                  </div>
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full mt-5 hover:cursor-pointer bg-gradient-to-br from-teal-300 to-teal-200 dark:from-teal-600 dark:to-teal-400 hover:scale-103 transition-transform duration-250 text-black dark:text-white text-lg" disabled={isLoading}>

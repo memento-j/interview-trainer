@@ -25,7 +25,7 @@ export default function InterviewSessionPage() {
         if (loading) return;
 
         if (!user) {
-            navigate("/auth");
+            navigate("/auth/login");
         }
     }, [user]);
 

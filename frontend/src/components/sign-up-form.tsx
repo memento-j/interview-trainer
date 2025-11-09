@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import { CheckCircle2, MessageSquare } from 'lucide-react'
+import { CheckCircle2, EyeIcon, EyeOffIcon, MessageSquare } from 'lucide-react'
 
 export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
@@ -20,6 +20,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   const { supabase } = useAuth();
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -96,15 +97,27 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
                   <div className="flex items-center">
                     <Label htmlFor="password" className='text-lg'>Password</Label>
                   </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder='Password'
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className='focus-visible:ring-teal-300 dark:focus-visible:ring-teal-500'
-                  />
+                  <div className='relative'>
+                    <Input
+                      id="password"
+                      type={ isVisible ? "text" : "password" }
+                      placeholder="Password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className='focus-visible:ring-teal-300 dark:focus-visible:ring-teal-500'
+                    />
+                    <Button
+                        type='button'
+                        variant='ghost'
+                        size='icon'
+                        onClick={() => setIsVisible(prevState => !prevState)}
+                        className='text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent'
+                    >
+                        {isVisible ? <EyeOffIcon /> : <EyeIcon />}
+                        <span className='sr-only'>{isVisible ? 'Hide password' : 'Show password'}</span>
+                    </Button>
+                  </div>
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
