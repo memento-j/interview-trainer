@@ -126,7 +126,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                     {/* Scores Overview */}
                                                     <div>
                                                         <div className="flex items-center gap-2 mb-3">
-                                                            <BarChart3 className="w-4 h-4 text-green-500" />
+                                                            <BarChart3 className="w-4 h-4 text-purple-500" />
                                                             <p className="font-semibold text-xl">Scores</p>
                                                         </div>
                                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -150,7 +150,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                         <div className="rounded-2xl bg-green-50 dark:bg-green-950/40 p-5 shadow-sm hover:shadow-md transition-shadow">
                                                             <div className="flex items-center gap-2 mb-3">
                                                                 <Flame className="w-5 h-5 text-green-500" />
-                                                                <p className="font-semibold text-green-700 dark:text-green-300">Strengths</p>
+                                                                <p className="font-semibold text-green-700 dark:text-green-300 text-lg">Strengths</p>
                                                             </div>
                                                             <ul className="space-y-2">
                                                                 {result.strengths.map((s: string, i: number) => (
@@ -165,7 +165,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                         <div className="rounded-2xl bg-red-50 dark:bg-red-950/40 p-5 shadow-sm hover:shadow-md transition-shadow">
                                                             <div className="flex items-center gap-2 mb-3">
                                                                 <AlertCircle className="w-5 h-5 text-red-500" />
-                                                                <p className="font-semibold text-red-700 dark:text-red-300">Weaknesses</p>
+                                                                <p className="font-semibold text-red-700 dark:text-red-300 text-lg">Weaknesses</p>
                                                             </div>
                                                             <ul className="space-y-2">
                                                                 {result.weaknesses.map((w: string, i: number) => (
@@ -180,7 +180,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                         <div className="rounded-2xl bg-yellow-50 dark:bg-yellow-950/40 p-5 shadow-sm hover:shadow-md transition-shadow">
                                                             <div className="flex items-center gap-2 mb-3">
                                                                 <Lightbulb className="w-5 h-5 text-yellow-500" />
-                                                                <p className="font-semibold text-yellow-700 dark:text-yellow-300">Suggestions</p>
+                                                                <p className="font-semibold text-yellow-700 dark:text-yellow-300 text-lg">Suggestions</p>
                                                             </div>
                                                             <ul className="space-y-2">
                                                                 {result.suggestions.map((s: string, i: number) => (

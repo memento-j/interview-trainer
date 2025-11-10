@@ -23,12 +23,7 @@ export default function SessionFeedbackDB({ resultsData }: SessionFeedbackProps)
       <Accordion type="multiple" className="space-y-5">
         {resultsData.map((result, index) => {
           const averageScore = parseFloat(
-            (
-              (result.scores.clarity +
-                result.scores.relevance +
-                result.scores.confidence) /
-              3
-            ).toFixed(2)
+            ((result.scores.clarity + result.scores.relevance + result.scores.confidence) / 3).toFixed(2)
           );
 
           return (
@@ -55,7 +50,7 @@ export default function SessionFeedbackDB({ resultsData }: SessionFeedbackProps)
                         : "bg-amber-100/60 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
                     }`}
                   >
-                    {averageScore >= 6 ? "🌟" : "⚠️"} Avg: {averageScore}/10
+                    {averageScore >= 6 ? "🌟" : "⚠️"} Avg Score: {averageScore}/10
                   </span>
                 </AccordionTrigger>
 
