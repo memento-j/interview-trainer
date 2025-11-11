@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function useProfile(userId?: string, token?: string) {
     return useQuery({
         queryKey: ["profile", userId],
         queryFn: async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/profiles/${userId}`, {
+                const res = await axios.get(`${apiUrl}/profiles/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 return res.data;

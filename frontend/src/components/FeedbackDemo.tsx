@@ -1,11 +1,10 @@
 import { useTheme } from "@/contexts/ThemeContext";
 import { Badge } from "./ui/badge";
 import { motion } from "framer-motion";
-import { AlertCircle, BarChart3, Flame, Lightbulb } from "lucide-react";
+import { AlertCircle, Flame, Lightbulb } from "lucide-react";
 
 export default function FeedbackDemo() {
     const { theme } = useTheme();
-
     const demoTones = ["professional", "collaborative", "confident", "proactive"]
     const demoStrengths = 
         [

@@ -19,6 +19,8 @@ interface SessionAccordionItemProps {
     };
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 //displays session data
 export default function SessionAccordionItem({ allSessionData }: SessionAccordionItemProps) {
     const { questionsData, resultsData, sessionData } = allSessionData;    
@@ -27,7 +29,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
     //deletes session from db
     async function handleDeleteSession() {
         try {
-            const deleteRes = await axios.delete(`http://localhost:8080/interview-sessions/${sessionData.id}`, {
+            const deleteRes = await axios.delete(`${apiUrl}/interview-sessions/${sessionData.id}`, {
                 headers: {
                     Authorization: `Bearer ${session?.access_token}`,
                 },

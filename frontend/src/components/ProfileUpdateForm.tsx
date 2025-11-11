@@ -18,6 +18,8 @@ type ProfileFormInputs = {
     lastName?: string;
   };
 
+const apiUrl = import.meta.env.VITE_API_URL;
+  
 //Form for users to update their profile information
 export default function ProfileUpdateForm() {
     const { user, session } = useAuth();
@@ -35,7 +37,7 @@ export default function ProfileUpdateForm() {
     // React query mutation for updating the profile
     const updateProfile = useMutation({
         mutationFn: async (data: ProfileFormInputs) => {
-            return axios.patch(`http://localhost:8080/profiles/${user?.id}`,
+            return axios.patch(`${apiUrl}/profiles/${user?.id}`,
                 {
                     username: data.username,
                     fname: data.firstName,
