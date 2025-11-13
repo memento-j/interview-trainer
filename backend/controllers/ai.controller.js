@@ -22,8 +22,20 @@ const feedbackSchema = z.object({
     scores: z.object({
         clarity: z.number(),
         relevance: z.number(),
-        confidence: z.number()
+        confidence: z.number(),
+        structure: z.number(),
+        impact: z.number(),
+        conciseness: z.number(),
     }),
+    scoresSummary: z.string(),
+    deliveryTone: z.object({
+        positive: z.number(),
+        neutral: z.number(),
+        negative: z.number(),
+        summary: z.string()
+    }),
+    skillsDetected: z.array(z.string()),
+    overallSummary: z.string()
 });
 const userAnalysisSchema = z.object({
     totalSessions: z.number(),
@@ -111,16 +123,55 @@ export async function analyzeAnswer(req,res) {
                 "scores": {
                     "clarity": number,
                     "relevance": number,
-                    "confidence": number
+                    "confidence": number,   
+                    "structure": number,
+                    "impact": number,
+                    "conciseness": number,
+                },
+                "scoresSummary": string;
+                "deliveryTone": {
+                    "positive": number,
+                    "neutral": number,
+                    "negative": number,
+                    "summary: string
                 }
+                "skillsDetected": [string, string, ...],
+                "overallSummary": string
             }
 
-            Each element in the Tone array should only be single words in each array such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. Multiple items per array are allowed.
-            Strengths, weaknesses, and suggestions arrays should have up to 3 items each, with each item being exactly one concise sentence. 
-            - Strengths: highlight what is clear, well-structured, or effective in the answer itself.
-            - Weaknesses: focus only on parts of the answer that are unclear, incomplete, or could be improved, not the candidate's personality.
-            - Suggestions: provide actionable advice to improve the answer's clarity, structure, or persuasiveness.
-            For each attribute in scores, select a number between 1 and 10 based solely on the content of the answer for clarity, relevance, and confidence.`
+            Each element in the Tone array should only be single words such as "confident", "hesitant", "casual", "professional", "enthusiastic", etc. Multiple items per array are allowed.
+
+            Strengths, weaknesses, and suggestions arrays should have up to 3 items each, with each item being exactly one concise sentence.  
+            - Strengths: highlight what is clear, well-structured, or effective in the answer itself.  
+            - Weaknesses: focus only on parts of the answer that are unclear, incomplete, or could be improved — not the candidate's personality.  
+            - Suggestions: provide actionable advice to improve the answer's clarity, structure, or persuasiveness.  
+
+            For each attribute in **scores**, select a number between 1 and 10 based solely on the content of the answer for clarity, relevance, confidence, structure, impact, and conciseness.
+            - **Clarity:** Measures how easy the answer is to understand and whether ideas are expressed in a clear, logical way.  
+            Example: 10 = highly articulate and easy to follow, 1 = confusing or vague.
+
+            - **Relevance:** Evaluates how directly the response addresses the question and stays on topic.  
+            Example: 10 = fully focused on the question, 1 = mostly irrelevant or off-track.
+
+            - **Confidence:** Reflects how assertive, composed, and self-assured the answer sounds in tone and wording.  
+            Example: 10 = speaks with authority and conviction, 1 = uncertain or hesitant.
+
+            - **Structure:** Measures the organization of the response — how well it follows a logical order (e.g., situation → action → result).  
+            Example: 10 = well-structured with smooth flow, 1 = disorganized or scattered.
+
+            - **Impact:** Evaluates how memorable, persuasive, or powerful the overall answer is.  
+            Example: 10 = leaves a strong impression or clear takeaway, 1 = bland or forgettable.
+
+            - **Conciseness:** Measures how well the candidate avoids rambling and stays on point while still providing enough detail.  
+            Example: 10 = concise and to the point if the answer requires it. Can be wordy if the answer requires elaboration. 1 = overly wordy, repetitive, or unfocused.
+
+            After assigning the scores, include a short "scoresSummary" string (1-2 sentences) that briefly explains the candidate's overall performance based on only the scores.  
+            For example: “The answer was clear and confident but lacked depth and strong impact.”
+
+            For **skillsDetected**, list both soft and hard skills that can be reasonably inferred from the answer (e.g., teamwork, leadership, data analysis, communication). If there are none though, this can be an empty array. 
+
+            For deliveryTone, assign percentage values (0-100) to positive, neutral, and negative tones based on how the answer sounds overall. Values are allowed to be 0 as long as  they all add up to 100. The three values should together total 100%.
+            - summary: one sentence summarizing how the answer was delivered — for example, “The delivery felt upbeat and confident” or “The tone was uncertain but polite.” and something to potentially improve if needed.`
 
         const response = await client.chat.completions.create({
             model: "gpt-5-nano",

@@ -9,7 +9,7 @@ import { type SessionData } from "@/types/SessionData";
 import { type ResultData } from "@/types/ResultsData";
 import { type QuestionsData } from "@/types/QuestionData";
 import { motion } from "framer-motion";
-import { AlertCircle, BarChart3, Lightbulb, Flame, Trash2, ClipboardList, CircleAlert, ThumbsUp } from "lucide-react";
+import { AlertCircle, BarChart3, Lightbulb, Flame, Trash2, ClipboardList, CircleAlert, ThumbsUp, Volume2, FileText } from "lucide-react";
 
 interface SessionAccordionItemProps {
     allSessionData: {
@@ -25,7 +25,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 export default function SessionAccordionItem({ allSessionData }: SessionAccordionItemProps) {
     const { questionsData, resultsData, sessionData } = allSessionData;    
     const { user, session } = useAuth();
-
+    
     //deletes session from db
     async function handleDeleteSession() {
         try {
@@ -100,7 +100,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                         {/* Answer Preview */}
                                         <div className="bg-zinc-200 dark:bg-zinc-900/50 rounded-lg p-3">
                                             <p className="font-semibold text-foreground text-lg">Your Answer:</p>
-                                            <p className="text-muted-foreground mt-1 overflow-auto text-[16px]">
+                                            <p className="mt-1 overflow-auto text-[16px]">
                                                 {result.answer}
                                             </p>
                                         </div>
@@ -114,7 +114,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                     {/* Tone */}
                                                     <div>
                                                         <div className="flex items-center gap-2 mb-2">
-                                                            <AlertCircle className="w-4 h-4 text-blue-500" />
+                                                            <AlertCircle className="w-4 h-4 text-teal-500" />
                                                             <p className="font-semibold text-xl">Tone</p>
                                                         </div>
                                                         <div className="flex flex-wrap gap-2">
@@ -125,17 +125,48 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                             ))}
                                                         </div>
                                                     </div>
+                                                    {/* Delivery Tone */}
+                                                    <div>
+                                                        <div className="flex items-center gap-2 mb-3">
+                                                            <Volume2 className="w-4 h-4 text-teal-500" />
+                                                            <p className="font-semibold text-xl">Delivery Tone</p>
+                                                        </div>
+                                                        <div className="bg-zinc-200 dark:bg-zinc-900/60 rounded-lg p-4 space-y-3">
+                                                            <div className="grid md:grid-cols-3 text-center gap-3">
+                                                                <div className="bg-zinc-100 dark:bg-zinc-800/70 rounded-lg p-2">
+                                                                    <p className="text-sm font-medium text-zinc-500">Positive</p>
+                                                                    <p className="text-lg font-semibold text-green-500">{result.deliveryTone.positive}%</p>
+                                                                </div>
+                                                                <div className="bg-zinc-100 dark:bg-zinc-800/70 rounded-lg p-2">
+                                                                    <p className="text-sm font-medium text-zinc-500">Neutral</p>
+                                                                    <p className="text-lg font-semibold text-yellow-500">{result.deliveryTone.neutral}%</p>
+                                                                </div>
+                                                                <div className="bg-zinc-100 dark:bg-zinc-800/70 rounded-lg p-2">
+                                                                    <p className="text-sm font-medium text-zinc-500">Negative</p>
+                                                                    <p className="text-lg font-semibold text-red-500">{result.deliveryTone.negative}%</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="py-2 px-3 bg-zinc-100 dark:bg-zinc-900/40 rounded-lg border-l-4 border-teal-500">
+                                                                <p className="text-[16px] text-zinc-700 dark:text-zinc-300 leading-relaxed font-semibold">
+                                                                    {result.deliveryTone.summary}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     {/* Scores Overview */}
                                                     <div>
                                                         <div className="flex items-center gap-2 mb-3">
-                                                            <BarChart3 className="w-4 h-4 text-purple-500" />
+                                                            <BarChart3 className="w-4 h-4 text-teal-500" />
                                                             <p className="font-semibold text-xl">Scores</p>
                                                         </div>
                                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                                             {[
-                                                            { label: "Clarity", value: result.scores.clarity },
-                                                            { label: "Relevance", value: result.scores.relevance },
-                                                            { label: "Confidence", value: result.scores.confidence },
+                                                                { label: "Clarity", value: result.scores.clarity },
+                                                                { label: "Relevance", value: result.scores.relevance },
+                                                                { label: "Confidence", value: result.scores.confidence },
+                                                                { label: "Impact", value: result.scores.impact },
+                                                                { label: "Structure", value: result.scores.structure },
+                                                                { label: "Conciseness", value: result.scores.conciseness },
                                                             ].map((s, i) => (
                                                             <div
                                                                 key={i}
@@ -145,6 +176,12 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                                 <p className="font-semibold text-lg">{s.value}/10</p>
                                                             </div>
                                                             ))}
+                                                        </div>
+                                                        <div className="mt-4 p-4 bg-zinc-200 dark:bg-zinc-900/60 rounded-lg border-l-4 border-teal-500">
+                                                            <p className="text-lg font-semibold mb-1">Scores Summary</p>
+                                                            <p className="text-[16px] text-zinc-700 dark:text-zinc-300 leading-relaxed font-semibold">
+                                                                {result.scoresSummary}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div className="grid gap-6 lg:grid-cols-3">
@@ -192,6 +229,18 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                                                     </li>
                                                                 ))}
                                                             </ul>
+                                                        </div>
+                                                    </div>
+                                                    {/* Overall Summary */}
+                                                    <div className="mt-8">
+                                                        <div className="flex items-center gap-2 mb-3">
+                                                            <FileText className="w-4 h-4 text-teal-500" />
+                                                            <p className="font-semibold text-xl">Overall Summary</p>
+                                                        </div>
+                                                        <div className="bg-zinc-200 dark:bg-zinc-900/60 rounded-lg py-3 px-4 border-l-4 border-teal-500">
+                                                            <p className="text-lg leading-relaxed text-zinc-800 dark:text-zinc-200 text-center font-semibold">
+                                                                {result.overallSummary}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </AccordionContent>

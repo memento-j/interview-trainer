@@ -177,13 +177,17 @@ export async function updateSession(req, res) {
     // destructuring feedback from ai
     const { analysis: 
         {
-          strengths,
-          weaknesses,
-          suggestions,
-          tone,
-          scores
+            strengths,
+            weaknesses,
+            suggestions,
+            tone,
+            scores,
+            scoresSummary,
+            deliveryTone,
+            skillsDetected,
+            overallSummary
         }
-      } = feedback;
+    } = feedback;
     
     //used to determine whether answer was answered well or not
     const values = Object.values(scores);
@@ -203,8 +207,13 @@ export async function updateSession(req, res) {
             suggestions,
             tone,
             scores,
+            scoresSummary,
+            deliveryTone,
+            skillsDetected,
+            overallSummary,
             averagescore: roundedAverage,
-            weakanswer: average < 6 ? true : false
+            weakanswer: average < 7 ? true : false,
+            updatedat: new Date().toISOString()
         })
         .select();
 
