@@ -11,6 +11,7 @@ import { useSearchParams } from "react-router";
 import RepracticeSessionSetup from "@/components/RepracticeSessionSetup";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function InterviewPractice() {
     const { user, session } = useAuth();
@@ -43,6 +44,7 @@ export default function InterviewPractice() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950"> 
+            <ScrollToTop/>
             {/* Setup the practice interview session */}        
             {!setupCompleted && !sessionCompleted && (
                 mode === "repractice" ? (

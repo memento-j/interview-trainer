@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from 'sonner';
 import { motion } from "framer-motion";
 import { LoginForm } from '@/components/login-form';
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function LoginPage() {
     //current session and supabase client from context
@@ -18,6 +19,7 @@ export default function LoginPage() {
     return (
         //supabase auth component
         <div className="min-h-screen flex items-center justify-center pb-50 bg-zinc-100 dark:bg-[#0F0F11] text-zinc-50">
+            <ScrollToTop/>
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}

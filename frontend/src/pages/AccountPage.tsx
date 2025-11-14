@@ -11,6 +11,7 @@ import { Spinner } from "@/components/Spinner";
 import { useUserSessions } from "@/hooks/useUserSessions";
 import { motion } from "framer-motion";
 import { RefreshCw, FolderOpen } from "lucide-react";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function AccountPage() {
     const { user, session, loading } = useAuth();
@@ -36,6 +37,7 @@ export default function AccountPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950">
+            <ScrollToTop/>
             {!profile && (
                 <div className="flex justify-center pt-40">
                     <Spinner variant="ellipsis" size={64}/>

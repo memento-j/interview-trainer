@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 import ProfileOverviewCard from "@/components/ProfileOverviewCard";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function InterviewSessionPage() {
     const { user, session, loading } = useAuth();
@@ -31,6 +32,7 @@ export default function InterviewSessionPage() {
 
     return(
         <div className="min-h-screen bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950">
+            <ScrollToTop/>
             {!profile || !userSessions ? (
                 <div className="flex justify-center pt-40">
                     <Spinner variant="ellipsis" size={64}/>

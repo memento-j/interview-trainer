@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { FileQuestionMark } from "lucide-react";
+import ScrollToTop from "@/components/ScrollToTop";
 
 interface FAQ {
     question: string;
@@ -41,6 +42,7 @@ const faqs: FAQ[] = [
 export default function FAQPage() {
     return (
         <div className="min-h-screen py-20 bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950">
+            <ScrollToTop/>
             <div className="flex flex-col justify-center mx-auto max-w-2xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl">
                 <h1 className="text-2xl md:text-4xl font-[500] text-center mb-10 pb-2 bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
                     Frequently Asked Questions
