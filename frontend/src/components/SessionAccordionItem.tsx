@@ -45,8 +45,7 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
         } catch(err) {
             console.log(err);
         }  
-    }
-
+    }    
     return (
         <AccordionItem value={sessionData.id} className="border-none">
             {/* Session Header */}
@@ -63,9 +62,6 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
             <AccordionContent className="flex flex-col gap-5 mt-4">
                 {questionsData.map((questionData: any, index: number) => {
                     const result = resultsData[index];
-                    const averageScore = parseFloat(
-                        ((result?.scores?.clarity + result?.scores?.relevance + result?.scores?.confidence) / 3).toFixed(2)
-                    ); 
                     return (
                         <motion.div
                             key={index}
@@ -82,14 +78,14 @@ export default function SessionAccordionItem({ allSessionData }: SessionAccordio
                                     </CardTitle>
                                     <div className="flex items-center gap-3 text-sm text-muted-foreground">
                                         <div className={`flex items-center gap-1 px-2 py-0.5 rounded-md ${
-                                            averageScore >= 6
+                                            result?.averageScore >= 6
                                                 ? "bg-green-100/60 dark:bg-green-900/30 text-green-700 dark:text-green-400"
                                                 : "bg-amber-100/60 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
                                             }`}
                                         >
                                             <div className="flex items-center justify-center gap-2 p-1 w-[150px] md:w-[200px] text-[16px]">
-                                                <p>{averageScore >= 6 ? <ThumbsUp/> : <CircleAlert/>}</p>
-                                                <p>{Number.isNaN(averageScore) ? "Not Answered" : `Avg Score: ${averageScore}/10`}</p>
+                                                <p>{result?.averageScore >= 6 ? <ThumbsUp/> : <CircleAlert/>}</p>
+                                                <p>{Number.isNaN(result?.averageScore) ? "Not Answered" : `Avg Score: ${result?.averageScore}/10`}</p>
                                             </div>
                                         </div>
                                     </div>

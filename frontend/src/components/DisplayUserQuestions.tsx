@@ -28,7 +28,7 @@ export default function DisplayUserQuestions() {
     return (
         userUniqueQuestions && userUniqueQuestions.length > 0 ? (
             <div>
-                <p className="text-center text-xl mb-3">❗= Questions you should practice again (Highest score of less than 6)</p>
+                <p className="text-center text-xl mb-3">❗= Questions you should practice again (Highest score of less than 7)</p>
                 <AnimatedList
                     items={userUniqueQuestions.map((q: any) => `${q.weak ? "❗" : ""} ${q.question} - (Your Highest Score: ${q.averageScore})`)}
                     onItemSelect={(question) => handleQuestionSelect(question)}

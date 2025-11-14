@@ -211,7 +211,7 @@ export async function updateSession(req, res) {
             deliveryTone,
             skillsDetected,
             overallSummary,
-            averagescore: roundedAverage,
+            averageScore: roundedAverage,
             weakanswer: average < 7 ? true : false,
             updatedat: new Date().toISOString()
         })
