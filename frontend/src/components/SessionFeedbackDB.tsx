@@ -18,7 +18,7 @@ export default function SessionFeedbackDB({ resultsData }: SessionFeedbackProps)
         <p className="text-3xl font-semibold text-center mb-4 pb-2 bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
             Session Analysis
         </p>
-      <Accordion type="multiple" className="space-y-5">
+        <Accordion type="multiple" className="space-y-5">
         {resultsData.map((result, index) => {
             return (
                 <motion.div
