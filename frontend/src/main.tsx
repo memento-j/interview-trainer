@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, ScrollRestoration } from 'react-router'
+import { BrowserRouter, Routes, Route } from 'react-router'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
