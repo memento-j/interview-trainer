@@ -4,7 +4,7 @@ An AI-powered web app that helps users practice, refine, and build confidence fo
 
 ## Live Demo
 
-**You can try Practimate here:**
+### You can try Practimate here:
 👉 https://practimateai.com
 
 ## Tech Stack
@@ -26,13 +26,13 @@ An AI-powered web app that helps users practice, refine, and build confidence fo
 - Assembly AI
 
 ## Getting Started
-**1. Clone the Repository**
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/memento-j/interview-trainer
 cd interview-trainer
 ```
 
-**2. Install Dependencies**
+### 2. Install Dependencies
 
 Frontend
 ```bash
@@ -45,11 +45,11 @@ cd ../backend
 npm install
 ```
 
-**3. Environment Variables**
+### 3. Environment Variables
 
-You will need two .env files — one for the frontend and one for the backend.
+You will need **two** .env files — one for the frontend and one for the backend.
 
-Frontend .env
+**Frontend .env**
 
 Create at:
 ```bash
@@ -63,7 +63,7 @@ VITE_API_URL=your_api_url
 ```
 ! If your backend port is 5000, then your VITE_API_URL will be http://locahost:5000 !
 
-Backend .env
+**Backend .env**
 
 Create at:
 ```bash
@@ -76,21 +76,21 @@ SUPABASE_SR_KEY=your_key
 PORT=your_port
 ```
 
-**4. Run the App**
+### 4. Run the App
 
-Frontend
+**Frontend**
 ```bash
 cd frontend
 npm run dev
 ```
 
-Backend
+**Backend**
 ```bash
 cd backend
 npm run dev
 ```
 
-The app will be available at:
+**The app will be available at:**
 
 ```
 Frontend → http://localhost:5173  
