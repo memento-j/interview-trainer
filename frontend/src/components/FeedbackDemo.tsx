@@ -106,7 +106,7 @@ export default function FeedbackDemo() {
                 </div>
 
                 {/* small screen view */}
-                <div className="flex lg:hidden mt-5 gap-3">
+                <div className="flex flex-col lg:hidden mt-5 gap-3">
                     {/* strengths example */}
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}

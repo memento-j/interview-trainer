@@ -25,7 +25,7 @@ export default function AppOverview() {
                         transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
-                        className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
+                        className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
                             <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-300 text-2xl shadow-md">
@@ -46,7 +46,7 @@ export default function AppOverview() {
                         transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
-                        className="p-8 rounded-2xl bg-white dark:bg-zinc-800 shadow-sm dark:shadow-white/4 dark:hover:shadow-lg hover:shadow-xl transition-shadow"
+                        className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 shadow-sm dark:shadow-white/4 dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
                             <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-white text-2xl shadow-md">
@@ -67,7 +67,7 @@ export default function AppOverview() {
                         transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
-                        className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
+                        className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
                             <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-300 text-white text-2xl shadow-md">
@@ -88,7 +88,7 @@ export default function AppOverview() {
                         transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
-                        className="p-8 rounded-2xl bg-white dark:bg-zinc-800 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
+                        className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
                             <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-200 text-2xl shadow-md">
