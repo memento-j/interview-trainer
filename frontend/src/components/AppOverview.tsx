@@ -5,7 +5,7 @@ import { Link } from "react-router";
 export default function AppOverview() {
     return(
         <div className="py-24 bg-zinc-100 dark:bg-[#0F0F11]">
-            <div className="max-w-7xl mx-auto px-6 sm:px-12">
+            <div className="max-w-6xl mx-auto px-6 sm:px-12">
                 {/* Section heading */}   
                 <div className="text-center max-w-4xl mx-auto mb-16">
                     <h2 className="text-4xl sm:text-5xl font-[500] text-zinc-900 dark:text-white mb-6">
