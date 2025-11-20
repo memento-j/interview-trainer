@@ -6,30 +6,42 @@ export default function AppOverview() {
     return(
         <div className="py-24 bg-zinc-100 dark:bg-[#0F0F11]">
             <div className="max-w-6xl mx-auto px-6 sm:px-12">
-                {/* Section heading */}   
-                <div className="text-center max-w-4xl mx-auto mb-16">
-                    <h2 className="text-4xl sm:text-5xl font-[500] text-zinc-900 dark:text-white mb-6">
+                {/* Section heading */}  
+                <motion.div
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.8,
+                        ease: [0.16, 1, 0.3, 1]
+                    }}
+                    viewport={{ once: true }}
+                    className="text-center max-w-4xl mx-auto mb-16"
+                >
+                    <p className="text-4xl sm:text-5xl font-[500] text-zinc-900 dark:text-white mb-6">
                         Practice, Get Feedback, and Improve
-                    </h2>
+                    </p>
                     <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                        Our AI-powered interview trainer helps you tackle real interview questions, 
+                        Practimate's AI-powered interview trainer helps you tackle real interview questions, 
                         receive instant feedback, and track your improvement over time.
                     </p>
-                </div>
+                </motion.div> 
                 {/* Features grid */}
                 <div className="grid gap-10 md:grid-cols-2 ">
                     {/* Feature card */}
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
+                        initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{
+                            duration: 0.8,
+                            ease: [0.16, 1, 0.3, 1]
+                        }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
                         className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
                             <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-300 text-2xl shadow-md">
-                            <Target/>
+                                <Target/>
                             </div>
                         </div>
                         <h3 className="text-xl text-center font-semibold text-zinc-900 dark:text-white mb-3">
@@ -41,15 +53,18 @@ export default function AppOverview() {
                     </motion.div>
                     {/* Feature card */}
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
+                        initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{
+                            duration: 0.8,
+                            ease: [0.16, 1, 0.3, 1]
+                        }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
                         className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 shadow-sm dark:shadow-white/4 dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
-                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-white text-2xl shadow-md">
+                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-300 text-2xl shadow-md">
                                 <Lightbulb/>
                             </div>
                         </div>
@@ -62,15 +77,18 @@ export default function AppOverview() {
                     </motion.div>
                     {/* Feature card */}
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
+                        initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{
+                            duration: 0.8,
+                            ease: [0.16, 1, 0.3, 1]
+                        }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
                         className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
                     >
                         <div className="flex justify-center">
-                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-300 text-white text-2xl shadow-md">
+                            <div className="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-300 text-2xl shadow-md">
                             <BarChart3/>
                             </div>
                         </div>
@@ -83,9 +101,12 @@ export default function AppOverview() {
                     </motion.div>
                     {/* Feature card */}
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
+                        initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{
+                            duration: 0.8,
+                            ease: [0.16, 1, 0.3, 1]
+                        }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
                         className="p-8 rounded-2xl bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900/97 dark:to-zinc-800/97 dark:shadow-white/4 shadow-sm dark:hover:shadow-lg hover:shadow-xl transition-shadow"
@@ -113,7 +134,7 @@ export default function AppOverview() {
                     >
                         <Link
                             to="/practice"
-                            className="inline-block dark:shadow-white/8 px-8 py-4 bg-gradient-to-tr from-teal-600 to-teal-400 hover:from-teal-500 hover:to-teal-300 text-white text-lg font-semibold rounded-xl shadow-sm dark:hover:shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-transform"
+                            className="inline-block dark:shadow-white/8 px-8 py-4 bg-gradient-to-tr from-teal-500 to-teal-400/75 hover:from-teal-500 hover:to-teal-300 text-white text-lg font-semibold rounded-xl shadow-sm dark:hover:shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-transform"
                         >
                             Start Practicing
                         </Link>

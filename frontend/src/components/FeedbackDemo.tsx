@@ -21,30 +21,41 @@ export default function FeedbackDemo() {
     return(
         <div className="pt-24 pb-36 bg-zinc-100 dark:bg-[#0F0F11] px-6">   
             {/* header */}
-            <div className="text-center max-w-4xl mx-auto mb-20">
+            <motion.div
+                initial={{ opacity: 0, y: 70 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                    duration: 0.8,
+                    ease: [0.16, 1, 0.3, 1]
+                }}
+                viewport={{ once: true }}
+                className="text-center max-w-4xl mx-auto mb-20"
+            >
                 <p className="text-4xl sm:text-5xl font-[500] text-zinc-900 dark:text-white mb-6">
                     Know Exactly How You Perform
                 </p>
                 <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">
                     AI-powered feedback highlights what you did well and what you can improve <br/>— helping you grow with every session.
                 </p>
-            </div>
+            </motion.div>
             <div className="relative w-full max-w-7xl mx-auto">
                 {/* example image */}
-                <div className="flex justify-center">
+                <motion.div
+                    className="flex justify-center"
+                >
                     {theme === "light" ? (
                         <img src="feedbackdemolight.png" className="rounded-2xl shadow-lg" loading="lazy"/>
                     ) : (
                         <img src="feedbackdemo.png" className="rounded-2xl" loading="lazy"/>
                     )}
-                </div>
+                </motion.div>
                 {/* large screen view */}
                 <div className="hidden lg:flex">
                     {/* tone example */}
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{ duration: 0.8, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.10)" }}
                         className="absolute top-8 left-20 bg-gradient-to-br from-white/95 to-zinc-100/95 dark:from-zinc-900/97 dark:to-zinc-800/97 p-4 rounded-2xl shadow-lg max-w-3xs"
@@ -63,7 +74,7 @@ export default function FeedbackDemo() {
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{ duration: 0.8, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.10)" }}
                         className="absolute top-70 left-16 bg-gradient-to-br from-white/95 to-zinc-100/95 dark:from-zinc-900/97 dark:to-zinc-800/97 p-4 rounded-2xl shadow-lg max-w-2xs"
@@ -85,7 +96,7 @@ export default function FeedbackDemo() {
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, type: "spring", ease: "easeInOut" }}
+                        transition={{ duration: 0.8, type: "spring", ease: "easeInOut" }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.03, boxShadow: "0px 10px 30px rgba(0,0,0,0.10)" }}
                         className="absolute top-28 right-14 bg-gradient-to-bl from-white/95 to-zinc-100/95 dark:from-zinc-900/97 dark:to-zinc-800/97 p-4 rounded-2xl shadow-lg max-w-2xs"

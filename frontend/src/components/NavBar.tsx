@@ -15,12 +15,12 @@ export default function NavBar() {
 
     return (
         <NavigationMenu viewport={false} className="sticky top-0 flex justify-between max-w-full mx-auto bg-zinc-100 dark:bg-[#0F0F11] gap-5 py-8 border-b-1 border-[#E4E4E7] dark:border-[#161618] z-20"> 
-            <div className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-600 to-teal-400 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
+            <div className="font-[500] text-2xl sm:text-3xl ml-6 md:ml-10 lg:ml-15 bg-gradient-to-b from-teal-500 to-teal-400/80 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent">
                 <Link to="/">
                     <div className="flex gap-3">
-                        <div className="relative inline-flex items-center justify-center mt-1">
-                            <MessageSquare className="w-8 h-8 text-teal-500" />
-                            <CheckCircle2 className="w-4 h-4 text-teal-600 absolute bottom-0 right-0 bg-white dark:bg-zinc-900 rounded-full" />
+                        <div className="relative inline-flex items-center justify-center mt-0.5">
+                            <MessageSquare className="w-8 h-8 text-teal-400 dark:text-teal-500" />
+                            <CheckCircle2 className="w-4 h-4 text-teal-400 dark:text-teal-500 absolute bottom-0 right-0 bg-white dark:bg-zinc-900 rounded-full" />
                         </div>
                         <p>PractiMate</p>
                     </div>
@@ -64,7 +64,7 @@ export default function NavBar() {
             <NavigationMenuList className="hidden md:flex gap-3 mr-10">
                 <NavigationMenuItem>
                     <Link to="/practice">
-                        <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">
+                        <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-700 dark:to-teal-500 border-none rounded-2xl">
                             <Briefcase className="w-6 h-6 mt-0.5" />Interview Practice
                         </Button>
                     </Link>
@@ -93,7 +93,7 @@ export default function NavBar() {
                         <Spinner variant="circle" size={36} className="mr-10"/>
                         ) : !user ? (
                             <Link to="/auth/login">
-                                <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 border-none rounded-2xl">
+                                <Button className="bg-zinc-100 dark:bg-[#0F0F11] text-zinc-800 dark:text-zinc-200 xl:text-[16px] border border-[#bebec2] dark:hover:bg-zinc-900 hover:bg-zinc-200 dark:border-[#3c3c3f] hover:cursor-pointer bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-700 dark:to-teal-500 border-none rounded-2xl">
                                     <UserRound className="w-6 h-6" />Signin/Signup
                                 </Button>
                             </Link>
@@ -101,7 +101,7 @@ export default function NavBar() {
                             <div>
                                 {profile ? (
                                     <NavigationMenuTrigger className="!bg-transparent !focus:bg-transparent !hover:bg-transparent">
-                                        <div className="flex items-center justify-center w-11 h-11 mt-0.5 pb-1 rounded-full bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-800 dark:to-teal-600 font-semibold text-xl">
+                                        <div className="flex items-center justify-center w-11 h-11 mt-0.5 pb-1 rounded-full bg-gradient-to-br from-teal-400 to-teal-200 dark:from-teal-700 dark:to-teal-500 font-semibold text-xl">
                                             {profile?.username?.charAt(0)}
                                         </div>
                                     </NavigationMenuTrigger>
