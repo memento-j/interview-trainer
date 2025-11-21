@@ -72,8 +72,8 @@ export default function SessionSetup() {
         <div className='min-h-screen'>
             {loading ?       
                 <div className="flex flex-col items-center pt-50 gap-5">
-                    <p className='font-semibold text-2xl'>Creating Your Session</p>
-                    <Spinner variant="ellipsis" size={64}/>
+                    <p className='text-3xl md:text-4xl xl:text-5xl pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Creating Your Session</p>
+                    <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                 </div>
             :
                 <Stepper

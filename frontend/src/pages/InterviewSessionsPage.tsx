@@ -35,7 +35,7 @@ export default function InterviewSessionPage() {
             <ScrollToTop/>
             {!profile || !userSessions ? (
                 <div className="flex justify-center pt-40">
-                    <Spinner variant="ellipsis" size={64}/>
+                    <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                 </div>
             ) :
                 <div className="flex flex-col items-center pt-15 md:pt-30 pb-20 gap-5">
@@ -79,7 +79,7 @@ export default function InterviewSessionPage() {
                                     ) : (
                                         loading ? (
                                             <div className="flex justify-center py-10">
-                                                <Spinner variant="ellipsis" size={64}/>
+                                                <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                                             </div>
                                         )  :  (
                                         <p className="text-sm my-5 md:text-lg font-medium text-center text-zinc-600 dark:text-zinc-300">

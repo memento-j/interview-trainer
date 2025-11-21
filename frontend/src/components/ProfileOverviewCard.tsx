@@ -52,7 +52,7 @@ export default function ProfileOverviewCard() {
                                     animate={{ scale: 1, opacity: 1 }}
                                     transition={{ delay: 0.3, duration: 0.4 }}
                                 >
-                                    <Spinner variant="ellipsis" size={64} />
+                                    <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                                 </motion.div>
                                 {/* Subtle Progress Text */}
                                 <motion.p

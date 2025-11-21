@@ -40,7 +40,7 @@ export default function AccountPage() {
             <ScrollToTop/>
             {!profile && (
                 <div className="flex justify-center pt-40">
-                    <Spinner variant="ellipsis" size={64}/>
+                    <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                 </div>
             )}
             {user && profile && (
@@ -118,7 +118,7 @@ export default function AccountPage() {
                                     ) : (
                                         userSessionsLoading ? (
                                             <div className="flex justify-center py-10">
-                                                <Spinner variant="ellipsis" size={64}/>
+                                                <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                                             </div>
                                         )  :  (
                                             <p className="text-sm my-5 md:text-lg font-medium text-center text-zinc-600 dark:text-zinc-300">

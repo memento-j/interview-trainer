@@ -55,7 +55,7 @@ export default function RepracticeSessionSetup() {
             {loading ?       
                 <div className="flex flex-col items-center pt-50 gap-5">
                     <p className='font-semibold text-2xl'>Creating Your Session</p>
-                    <Spinner variant="ellipsis" size={64}/>
+                    <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
                 </div>
             :
                 <Stepper
