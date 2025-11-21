@@ -59,7 +59,7 @@ export default function Hero() {
                 color={theme === "dark" ? "#80CBC4" : "#022f2e"}
                 refresh={false}
             />
-            <div className="relative flex min-h-[92vh] xl:pb-0 gap-12 md:gap-16 flex-col items-center text-center px-6 sm:px-12 lg:px-24 m-auto pt-12 lg:pt-24 xl:pt-48">
+            <div className="relative flex min-h-[92vh] gap-6 px-3 pt-6 md:gap-16 flex-col items-center justify-center text-center ">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -104,7 +104,7 @@ export default function Hero() {
                         Learn More
                     </Link>
                 </motion.div>
-                <div className="grid align-content grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mt-0 lg:mt-8 pb-18">
+                <div className="grid align-content grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mt-0 lg:mt-8 pb-18">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
