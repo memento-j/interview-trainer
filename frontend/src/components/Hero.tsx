@@ -1,15 +1,16 @@
 import { Link } from "react-router";
 import { useEffect } from "react";
-import { useTheme } from "@/contexts/ThemeContext";
 import { motion, stagger, useAnimate } from "motion/react";
 import { Check } from "lucide-react";
+//not mine ^ 
 import { Particles } from "./ui/particles";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Hero() {
     //text generate effect from accerncity ui component https://ui.aceternity.com/components/text-generate-effect
     const [scope, animate] = useAnimate();
     const { theme } = useTheme();
-    const heroText = "Your AI Interview Trainer to Help You Land the Job You Deserve."
+    const heroText = "Working Interview Trainer to Help You Land the Job You Deserve."
     const gradientWords = ["AI", "Interview", "Trainer"];
     let wordsArray = heroText.split(" ");
 
