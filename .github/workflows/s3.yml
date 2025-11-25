@@ -10,7 +10,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Install depenedencies
-        run: cd frontend && npm install && npm run build
+        run: cd frontend && touch env.production && echo ${{ secrets.ENV_FILE }} >> .env.production && npm install && npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
