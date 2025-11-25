@@ -10,14 +10,14 @@ export interface UserSession {
     sessionData: SessionData;
 }
 
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export function useUserSessions(userId?: string, token?: string) {
     return useQuery<UserSession[]>({
         queryKey: ["sessions", userId],
         queryFn: async () => {
             if (!userId || !token) return [];
-            const res = await axios.get(`${apiUrl}/interview-sessions/user/${userId}`, {
+            const res = await axios.get(`/interview-sessions/user/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             if (!res.data?.userSessionsData) {

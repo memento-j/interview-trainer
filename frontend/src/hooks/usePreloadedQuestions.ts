@@ -4,13 +4,13 @@ import { type PreloadedQuestion } from "@/types/PreloadedQustion";
 
 //remember a record can be of any size necessary
 type PreloadedQuestions = Record<string, PreloadedQuestion[]>
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export function usePreloadedQuestions() {
     return useQuery<PreloadedQuestions>({
         queryKey: ["preloadedQuestions"],
         queryFn: async () => {
-            const res = await axios.get(`${apiUrl}/preloaded-questions`);
+            const res = await axios.get(`/preloaded-questions`);
             //group the questions by their roles
             const questionsByRoles = res.data?.reduce((acc:any, question:any) => {
                 const roleKey = question.role || "General";

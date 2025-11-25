@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
 export async function createInterviewSession(
     user: any,
     session: any,
@@ -19,14 +17,14 @@ export async function createInterviewSession(
         //if the user wants their questions to be AI generated, then generate the questions and store session in db
         if (questionSource === "ai-generated") {
             //generate questions
-            const aiResponse = await axios.post(`${apiUrl}/ai/interview-questions`, {
+            const aiResponse = await axios.post(`/ai/interview-questions`, {
                     questionCount: aiQuestionCount,
                     role: selectedOption === "general" ? "general" : role,
                     jobDescription
                 });
             const generatedQuestions = aiResponse.data.questions;
             //create interview sesson in  db using the generated questions and role
-            const dbResponse = await axios.post(`${apiUrl}/interview-sessions`,
+            const dbResponse = await axios.post(`/interview-sessions`,
                 {
                     questionType: questionSource,
                     questions: generatedQuestions,
@@ -42,14 +40,14 @@ export async function createInterviewSession(
         } 
         else if (questionSource === "job-description") {
             //generate questions
-            const aiResponse = await axios.post(`${apiUrl}/ai/interview-questions`, {
+            const aiResponse = await axios.post(`/ai/interview-questions`, {
                     questionCount: aiQuestionCount,
                     role,
                     jobDescription
                 });
             const generatedQuestions = aiResponse.data.questions;
             //create interview sesson in  db using the generated questions and role
-            const dbResponse = await axios.post(`${apiUrl}/interview-sessions`,
+            const dbResponse = await axios.post(`/interview-sessions`,
                 {
                     questionType: questionSource,
                     questions: generatedQuestions,
@@ -74,7 +72,7 @@ export async function createInterviewSession(
                 })                
             }
             //create interview sesson in db using the provided questions and role
-            const dbResponse = await axios.post(`${apiUrl}/interview-sessions`,
+            const dbResponse = await axios.post(`/interview-sessions`,
                 {
                     questionType: questionSource,
                     questions: role === "Question Repractice" ? cleanQuestions : selectedPremadeQuestions,
@@ -91,7 +89,7 @@ export async function createInterviewSession(
         //simply store the session in db using the provided questions from the user
         else {
             //create interview sesson in db using the provided questions and role
-            const dbResponse = await axios.post(`${apiUrl}/interview-sessions`,
+            const dbResponse = await axios.post(`/interview-sessions`,
                 {
                     questionType: questionSource,
                     questions: providedQuestions,
@@ -111,7 +109,7 @@ export async function createInterviewSession(
         //generate questions and store the questions and role in local storage
         if (questionSource === "ai-generated") {
             //generate questions
-            const aiResponse = await axios.post(`${apiUrl}/ai/interview-questions`, {
+            const aiResponse = await axios.post(`/ai/interview-questions`, {
                 questionCount: aiQuestionCount,
                 role: selectedOption === "general" ? "general" : role,
                 jobDescription
@@ -139,7 +137,7 @@ export async function createInterviewSession(
         }
         else if (questionSource === "job-description") {
             //generate questions
-            const aiResponse = await axios.post(`${apiUrl}/ai/interview-questions`, {
+            const aiResponse = await axios.post(`/ai/interview-questions`, {
                     questionCount: aiQuestionCount,
                     role,
                     jobDescription
@@ -179,7 +177,7 @@ export async function handleAnswerSubmit(
     questionId: string
 ) {
     //analyze answer
-    const aiResponse = await axios.post(`${apiUrl}/ai/answer-analysis`, {
+    const aiResponse = await axios.post(`/ai/answer-analysis`, {
        question: questionText,
        answer: answer
     });
@@ -188,7 +186,7 @@ export async function handleAnswerSubmit(
     //update session in db with the answer and feedback
     if (user) {
         try {
-            const updateDbResponse = await axios.patch(`${apiUrl}/interview-sessions/${sessionID}/progress`, 
+            const updateDbResponse = await axios.patch(`/interview-sessions/${sessionID}/progress`, 
                 {
                     answer,
                     feedback,

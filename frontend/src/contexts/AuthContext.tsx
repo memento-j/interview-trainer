@@ -2,8 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { createClient, SupabaseClient, type User, type Session } from "@supabase/supabase-js"
 import { toast } from "sonner";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL!
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY!
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 type AuthContextType = {

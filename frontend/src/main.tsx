@@ -16,7 +16,9 @@ import FAQPage from './pages/FAQPage.tsx';
 import SignUpPage from './pages/SignUpPage.tsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx';
 import UpdatePasswordPage from './pages/UpdatePasswordPage.tsx';
+import axios from 'axios';
 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(

@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export function useSessionAnalysis(userId?: string, token?: string, userSessions?: any) {
     return useQuery({
         queryKey: ["profileAnalysis", userId],
         queryFn: async () => {
-            const res = await axios.post(`${apiUrl}/ai/user-sessions-analysis`, 
+            const res = await axios.post(`/ai/user-sessions-analysis`, 
                 {
                     userSessions,
                     userId
