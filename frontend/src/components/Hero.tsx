@@ -10,7 +10,7 @@ export default function Hero() {
     //text generate effect from accerncity ui component https://ui.aceternity.com/components/text-generate-effect
     const [scope, animate] = useAnimate();
     const { theme } = useTheme();
-    const heroText = "Working Interview Trainer to Help You Land the Job You Deserve."
+    const heroText = "Workinggggg Interview Trainer to Help You Land the Job You Deserve."
     const gradientWords = ["AI", "Interview", "Trainer"];
     let wordsArray = heroText.split(" ");
 
