@@ -12,7 +12,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "NODE_ENV=production" >> .env
+          touch .env
           echo "VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
           echo "VITE_SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> .env
           echo "VITE_ASSEMBLYAI_KEY=${{ secrets.ASSEMBLYAI_KEY }}" >> .env
