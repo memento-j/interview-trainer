@@ -6,6 +6,7 @@ import { createInterviewSession } from "@/services/interviewSessionService";
 import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayUserQuestions from './DisplayUserQuestions';
+import { FileText } from 'lucide-react';
 
 
 export default function RepracticeSessionSetup() {
@@ -87,8 +88,25 @@ export default function RepracticeSessionSetup() {
                     {/* Prompt the user to enter a name for the session */}
                     { user &&
                         <Step canContinue={sessionName ? true : false}>
-                            <p className='mb-8 font-semibold text-3xl'>Enter a name for this practice interview session</p>
-                            <Input value={sessionName} onChange={(e) => setSessionName(e.target.value)} placeholder="ex: My First Practice Session" className='max-w-md mb-5 text-xl'/>
+                            <div className="text-center mb-10">
+                                <div className="flex justify-center items-center gap-3 mb-4">
+                                    <FileText className="w-8 h-8 text-teal-500 dark:text-teal-400" />
+                                    <h2 className="font-semibold text-xl md:text-2xl lg:text-3xl bg-gradient-to-tr from-teal-600 to-teal-400 bg-clip-text text-transparent">
+                                        Name Your Session
+                                    </h2>
+                                </div>
+                                <p className="text-muted-foreground text-md md:text-xl max-w-2xl mx-auto">
+                                    Give your practice session a descriptive name so you can easily find it later.
+                                </p>
+                            </div>
+                            <div className="flex justify-center">
+                                <Input
+                                    value={sessionName}
+                                    onChange={(e) => setSessionName(e.target.value)}
+                                    placeholder="e.g., My First Practice Session"
+                                    className="max-w-md w-full py-5 px-5 !text-lg rounded-xl border border-zinc-300 dark:border-zinc-700 shadow-sm focus:shadow-md focus:ring-2 focus:ring-teal-400 dark:bg-[#0F0F11] dark:text-zinc-100 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
+                                />
+                            </div>
                         </Step>
                     }
                 </Stepper>
