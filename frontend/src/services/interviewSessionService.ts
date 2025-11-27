@@ -44,7 +44,7 @@ export async function createInterviewSession(
                     questionCount: aiQuestionCount,
                     role,
                     jobDescription
-                });
+            });
             const generatedQuestions = aiResponse.data.questions;
             //create interview sesson in  db using the generated questions and role
             const dbResponse = await axios.post(`/interview-sessions`,
@@ -123,6 +123,8 @@ export async function createInterviewSession(
                 feedback: [],
             };
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+            //also store in db
+            createSessionDB(questionSource, generatedQuestions, "non-user-session", selectedOption === "general" ? "general" : role)
             return "";
         } 
         else if (questionSource === "preloaded") {
@@ -133,6 +135,7 @@ export async function createInterviewSession(
                 feedback: [],
             };
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+            createSessionDB(questionSource, selectedPremadeQuestions, "non-user-session", selectedOption === "general" ? "general" : role)
             return ""; 
         }
         else if (questionSource === "job-description") {
@@ -151,6 +154,7 @@ export async function createInterviewSession(
                 feedback: [],
             };
             localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+            createSessionDB(questionSource, generatedQuestions, "non-user-session", selectedOption === "general" ? "general" : role)
             return "";
         }
         //simply store the provided questions and role in local storage
@@ -215,4 +219,55 @@ export async function handleAnswerSubmit(
         localStorage.setItem("interview_session", JSON.stringify(updatedSession))
     }
 
+}
+
+async function updateSessionDB(
+        answer: string,
+        feedback: any,
+        questionId: string,
+        id: string,
+        sessionID: string
+    ) {
+    try {
+        const updateDbResponse = await axios.patch(`/interview-sessions/${sessionID}/progress`, 
+            {
+                answer,
+                feedback,
+                questionId,
+                id: user.id
+            },
+            {
+                headers: { Authorization: `Bearer ${session?.access_token}` }
+            }
+        );
+        console.log(updateDbResponse.data);
+        console.log(updateDbResponse.status);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+//creeate session to db helper function
+async function createSessionDB
+    (
+        questionSource:string, 
+        providedQuestions:string[], 
+        sessionName:string,  
+        role:string, 
+    ) {
+    try {
+        //create interview sesson in db using the provided questions and role
+        const dbResponse = await axios.post(`/interview-sessions`,
+            {
+                questionType: questionSource,
+                questions: providedQuestions,
+                name: sessionName,
+                role,
+            }
+        );
+        //return the created interview session's session ID 
+        return dbResponse.data;
+    } catch(err) {
+        console.log(err);
+    }
 }

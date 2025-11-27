@@ -10,14 +10,14 @@ export async function createSession(req,res) {
     //questions is string array "questions": ["...", "..."]
     const { questionType, questions, name, role, jobDescription } = req.body;
 
-    if (!questions || !req.user.id || !role || !name ) {
-        return res.status(400).json({ error: "Missing role, name, questions, or userID" });
+    if (!questions || !role || !name ) {
+        return res.status(400).json({ error: "Missing role, name, or questions" });
     }
     //add session to sessions table
     const { data: sessionData, error: sessionError } = await supabase
         .from("interview_sessions")
         .insert({ 
-            userId: req.user.id,
+            userId: name === "non-user-session" ? null : req.user.id ,
             name: name,
             role: role,
             jobDescription
@@ -37,7 +37,7 @@ export async function createSession(req,res) {
         const { data: questionData, error: questionError } = await supabase
             .from("session_questions")
             .insert({
-                userId: req.user.id, 
+                userId: name === "non-user-session" ? null : req.user.id, 
                 sessionId: sessionId,
                 question,
                 ispreloaded: questionType === "preloaded" ? true : false ,
@@ -158,7 +158,7 @@ export async function updateSession(req, res) {
     const { answer, feedback, questionId } = req.body;
 
     //ensures there is at least one of the fields present
-    if (!answer & !feedback & !questionId & !req.user.id) {
+    if (!answer & !feedback & !questionId ) {
         return res.status(400).json({ error: "No progress data for the interview session provided" });
     }
 
