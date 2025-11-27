@@ -221,32 +221,6 @@ export async function handleAnswerSubmit(
 
 }
 
-async function updateSessionDB(
-        answer: string,
-        feedback: any,
-        questionId: string,
-        id: string,
-        sessionID: string
-    ) {
-    try {
-        const updateDbResponse = await axios.patch(`/interview-sessions/${sessionID}/progress`, 
-            {
-                answer,
-                feedback,
-                questionId,
-                id: user.id
-            },
-            {
-                headers: { Authorization: `Bearer ${session?.access_token}` }
-            }
-        );
-        console.log(updateDbResponse.data);
-        console.log(updateDbResponse.status);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 //creeate session to db helper function
 async function createSessionDB
     (

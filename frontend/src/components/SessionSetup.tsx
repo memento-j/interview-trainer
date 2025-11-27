@@ -216,7 +216,7 @@ export default function SessionSetup() {
                         </Step>
                     }
                     {/* Prompt user to provide the number of questions they would like the AI to generate*/}
-                    { questionSource === "ai-generated" || questionSource === "job-description" &&
+                    { questionSource && (questionSource === "ai-generated" || questionSource === "job-description") &&
                         <Step canContinue={!!aiQuestionCount}>
                             <div className="text-center mb-10">
                                 <div className="flex justify-center items-center gap-3 mb-4">
