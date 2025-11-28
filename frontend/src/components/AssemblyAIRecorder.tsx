@@ -175,11 +175,11 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
                   >
                     <Mic size={30} />
                   </button>
-                  <p className="text-xs text-muted-foreground">Click to stop recording</p>
+                  <p className="text-xs text-muted-foreground text-center">Click to stop recording</p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
-                  <p className="text-lg font-medium">Click the mic to start recording!</p>
+                  <p className="text-lg font-medium text-center">Click the mic to start recording!</p>
                   <button
                     onClick={startRecording}
                     className="flex hover:cursor-pointer items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-teal-400 text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
@@ -191,7 +191,7 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
             </div>
             {/* Submit Section */}
             <div className="flex flex-col items-center mt-8 gap-2">
-              <p className="text-muted-foreground text-sm italic">
+              <p className="text-muted-foreground text-sm italic text-center">
                 Once submitted, you can't change your answer.
               </p>
               <Button

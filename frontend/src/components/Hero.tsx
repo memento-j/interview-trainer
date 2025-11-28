@@ -10,7 +10,7 @@ export default function Hero() {
     //text generate effect from accerncity ui component https://ui.aceternity.com/components/text-generate-effect
     const [scope, animate] = useAnimate();
     const { theme } = useTheme();
-    const heroText = "Your Interview Trainer to Help You Land the Job You Deserve."
+    const heroText = "Your AI Interview Trainer to Help You Land the Job You Deserve."
     const gradientWords = ["AI", "Interview", "Trainer"];
     let wordsArray = heroText.split(" ");
 
@@ -60,7 +60,7 @@ export default function Hero() {
                 color={theme === "dark" ? "#80CBC4" : "#022f2e"}
                 refresh={false}
             />
-            <div className="relative flex min-h-[92vh] gap-6 px-3 pt-6 md:gap-16 flex-col items-center justify-center text-center ">
+            <div className="relative flex min-h-[92vh] gap-6 px-5 pt-8 md:gap-16 flex-col items-center justify-center text-center ">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -74,8 +74,7 @@ export default function Hero() {
                     transition={{ duration: 0.4, ease: "easeOut", delay: 0.5}}
                 >
                     <p className="text-lg sm:text-2xl lg:text-xl xl:text-2xl !text-zinc-500 dark:text-zinc-950 md:mb-6 mt-2 max-w-4xl leading-relaxed">
-                        Practice role-specific questions, get instant feedback, repractice challenging questions, and boost your confidence.  
-                        <br/>
+                        <span className="hidden md:flex">Practice role-specific questions, get instant feedback, repractice challenging questions, and boost your confidence.</span>  
                         <span className="bg-gradient-to-b from-teal-500 to-teal-400/75 bg-clip-text text-transparent font-[500]">PractiMate AI</span> makes interview prep smarter and faster.
                     </p>
                 </motion.div>
@@ -83,7 +82,7 @@ export default function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1}}
                     transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-                    className="flex gap-4 md:gap-8 flex-wrap justify-center"
+                    className="flex gap-4 md:gap-8 flex-wrap justify-center mb-2"
                 >
                     <Link
                         to="/practice"

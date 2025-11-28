@@ -62,7 +62,7 @@ export default function FAQPage() {
                             >
                                 <AccordionTrigger className="text-lg md:text-xl font-semibold py-4 px-5 hover:text-teal-400 dark:hover:text-teal-500 transition-colors duration-250">
                                     <div className="flex items-center gap-3">
-                                        <FileQuestionMark className="text-teal-400 dark:text-teal-500"/>
+                                        <FileQuestionMark className="text-teal-400 dark:text-teal-500 shrink-0"/>
                                         {faq.question}
                                     </div>
                                 </AccordionTrigger>
