@@ -8,16 +8,17 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SR_
 //creates interview session only using the questions 
 export async function createSession(req,res) {    
     //questions is string array "questions": ["...", "..."]
-    const { questionType, questions, name, role, jobDescription } = req.body;
+    const { questionType, questions, name, role, jobDescription, userID } = req.body;
 
     if (!questions || !role || !name ) {
         return res.status(400).json({ error: "Missing role, name, or questions" });
     }
+
     //add session to sessions table
     const { data: sessionData, error: sessionError } = await supabase
         .from("interview_sessions")
         .insert({ 
-            userId: name === "non-user-session" ? null : req.user.id ,
+            userId: name === "non-user-session" ? null : userID ,
             name: name,
             role: role,
             jobDescription
@@ -37,7 +38,7 @@ export async function createSession(req,res) {
         const { data: questionData, error: questionError } = await supabase
             .from("session_questions")
             .insert({
-                userId: name === "non-user-session" ? null : req.user.id, 
+                userId: name === "non-user-session" ? null : userID, 
                 sessionId: sessionId,
                 question,
                 ispreloaded: questionType === "preloaded" ? true : false ,

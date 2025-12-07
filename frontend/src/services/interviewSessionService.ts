@@ -30,6 +30,7 @@ export async function createInterviewSession(
                     questions: generatedQuestions,
                     name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
+                    userID: user.id
                 },
                 {
                     headers: { Authorization: `Bearer ${session?.access_token}` },
@@ -53,7 +54,8 @@ export async function createInterviewSession(
                     questions: generatedQuestions,
                     name: sessionName,
                     role,
-                    jobDescription 
+                    jobDescription,
+                    userID: user.id
                 },
                 {
                     headers: { Authorization: `Bearer ${session?.access_token}` },
@@ -78,6 +80,7 @@ export async function createInterviewSession(
                     questions: role === "Question Repractice" ? cleanQuestions : selectedPremadeQuestions,
                     name: sessionName,
                     role: selectedOption === "general" ? "general" : role,
+                    userID: user.id
                 },
                 {
                     headers: { Authorization: `Bearer ${session?.access_token}` },
