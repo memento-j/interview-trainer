@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 export default function AppOverview() {
     return(
-        <div className="py-24 bg-zinc-100 dark:bg-[#0F0F11]">
+        <div className="py-24 bg-zinc-100 dark:bg-[#0F0F11]/60">
             <div className="max-w-6xl mx-auto px-6 sm:px-12">
                 {/* Section heading */}  
                 <motion.div
