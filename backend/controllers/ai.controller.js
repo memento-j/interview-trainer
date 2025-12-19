@@ -11,9 +11,6 @@ const client = new OpenAI({
 });
 
 // Schemas for open ai output
-const questionsSchema = z.object({
-    questions: z.array(z.string())
-});
 const feedbackSchema = z.object({
     strengths: z.array(z.string()),
     weaknesses: z.array(z.string()),
@@ -37,6 +34,7 @@ const feedbackSchema = z.object({
     skillsDetected: z.array(z.string()),
     overallSummary: z.string()
 });
+
 const userAnalysisSchema = z.object({
     totalSessions: z.number(),
     totalAnswers: z.number(),
@@ -57,46 +55,67 @@ const userAnalysisSchema = z.object({
 
 //getting interview questions
 export async function createQuestions(req,res) {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    const send = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+
     try {
-        const { questionCount, role, jobDescription } = req.body;
+        const { questionCount, role, jobDescription } = req.query;
   
         if (!questionCount || !role) {
             return res.status(400).json({ error: "Missing questionCount or role" });
         }
+        
+        send({ status: "started", message: "Started Question Generation..." });
+
         let prompt = "";
+        let outputFormat = "Return as a JSON object ex: questions: [ Question1, Question2, Questions3, etc]"
 
         //if user is looking for general interview questions
-        if (role == "general") {
-            prompt = `Generate ${questionCount} behavioral and situational interview questions for a general interview. The questions should be clear, professional and have some variance. Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(questionsSchema.shape)}`
+        if (role === "general") {
+        prompt = `Generate ${questionCount} behavioral and situational interview questions for a general interview. The questions should be clear, professional, and have some variance. ${outputFormat}`;
         } 
-        //otherwise, the prompt will be role-specific
         else {
-            //no job description, so just provide questions only based on role
-            if (jobDescription === "") {
-                prompt = `Generate ${questionCount} interview questions for a ${role}. The questions should be clear and professional and include a mix of behavioral, situational, and technical (if applicable) questions related to the role. All of these questions must be able to only be answered verbally. Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(questionsSchema.shape)}`
-            }
-            //there is a job description, so ensure the questions are tailored to this job description 
-            else {
-                prompt = `Generate ${questionCount} interview questions for a ${role} tailored to this job description: ${jobDescription}. If there is a company name present, there should be questions that are tailored to this specific company as well. The questions should be clear and professional and include a mix of behavioral, situational, and technical (if applicable) questions related to the role. All of these questions must be able to only be answered verbally. Please return the questions as a JSON Object conforming to the following schema: ${JSON.stringify(questionsSchema.shape)}`
-            }
-        } 
+            prompt = jobDescription
+                //role and job description provided
+                ? `Generate ${questionCount} interview questions for a ${role} tailored to this job description: ${jobDescription}. Each question should be professional and clear. ${outputFormat}`
+                //only role provided
+                : `Generate ${questionCount} interview questions for a ${role}. Each question should be professional and clear. ${outputFormat}`;
+        }
 
-        const response = await client.chat.completions.create({
+        const stream = await client.chat.completions.create({
             model: "gpt-5-nano",
             messages: [
-                { role: "system", content: "You are an AI that generates interview questions." },
+                { role: "system", content: "You are an AI assitant that has generated thousands of interview questions to help users land their dream roles." },
                 { role: "user", content: prompt }
             ],
-            response_format: {type: "json_object"}
+            response_format: {type: "json_object"},
+            stream: true
         });
-        const content = response.choices[0].message.content;
-        const data = JSON.parse(content);                  
-        const questions = data.questions;
-        res.status(200).json({ questions });
+
+        let fullText = ""
+
+        for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content || '';
+            //write the content to the stream if it exists
+            if (content) {
+                res.write(`data: ${JSON.stringify({ content })}\n\n`);
+                fullText += content;
+            }
+        }
+        const parsed = JSON.parse(fullText);
+        res.write(`data: ${JSON.stringify({ status: "complete", questions: parsed.questions })}\n\n`);
+        res.end();
+
 
     } catch (err) {
         console.error("Interview Question API error:", err);
         res.status(500).json({ error: "Something went wrong" });
+        res.end();
     }
 }
 
