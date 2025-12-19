@@ -57,7 +57,7 @@ export default function FeatureSpotlight() {
             ref={containerRef}
             className="relative py-32 bg-gradient-to-b from-zinc-100 to-white dark:from-[#0F0F11] dark:to-[#0a0a0b] overflow-hidden"
         >
-            <div className="relative max-w-7xl mx-auto px-6 sm:px-12">
+            <div className="max-w-7xl mx-auto px-6 sm:px-12">
                 <div className="grid lg:grid-cols-2 gap-20 items-center">
                     {/* Left Content */}
                     <motion.div
@@ -180,7 +180,7 @@ export default function FeatureSpotlight() {
                                 whileInView={{ opacity: 1, y: 0, x: 0 }}
                                 transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
                                 viewport={{ once: true }}
-                                className="absolute -top-6 -left-8 bg-gradient-to-br from-white/98 to-zinc-100/98 dark:from-zinc-900/98 dark:to-zinc-800/98 p-4 rounded-2xl shadow-xl border border-zinc-200/50 dark:border-zinc-700/50 max-w-[180px] z-20 backdrop-blur-sm"
+                                className="absolute -top-6 -left-8 bg-gradient-to-br from-white/98 to-zinc-100/98 dark:from-zinc-900/98 dark:to-zinc-800/98 p-4 rounded-2xl shadow-xl border border-zinc-200/50 dark:border-zinc-700/50 max-w-[180px] z-10 backdrop-blur-sm"
                             >
                                 <div className="flex items-center justify-center gap-2 mb-3">
                                     <AlertCircle className="w-4 h-4 text-blue-500" />
@@ -204,7 +204,7 @@ export default function FeatureSpotlight() {
                                 whileInView={{ opacity: 1, y: 0, x: 0 }}
                                 transition={{ duration: 0.8, delay: 0.6, type: "spring" }}
                                 viewport={{ once: true }}
-                                className="absolute -bottom-8 -left-12 bg-gradient-to-br from-white/98 to-zinc-100/98 dark:from-zinc-900/98 dark:to-zinc-800/98 p-4 rounded-2xl shadow-xl border border-zinc-200/50 dark:border-zinc-700/50 max-w-[240px] z-20 backdrop-blur-sm"
+                                className="absolute -bottom-8 -left-12 bg-gradient-to-br from-white/98 to-zinc-100/98 dark:from-zinc-900/98 dark:to-zinc-800/98 p-4 rounded-2xl shadow-xl border border-zinc-200/50 dark:border-zinc-700/50 max-w-[240px] z-10 backdrop-blur-sm"
                             >
                                 <div className="flex items-center justify-center gap-2 mb-3">
                                     <Flame className="w-5 h-5 text-green-500" />
@@ -228,7 +228,7 @@ export default function FeatureSpotlight() {
                                 whileInView={{ opacity: 1, y: 0, x: 0 }}
                                 transition={{ duration: 0.8, delay: 0.8, type: "spring" }}
                                 viewport={{ once: true }}
-                                className="absolute top-1/2 -translate-y-1/2 -right-10 bg-gradient-to-bl from-white/98 to-zinc-100/98 dark:from-zinc-900/98 dark:to-zinc-800/98 p-4 rounded-2xl shadow-xl border border-zinc-200/50 dark:border-zinc-700/50 max-w-[220px] z-20 backdrop-blur-sm"
+                                className="absolute top-1/2 -translate-y-1/2 -right-10 bg-gradient-to-bl from-white/98 to-zinc-100/98 dark:from-zinc-900/98 dark:to-zinc-800/98 p-4 rounded-2xl shadow-xl border border-zinc-200/50 dark:border-zinc-700/50 max-w-[220px] z-10 backdrop-blur-sm"
                             >
                                 <div className="flex items-center justify-center gap-2 mb-3">
                                     <Lightbulb className="w-5 h-5 text-yellow-500" />

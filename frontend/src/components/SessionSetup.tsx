@@ -12,6 +12,7 @@ import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayPreloadedQuestions from './DisplayPreloadedQuestions';
 import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText, BriefcaseBusiness } from "lucide-react";
+import { useQuestionGeneration } from '@/hooks/useQuestionGeneration';
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
@@ -21,20 +22,36 @@ export default function SessionSetup() {
     const [questionSource, setQuestionSource] = useState<string>("ai-generated");
     const [jobDescription, setJobDescription] = useState<string>("");
     const [providedQuestions, setProvidedQuestions] = useState<string[]>([""]);
-    const [aiQuestionCount, setAiQuestionCount] = useState<string>("");
+    const [questionCount, setQuestionCount] = useState<string>("");
     const [sessionName, setSessionName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const { generateQuestions, startStatus, completeStatus, streamText } = useQuestionGeneration();
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
         setLoading(true);
-        const result = await createInterviewSession(
+
+        try {
+            //generate questions test
+            const questions = await generateQuestions({role, selectedOption, questionCount, jobDescription});
+            console.log(questions, "dajsfjdsa");
+            
+        } 
+        catch  (err) {
+            console.log("error generating questions", err);
+            
+        }
+
+
+        
+        
+        /*const result = await createInterviewSession(
             user,
             session,
             role,
             selectedOption,
             questionSource,
-            aiQuestionCount,
+            questionCount,
             providedQuestions,
             selectedPremadeQuestions,
             jobDescription,
@@ -43,8 +60,9 @@ export default function SessionSetup() {
         
         if (result.sessionID) {
             setCreatedSessionID(result.sessionID);
-        }
-        setSetupCompleted(true);
+        }*/
+        
+        //setSetupCompleted(true);
     }
 
     // Below are helper functions for when a user decides to input their own questions
@@ -74,6 +92,8 @@ export default function SessionSetup() {
                 <div className="flex flex-col items-center pt-50 gap-5">
                     <p className='text-3xl md:text-4xl xl:text-5xl pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Creating Your Session</p>
                     <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
+                    
+                    <p>{streamText}</p>
                 </div>
             :
                 <Stepper
@@ -217,7 +237,7 @@ export default function SessionSetup() {
                     }
                     {/* Prompt user to provide the number of questions they would like the AI to generate*/}
                     { questionSource && (questionSource === "ai-generated" || questionSource === "job-description") &&
-                        <Step canContinue={!!aiQuestionCount}>
+                        <Step canContinue={!!questionCount}>
                             <div className="text-center mb-10">
                                 <div className="flex justify-center items-center gap-3 mb-4">
                                     <BrainCircuit className="w-8 h-8 text-teal-500 dark:text-teal-400" />
@@ -230,7 +250,7 @@ export default function SessionSetup() {
                                 </p>
                             </div>
                             <div className="flex justify-center">
-                                <Select value={aiQuestionCount?.toString()} onValueChange={setAiQuestionCount}>
+                                <Select value={questionCount?.toString()} onValueChange={setQuestionCount}>
                                     <SelectTrigger className="w-56 py-6 text-lg font-medium bg-gradient-to-tr from-zinc-100 to-zinc-50 dark:from-[#0F0F11] dark:to-[#1A1A1C] border border-zinc-300 dark:border-zinc-700 rounded-xl shadow-sm hover:shadow-md transition-all">
                                         <SelectValue placeholder="Select number" />
                                     </SelectTrigger>

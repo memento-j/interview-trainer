@@ -92,7 +92,7 @@ export default function ComparisonSection() {
                     >
                         <div className="h-full p-8 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800">
                             {/* Header */}
-                            <div className="flex items-center gap-3 mb-8 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+                            <div className="flex gap-3 mb-8 pb-6 border-b border-zinc-200 dark:border-zinc-800">
                                 <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
                                     <Users className="w-6 h-6 text-zinc-500" />
                                 </div>

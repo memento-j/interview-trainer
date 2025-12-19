@@ -107,6 +107,7 @@ export async function createInterviewSession(
             return dbResponse.data;
         }
     } 
+    
     //if no user, store the interview session in local storage instead
     else {
         //generate questions and store the questions and role in local storage
