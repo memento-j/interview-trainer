@@ -39,7 +39,6 @@ export default function SessionSetup() {
                 generatedQuestions = await generateQuestions({role, selectedOption, questionCount, jobDescription});
             }
             const result = await createInterviewSession(user, session, role, selectedOption, questionSource, generatedQuestions, selectedPremadeQuestions, providedQuestions, sessionName, jobDescription);
-            console.log(result);
             
             if (result.sessionID) {
                 setCreatedSessionID(result.sessionID);

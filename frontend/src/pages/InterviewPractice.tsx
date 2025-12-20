@@ -77,9 +77,6 @@ export default function InterviewPractice() {
                 >
                     <Stepper
                         initialStep={1}
-                        onStepChange={(step) => {
-                            console.log(step);
-                        }}
                         onFinalStepCompleted={() => setSessionCompleted(true)}
                         backButtonText="Go Back"
                         nextButtonText="Next Question"
