@@ -2,9 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "./ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
-import { handleAnswerSubmit } from "@/services/interviewSessionService";
 import { useSessionStore } from "@/stores/useSessionStore";
 import { Mic } from "lucide-react";
+import useInterviewSession from "@/hooks/useInterviewSession";
 
 // reduce sample rate to 16kHz since that is what assembly ai's api requires as input 
 function downsampleBuffer( buffer: Float32Array, inputSampleRate: number, outputSampleRate: number = 16000 ): Int16Array {
@@ -54,6 +54,7 @@ export default function AssemblyAIRecorder( {questionText, questionId, questionI
   const [isRecording, setIsRecording] = useState(false);
   const [transcripts, setTranscripts] = useState<Record<number, string>>({});
   const { createdSessionID, questionsSubmitted, updateQuestionSubmitted } = useSessionStore();
+  const { handleAnswerSubmit } = useInterviewSession();
   
   const API_KEY = import.meta.env.VITE_ASSEMBLYAI_KEY;
 

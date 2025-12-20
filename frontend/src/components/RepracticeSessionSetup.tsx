@@ -2,11 +2,11 @@ import Stepper, { Step } from '../components/Stepper';
 import { Input } from "@/components/ui/input";
 import { useAuth } from '@/contexts/AuthContext';
 import { useState } from "react";
-import { createInterviewSession } from "@/services/interviewSessionService";
 import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayUserQuestions from './DisplayUserQuestions';
 import { FileText } from 'lucide-react';
+import useInterviewSession from '@/hooks/useInterviewSession';
 
 
 export default function RepracticeSessionSetup() {
@@ -14,6 +14,7 @@ export default function RepracticeSessionSetup() {
     const { setSetupCompleted, setCreatedSessionID, selectedPremadeQuestions } = useSessionStore();
     const [sessionName, setSessionName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const { createInterviewSession } = useInterviewSession()
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
@@ -24,17 +25,18 @@ export default function RepracticeSessionSetup() {
             "Question Repractice",
             "role-specific",
             "preloaded",
-            "",
             [],
             selectedPremadeQuestions,
+            [],
+            sessionName,
             "",
-            sessionName
         );
         
         if (result.sessionID) {
             setCreatedSessionID(result.sessionID);
         }
         setSetupCompleted(true);
+        setLoading(false)
     }
 
     if (userLoading) {

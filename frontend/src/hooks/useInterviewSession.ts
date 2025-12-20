@@ -1,6 +1,9 @@
 import axios from "axios";
+import { useState } from "react";
 
 export default function useInterviewSession() {
+    const [ startedSessionCreation, setStartedSessionCreation] = useState<boolean>(false);
+    const [ completedSessionCreation, setCompletedSessionCreation] = useState<boolean>(false);
 
     async function createInterviewSession(
         user: any,
@@ -14,8 +17,8 @@ export default function useInterviewSession() {
         sessionName: string,
         jobDescription: string
     ) {
+        setStartedSessionCreation(true);
         switch (questionSource) {
-
             case "ai-generated":
                 //create interview sesson in  db using the generated questions and role
                 const aiGeneratedResponse = await axios.post(`/interview-sessions`,
@@ -34,6 +37,7 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
+                setCompletedSessionCreation(true);
                 //return the created interview session's session ID 
                 return aiGeneratedResponse.data;
 
@@ -63,6 +67,7 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
+                setCompletedSessionCreation(true);
                 //return the created interview session's session ID 
                 return preloadedResponse.data;
 
@@ -84,6 +89,7 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
+                setCompletedSessionCreation(true);
                 //return the created interview session's session ID 
                 return providedResponse.data;
 
@@ -106,6 +112,7 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
+                setCompletedSessionCreation(true);
                 //return the created interview session's session ID 
                 return jobDescriptionResponse.data;
         }
@@ -161,5 +168,5 @@ export default function useInterviewSession() {
 
     }
 
-    return { createInterviewSession, handleAnswerSubmit } 
+    return { createInterviewSession, handleAnswerSubmit, startedSessionCreation, completedSessionCreation } 
 }

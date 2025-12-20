@@ -7,13 +7,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useAuth } from '@/contexts/AuthContext';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { useState } from "react";
-import { createInterviewSession } from "@/services/interviewSessionService";
 import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayPreloadedQuestions from './DisplayPreloadedQuestions';
-import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText, BriefcaseBusiness, CheckCheckIcon, SquareCheckBig } from "lucide-react";
+import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText, BriefcaseBusiness, SquareCheckBig } from "lucide-react";
 import { useQuestionGeneration } from '@/hooks/useQuestionGeneration';
 import  useInterviewSession  from '@/hooks/useInterviewSession';
+import { motion } from "framer-motion";
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
@@ -27,50 +27,29 @@ export default function SessionSetup() {
     const [sessionName, setSessionName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { generateQuestions, startStatus, completeStatus, questionsStatus } = useQuestionGeneration();
-    const { createInterviewSession } = useInterviewSession();
+    const { createInterviewSession, startedSessionCreation, completedSessionCreation } = useInterviewSession();
 
-    //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
+    //creates interview session in DB (using the provided information) when the stepper is completed is completed
     async function handleSetupCompleted() {
         setLoading(true);
-
         try {
+            let generatedQuestions: string[] = []
             //generate questions test
-            const generatedQuestions = await generateQuestions({role, selectedOption, questionCount, jobDescription});
-
+            if (questionSource === "ai-generated" || questionSource === "job-description") {
+                generatedQuestions = await generateQuestions({role, selectedOption, questionCount, jobDescription});
+            }
             const result = await createInterviewSession(user, session, role, selectedOption, questionSource, generatedQuestions, selectedPremadeQuestions, providedQuestions, sessionName, jobDescription);
             console.log(result);
             
             if (result.sessionID) {
                 setCreatedSessionID(result.sessionID);
             }
-            
-        
-        //setSetupCompleted(true);
-
-        } 
+            setSetupCompleted(true);
+            setLoading(false);
+        }
         catch (err) {
             console.log("error creating session", err);
-            
         }
-
-        /*const result = await createInterviewSession(
-            user,
-            session,
-            role,
-            selectedOption,
-            questionSource,
-            questionCount,
-            providedQuestions,
-            selectedPremadeQuestions,
-            jobDescription,
-            sessionName
-        );
-        
-        if (result.sessionID) {
-            setCreatedSessionID(result.sessionID);
-        }*/
-        
-        //setSetupCompleted(true);
     }
 
     // Below are helper functions for when a user decides to input their own questions
@@ -98,28 +77,54 @@ export default function SessionSetup() {
         <div className='min-h-screen'>
             {loading ?       
                 <div className="flex flex-col items-center pt-50 gap-5">
-                    <p className='text-3xl md:text-4xl xl:text-5xl pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Creating Your Session</p>
                     {startStatus && (
-                        <div className='flex gap-2'>
-                            <p>Starting Question Generation</p>
+                        <motion.div 
+                            className='flex gap-5 text-3xl shrink-0'
+                            initial={{ opacity: 0, y: 25 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.25, type: "spring" }}
+                        >
+                            <p className='pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Starting Question Generation</p>
                             {questionsStatus.length != Number(questionCount) ? 
-                                <Spinner className='text-teal-500'variant="circle-filled"/>
+                                <Spinner className='text-teal-500' size={36} variant="circle-filled"/>
                             :
-                                <SquareCheckBig className='text-teal-500'/>
+                                <SquareCheckBig className='text-teal-500 mt-1' size={36}/>
                             }
-                        </div>
+                        </motion.div>
                     )}
                     {questionsStatus.map((questionMessage:string, index: number) => (
-                        <div className='flex gap-2' key={index}>
+                        <motion.div 
+                            className='flex gap-2 text-xl shrink-0'
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: "spring", duration: 0.15 }}
+                            key={index}
+                        >
                             <p>{questionMessage}</p>
                             <SquareCheckBig className='text-teal-500'/>
-                        </div>
+                        </motion.div>
                     ))}
                     {completeStatus && (
-                        <div className='flex gap-2  '>
+                        <motion.div 
+                            className='flex gap-2 text-xl shrink-0'
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: "spring", duration: 0.15 }}
+                        >
                             <p>Question Generation Complete</p>
                             <SquareCheckBig className='text-teal-500'/>
-                        </div>
+                        </motion.div>
+                    )}
+                    {startedSessionCreation && (
+                        <motion.div 
+                            className='flex gap-5 text-3xl shrink-0 mt-20'
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: "spring", duration: 0.15 }}
+                        >
+                            <p className='pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Creating Session</p>
+                            <Spinner variant="circle-filled" className='text-teal-500' size={36}/>
+                        </motion.div>
                     )}
                 </div>
             :
