@@ -11,8 +11,9 @@ import { createInterviewSession } from "@/services/interviewSessionService";
 import { Spinner } from "@/components/Spinner";
 import { useSessionStore } from '@/stores/useSessionStore';
 import DisplayPreloadedQuestions from './DisplayPreloadedQuestions';
-import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText, BriefcaseBusiness } from "lucide-react";
+import { Sparkles, ListChecks, Edit, Briefcase, MessageSquare, BrainCircuit, FileText, BriefcaseBusiness, CheckCheckIcon, SquareCheckBig } from "lucide-react";
 import { useQuestionGeneration } from '@/hooks/useQuestionGeneration';
+import  useInterviewSession  from '@/hooks/useInterviewSession';
 
 export default function SessionSetup() {
     const { user, session } = useAuth()
@@ -25,7 +26,8 @@ export default function SessionSetup() {
     const [questionCount, setQuestionCount] = useState<string>("");
     const [sessionName, setSessionName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const { generateQuestions, startStatus, completeStatus, streamText } = useQuestionGeneration();
+    const { generateQuestions, startStatus, completeStatus, questionsStatus } = useQuestionGeneration();
+    const { createInterviewSession } = useInterviewSession();
 
     //creates interview session in DB (using the provided information) or in local storage when the stepper is completed is completed
     async function handleSetupCompleted() {
@@ -33,18 +35,24 @@ export default function SessionSetup() {
 
         try {
             //generate questions test
-            const questions = await generateQuestions({role, selectedOption, questionCount, jobDescription});
-            console.log(questions, "dajsfjdsa");
+            const generatedQuestions = await generateQuestions({role, selectedOption, questionCount, jobDescription});
+
+            const result = await createInterviewSession(user, session, role, selectedOption, questionSource, generatedQuestions, selectedPremadeQuestions, providedQuestions, sessionName, jobDescription);
+            console.log(result);
             
+            if (result.sessionID) {
+                setCreatedSessionID(result.sessionID);
+            }
+            
+        
+        //setSetupCompleted(true);
+
         } 
-        catch  (err) {
-            console.log("error generating questions", err);
+        catch (err) {
+            console.log("error creating session", err);
             
         }
 
-
-        
-        
         /*const result = await createInterviewSession(
             user,
             session,
@@ -84,16 +92,35 @@ export default function SessionSetup() {
     // Remove a question
     function removeQuestion (index: number) {
         setProvidedQuestions(providedQuestions.filter((_, i) => i !== index));
-    };
+    };    
     
     return(
         <div className='min-h-screen'>
             {loading ?       
                 <div className="flex flex-col items-center pt-50 gap-5">
                     <p className='text-3xl md:text-4xl xl:text-5xl pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Creating Your Session</p>
-                    <Spinner variant="ellipsis" size={64} className='text-teal-500'/>
-                    
-                    <p>{streamText}</p>
+                    {startStatus && (
+                        <div className='flex gap-2'>
+                            <p>Starting Question Generation</p>
+                            {questionsStatus.length != Number(questionCount) ? 
+                                <Spinner className='text-teal-500'variant="circle-filled"/>
+                            :
+                                <SquareCheckBig className='text-teal-500'/>
+                            }
+                        </div>
+                    )}
+                    {questionsStatus.map((questionMessage:string, index: number) => (
+                        <div className='flex gap-2' key={index}>
+                            <p>{questionMessage}</p>
+                            <SquareCheckBig className='text-teal-500'/>
+                        </div>
+                    ))}
+                    {completeStatus && (
+                        <div className='flex gap-2  '>
+                            <p>Question Generation Complete</p>
+                            <SquareCheckBig className='text-teal-500'/>
+                        </div>
+                    )}
                 </div>
             :
                 <Stepper

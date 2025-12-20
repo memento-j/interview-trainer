@@ -14,6 +14,7 @@ export function useQuestionGeneration() {
     const [ streamText, setStreamText ] = useState<string>("");
     const [ startStatus, setStartStatus ] = useState<boolean>(false);
     const [ completeStatus, setCompleteStatus ] = useState<boolean>(false);
+    const [ questionsStatus, setQuestionsStatus] = useState<string[]>([]);
 
     //return a promise so i can use async await in my components
     async function generateQuestions({role, selectedOption, questionCount, jobDescription } : GenerateQuestionsArgs): Promise<string[]> {        
@@ -24,6 +25,8 @@ export function useQuestionGeneration() {
                 jobDescription
             });
 
+            //setQuestionsGenerated()
+
             const eventSource = new EventSource(
                 `http://localhost:8080/ai/interview-questions?${params.toString()}`
             );
@@ -32,15 +35,17 @@ export function useQuestionGeneration() {
 
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                console.log(data);
                 
                 if (data.status) {
                     switch (data.status) {
-                        case "start":
+                        case "started":
                             setStartStatus(true);
                             break;
                         case "complete":
-                            setStartStatus(true);
+                            setCompleteStatus(true);
+                            break;
+                        case "questionComplete":
+                            setQuestionsStatus((prev) => [...prev, data.message])
                             break;
                     }
                 }
@@ -66,5 +71,5 @@ export function useQuestionGeneration() {
         })
     }
 
-    return { generateQuestions, streamText, startStatus, completeStatus }
-};
+    return { generateQuestions, streamText, startStatus, completeStatus, questionsStatus }
+}

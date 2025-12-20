@@ -98,19 +98,28 @@ export async function createQuestions(req,res) {
         });
 
         let fullText = ""
+        let generatedQuestionCount = 0
 
         for await (const chunk of stream) {
             const content = chunk.choices[0]?.delta?.content || '';
             //write the content to the stream if it exists
             if (content) {
                 res.write(`data: ${JSON.stringify({ content })}\n\n`);
+                //used to count the number of questions generated so far to display on the frontend
+                //questions are ended with ",\n while the last question in the array doesnt have the comma
+                if (content.includes("\",\n") || content.includes("\"\n")) {
+                    generatedQuestionCount += 1
+                    send({ 
+                        status: "questionComplete", 
+                        message: `Question ${generatedQuestionCount} complete`
+                    })
+                }
                 fullText += content;
             }
         }
         const parsed = JSON.parse(fullText);
         res.write(`data: ${JSON.stringify({ status: "complete", questions: parsed.questions })}\n\n`);
         res.end();
-
 
     } catch (err) {
         console.error("Interview Question API error:", err);
