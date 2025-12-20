@@ -27,7 +27,7 @@ export default function SessionSetup() {
     const [sessionName, setSessionName] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { generateQuestions, startStatus, completeStatus, questionsStatus } = useQuestionGeneration();
-    const { createInterviewSession, startedSessionCreation, completedSessionCreation } = useInterviewSession();
+    const { createInterviewSession, startedSessionCreation } = useInterviewSession();
 
     //creates interview session in DB (using the provided information) when the stepper is completed is completed
     async function handleSetupCompleted() {
@@ -75,6 +75,7 @@ export default function SessionSetup() {
     
     return(
         <div className='min-h-screen'>
+            {/* Displayed when loading using SSE */}
             {loading ?       
                 <div className="flex flex-col items-center pt-50 gap-5">
                     {startStatus && (
@@ -122,7 +123,7 @@ export default function SessionSetup() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: "spring", duration: 0.15 }}
                         >
-                            <p className='pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Creating Session</p>
+                            <p className='pb-3 font-[500] bg-gradient-to-b from-teal-500 to-teal-400/75 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent'>Starting Session</p>
                             <Spinner variant="circle-filled" className='text-teal-500' size={36}/>
                         </motion.div>
                     )}

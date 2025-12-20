@@ -3,7 +3,6 @@ import { useState } from "react";
 
 export default function useInterviewSession() {
     const [ startedSessionCreation, setStartedSessionCreation] = useState<boolean>(false);
-    const [ completedSessionCreation, setCompletedSessionCreation] = useState<boolean>(false);
 
     async function createInterviewSession(
         user: any,
@@ -34,10 +33,21 @@ export default function useInterviewSession() {
                         {
                             headers: { Authorization: `Bearer ${session?.access_token}` },
                         } 
-                    : 
+                    :
                         {}
                 );
-                setCompletedSessionCreation(true);
+
+                //if no user, store in local storage as well. 
+                if (!user) {
+                    const interviewSession = {
+                        role: selectedOption === "general" ? "general" : role,
+                        questions: generatedQuestions,
+                        answers: [],
+                        feedback: [],
+                    };
+                    localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+                }
+
                 //return the created interview session's session ID 
                 return aiGeneratedResponse.data;
 
@@ -67,7 +77,18 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
-                setCompletedSessionCreation(true);
+
+                //if no user, store in local storage as well.
+                if (!user) {
+                    const interviewSession = {
+                        role: selectedOption === "general" ? "general" : role,
+                        questions: selectedPremadeQuestions,
+                        answers: [],
+                        feedback: [],
+                    };
+                    localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+                }
+
                 //return the created interview session's session ID 
                 return preloadedResponse.data;
 
@@ -89,7 +110,18 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
-                setCompletedSessionCreation(true);
+
+                //if no user, store in local storage as well.
+                if (!user) {
+                    const interviewSession = {
+                        role: selectedOption === "general" ? "general" : role,
+                        questions: providedQuestions,
+                        answers: [],
+                        feedback: [],
+                    };
+                    localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+                }
+
                 //return the created interview session's session ID 
                 return providedResponse.data;
 
@@ -112,13 +144,24 @@ export default function useInterviewSession() {
                     : 
                         {}
                 );
-                setCompletedSessionCreation(true);
+
+                //if no user, store in local storage as well.
+                if (!user) {
+                    const interviewSession = {
+                        role: selectedOption === "general" ? "general" : role,
+                        questions: generatedQuestions,
+                        answers: [],
+                        feedback: [],
+                    };
+                    localStorage.setItem("interview_session", JSON.stringify(interviewSession));
+                }
+
                 //return the created interview session's session ID 
                 return jobDescriptionResponse.data;
         }
     }
 
-    //get answer analysis, and pushes the answer and feedback to the database or localstorage
+    //get answer analysis, and pushes the answer and feedback to the database
     async function handleAnswerSubmit(
         user: any,
         session: any,
@@ -168,5 +211,5 @@ export default function useInterviewSession() {
 
     }
 
-    return { createInterviewSession, handleAnswerSubmit, startedSessionCreation, completedSessionCreation } 
+    return { createInterviewSession, handleAnswerSubmit, startedSessionCreation } 
 }

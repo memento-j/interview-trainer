@@ -25,10 +25,8 @@ export function useQuestionGeneration() {
                 jobDescription
             });
 
-            //setQuestionsGenerated()
-
             const eventSource = new EventSource(
-                `http://localhost:8080/ai/interview-questions?${params.toString()}`
+                `${import.meta.env.VITE_API_URL}/ai/interview-questions?${params.toString()}`
             );
 
             eventSourceRef.current = eventSource;

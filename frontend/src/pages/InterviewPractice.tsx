@@ -37,6 +37,9 @@ export default function InterviewPractice() {
 
     //reset stateful variables to start a new session
     function startNewSession() {
+        if (!user) {
+            localStorage.removeItem("interview_session");
+        }
         setSessionCompleted(false);
         setFeedbackGiven(false);
         resetSession();
